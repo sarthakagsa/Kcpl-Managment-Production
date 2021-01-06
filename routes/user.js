@@ -11,9 +11,9 @@ router.post('/signup',async (req,res)=>{
         const user = new User(validateduser)
         await user.save()
         const token = await user.generateAuthToken()
-        res.send({user,token})
+        res.redirect('home')
     } catch (error) {
-        res.status(400).send(error)
+        res.status(400).send({error : error})
     }
 })
 
@@ -22,7 +22,7 @@ router.post('/login', async (req,res)=>{
         const validateddata = await loginSchema.validateAsync(req.body)
         const user = await User.findByCredentials(validateddata.email,validateddata.password)
         const token = await user.generateAuthToken()
-        res.send({user,token})
+        res.redirect('home')
     } catch (error) {
         res.status(400).send({error : error.message})
     }
