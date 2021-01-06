@@ -3,6 +3,7 @@ const validator = require('validator')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const Vechile = require('./vechile')
+const vechile = require('./vechile')
 
 const userSchema = new mongoose.Schema({
     name : {
@@ -92,7 +93,10 @@ userSchema.methods.toJSON = function(){
 
 userSchema.pre('remove', async function (next){
     const user = this 
-    await Vechile.deleteMany({owner : user._id})
+    const vechiles = await Vechile.find({owner : user._id})
+    vechiles.forEach(vechile => {
+        vechile.remove()
+    });
     next()
 })
 

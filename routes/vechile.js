@@ -3,6 +3,7 @@ const auth = require('../middleware/auth')
 const Vechile = require('../models/vechile')
 const router = new express.Router()
 const addVechileSchema = require('../middleware/Joi-Schemas/Vechile')
+const Repair = require('../models/repair')
 
 router.post('/vechile',auth,async(req,res)=>{
     try {
@@ -68,17 +69,30 @@ router.patch('/vechile/:id',auth,async(req,res)=>{
     }
 })
 
-router.delete('/tasks/:id',auth,async(req,res)=>{
+router.delete('/vechile/:id',auth,async(req,res)=>{
     try {
-        const vechile = await Vechile.findOneAndDelete({_id:req.params.id,owner:req.user._id})
-
+        const vechile = await Vechile.findOne({_id:req.params.id,owner:req.user._id})
         if (!vechile) {
-            return res.status(400).send({error : 'No vechile exist'})
+            return res.status(400).send({error : 'No vechile exist with this user'})
         }
+        await vechile.remove()
         res.send(vechile)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
+})
+
+router.get('/vechiles/repair/:id',auth,async (req,res)=>{
+    const vechileid = req.params.id
+    const vechile = await Vechile.findOne({_id : vechileid,owner : req.user._id})
+        if (!vechile) {
+            return res.status(400).send({error : 'The vechile is not associated with this user'})
+        }
+    const repair = await Repair.find({vechileid : vechileid})
+    if (!repair) {
+        return res.status(400).send({error : 'NO repairs found'})
+    }
+    res.send(repair)
 })
 
 module.exports = router

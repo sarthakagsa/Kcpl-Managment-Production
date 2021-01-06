@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Repair = require('./repair')
 
 const vechileSchema = new mongoose.Schema({
         vechileno : {
@@ -16,6 +17,18 @@ const vechileSchema = new mongoose.Schema({
         timestamps : true
     }
 )
+
+vechileSchema.virtual('repairs',{
+    ref : 'repairs',
+    localField : '_id',
+    foreignField : 'vechileid'
+})
+
+vechileSchema.pre('remove', async function (next){
+    const vechile = this 
+    await Repair.deleteMany({vechileid : vechile._id})
+    next()
+})
 
 const vechile = mongoose.model('Vechile',vechileSchema)
 

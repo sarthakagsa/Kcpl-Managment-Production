@@ -1,5 +1,6 @@
 const { string } = require('joi')
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 const repairSchema = new mongoose.Schema({
     parts : [{
@@ -13,9 +14,9 @@ const repairSchema = new mongoose.Schema({
         }
     }],
     date : {
-        type : Date,
+        type : String,
         validate(value){
-            if (!validator.isDate(value)) {
+            if (!validator.isDate(value,{format: 'DD-MM-YYYY'})) {
                 throw new Error('Date is invalid')
             }
         }
