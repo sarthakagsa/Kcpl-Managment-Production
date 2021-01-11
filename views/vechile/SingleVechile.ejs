@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="kc.css">
+    <link rel="stylesheet" type="text/css" href="#">
 
     <title>Kurseong Carrier Maintainence</title>
     <link rel="icon" href="templates\img\LOGO.png">
@@ -76,7 +76,7 @@
     <div class="card border-primary">
       <div class="card-body">
         <h5 class="card-title">Repair</h5>
-        <a href="http://localhost:3000/vechiles/repair/<%= vechile._id %>/<%= token %>" class="btn btn-primary">Check</a>
+        <a href="/vechiles/repair/<%= vechile._id %>/<%= token %>" class="btn btn-primary">Check</a>
       </div>
     </div>
   </div>
@@ -89,7 +89,7 @@
       const token = $('#logoutbtn').data("token")
       $.ajax({
           type: "POST",
-          url: 'http://localhost:3000/users/logout/'+token,
+          url: '/users/logout/'+token,
           contentType: "application/json",
           processData: false,
       }).done(function (data) {
@@ -109,7 +109,7 @@
         const vechile_id = $('#vechileid').data("vechileid")
       $.ajax({
           type: "PATCH",
-          url: 'http://localhost:3000/vechile/'+vechile_id+'/'+token,
+          url: '/vechile/'+vechile_id+'/'+token,
           contentType: "application/json",
           processData: false,
           data:  JSON.stringify({vechileno:vechileno})
@@ -132,7 +132,7 @@
         const vechile_id = $('#vechileid').data("vechileid")
       $.ajax({
           type: "DELETE",
-          url: 'http://localhost:3000/vechile/'+vechile_id+'/'+token,
+          url: '/vechile/'+vechile_id+'/'+token,
           contentType: "application/json",
           processData: false,
           data:  JSON.stringify({vechileno:vechileno})

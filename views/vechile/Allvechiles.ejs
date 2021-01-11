@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="kc.css">
+    <link rel="stylesheet" type="text/css" href="#">
 
     <title>Kurseong Carrier Maintainence</title>
     <link rel="icon" href="img/LOGO.png">
@@ -86,7 +86,7 @@
       const token = $('#logoutbtn').data("token")
       $.ajax({
           type: "POST",
-          url: 'http://localhost:3000/users/logout/'+token,
+          url: '/users/logout/'+token,
           contentType: "application/json",
           processData: false,
       }).done(function (data) {
@@ -104,7 +104,7 @@
         const token = $('#logoutbtn').data("token")
       $.ajax({
           type: "POST",
-          url: 'http://localhost:3000/vechile/'+token,
+          url: '/vechile/'+token,
           contentType: "application/json",
           processData: false,
           data:  JSON.stringify({vechileno:vechileno,})

@@ -48,7 +48,7 @@
             const password = document.getElementById('password').value
             $.ajax({
                 type: "POST",
-                url: 'http://localhost:3000/signup' ,
+                url: '/signup' ,
                 contentType: "application/json",
                 processData: false,
                 data:  JSON.stringify({name:name,email:email,password:password})

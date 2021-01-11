@@ -62,7 +62,7 @@
       const token = $('#logoutbtn').data("token")
       $.ajax({
           type: "POST",
-          url: 'http://localhost:3000/users/logout/'+token,
+          url: '/users/logout/'+token,
           contentType: "application/json",
           processData: false,
       }).done(function (data) {

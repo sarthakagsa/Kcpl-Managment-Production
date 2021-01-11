@@ -135,7 +135,7 @@
       const token = $('#logoutbtn').data("token")
       $.ajax({
           type: "POST",
-          url: 'http://localhost:3000/users/logout/'+token,
+          url: '/users/logout/'+token,
           contentType: "application/json",
           processData: false,
       }).done(function (data) {
@@ -188,12 +188,12 @@
        const vechileid = $('#submit').data("vechileid")
        $.ajax({
           type: "POST",
-          url: 'http://localhost:3000/repair/'+vechileid+'/'+token,
+          url: '/repair/'+vechileid+'/'+token,
           contentType: "application/json",
           processData: false,
           data:  JSON.stringify({parts : parts,cost:cost,date :date})
       }).done(function (data) {
-          window.open('http://localhost:3000/vechiles/repair/'+data.vechile._id+'/'+data.token,'_self',false)
+          window.open('/vechiles/repair/'+data.vechile._id+'/'+data.token,'_self',false)
         }).fail(function ( jqXHR, textStatus, errorThrown) {
             const x = document.getElementById("errorbox");
             document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
