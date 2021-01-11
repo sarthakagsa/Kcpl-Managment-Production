@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Kurseong Carrier Maintainence</title>
+    <link rel="icon" href="img/LOGO.png">
+  </head>
+  <body>
+
+    <div class="alert alert-danger" id="errorbox" role="alert" style="display: none;"></div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Navigation Bar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">Kurseong Carrier</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/home/<%= token %>">Home</a>
+      </li>  
+      <li class="nav-item active">
+        <a class="nav-link" href="/vechile/me/<%= token %>">Check All Vechiles</a>
+      </li>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addrepair">
+        Add Repair
+      </button>
+             <!-- Modal -->
+<div class="modal fade" id="addrepair" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add Repair </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container list_wrapper">  
+                <div class="row">
+
+                    <div class="col-xs-7 col-sm-7 col-md-7">
+
+                        <div class="form-group">
+                            Part Name
+                            <input name="list[0][]" id="list[0][0]" type="text" placeholder="Part Name" class="form-control"/>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            Cost
+                            <input autocomplete="off" name="list[0][]" id="list[0][1]" type="text" placeholder="Cost" class="form-control"/>
+                        </div>
+                    </div> 
+
+                    <div class="col-xs-1 col-sm-1 col-md-1">
+                        <br>
+                      <button class="btn btn-primary list_add_button" type="button">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-xs-7 col-sm-7 col-md-7">
+                  <div class="form-group">
+                   Total Cost
+                  <input autocomplete="off" id="cost" name="Cost" type="text" placeholder="Total Cost" class="form-control"/>
+                </div>
+              </div>
+              <div class="col-xs-5 col-sm-5 col-md-5">
+                <div class="form-group">
+                 Date
+                 <input class="form-control" id="date" type="date" value="2011-08-19" id="example-date-input">
+              </div>
+            </div>
+            </div>
+            <div class="container text-center">
+              <br>
+              <button class="container btn btn-success" data-vechileid="<%=vechile._id%>" id="submit" type="button">Submit</button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <button class="btn btn-secondary ml-1" id="deletevechile">Welcome <%= user.name %></button>
+      <button class="btn btn-primary ml-1" data-token='<%= token %>' id="logoutbtn">Logout</button>
+   </ul>
+   
+  </div>
+</nav>
+
+  <!-- body Part-->
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Parts</th>
+        <th scope="col">Cost</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% var i=1; repair.forEach(function(repair){ %> 
+      <tr>
+        <th scope="row"><%= i %></th>
+        <td>
+            <a type="button" class="btn btn-primary" href="/repair/<%= vechile._id %>/<%= repair._id %>/<%= token %>">Check Part</a>
+        </td>
+        <td><%= repair.cost %></td>
+        <td><%= repair.date %></td>
+      </tr>
+      <%  i ++ }); %>
+    </tbody>
+  </table>
+
+
+  <script>
+    $("#logoutbtn").click(function() {
+      const token = $('#logoutbtn').data("token")
+      $.ajax({
+          type: "POST",
+          url: 'http://localhost:3000/users/logout/'+token,
+          contentType: "application/json",
+          processData: false,
+      }).done(function (data) {
+          window.open('/login','_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    })
+
+    $(document).ready(function()
+ 
+    {
+  var x = 0; //Initial field counter
+  var list_maxField = 10000; //Input fields increment limitation
+  
+        //Once add button is clicked
+  $('.list_add_button').click(function()
+      {
+      //Check maximum number of input fields
+      if(x < list_maxField){ 
+          x++; //Increment field counter
+          var list_fieldHTML = '<div class="row"><div class="col-xs-7 col-sm-7 col-md-7"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][0]" type="text" placeholder="Part Name" class="form-control"/></div></div><div class="col-xs-4 col-sm-4 col-md-4"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][1]" type="text" placeholder="Cost" class="form-control"/></div></div><div class="col-xs-1 col-sm-7 col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div></div>'; //New input field html 
+          $('.list_wrapper').append(list_fieldHTML); //Add field html
+      }
+        });
+    
+        //Once remove button is clicked
+        $('.list_wrapper').on('click', '.list_remove_button', function()
+        {
+           $(this).closest('div.row').remove(); //Remove field html
+           x--; //Decrement field counter
+        });
+       $("#submit").click( function() {
+         var m = x;
+         const parts = []
+       while (m>= 0) {
+         parts.push({
+           partname : document.getElementById('list['+m+'][0]').value,
+           cost : document.getElementById('list['+m+'][0]').value
+         })
+         m--;
+       }
+       const cost = document.getElementById('cost').value
+       const date = document.getElementById('date').value
+       const token = $('#logoutbtn').data("token")
+       const vechileid = $('#submit').data("vechileid")
+       $.ajax({
+          type: "POST",
+          url: 'http://localhost:3000/repair/'+vechileid+'/'+token,
+          contentType: "application/json",
+          processData: false,
+          data:  JSON.stringify({parts : parts,cost:cost,date :date})
+      }).done(function (data) {
+          window.open('http://localhost:3000/vechiles/repair/'+data.vechile._id+'/'+data.token,'_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+       })
+});
+
+  </script>
+
+  </body>
+</html>

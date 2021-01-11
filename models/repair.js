@@ -16,7 +16,7 @@ const repairSchema = new mongoose.Schema({
     date : {
         type : String,
         validate(value){
-            if (!validator.isDate(value,{format: 'DD-MM-YYYY'})) {
+            if (!validator.isDate(value,{format: 'YYYY-MM-DD'})) {
                 throw new Error('Date is invalid')
             }
         }

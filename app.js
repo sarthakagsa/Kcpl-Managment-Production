@@ -5,12 +5,12 @@ const userRouter = require('./routes/user')
 const vechileRouter = require('./routes/vechile')
 const repairRouter = require('./routes/repair')
 const homeRouter = require('./routes/home')
-const port = 3000
+const port = process.env.PORT
 const path = require('path')
 
 app.use(express.urlencoded({ extended: false }));
 
-const publicDirectoryPath = path.join(__dirname,'./templates')
+const publicDirectoryPath = path.join(__dirname,'/templates')
 app.use(express.static(publicDirectoryPath))
 
 // view engine setup

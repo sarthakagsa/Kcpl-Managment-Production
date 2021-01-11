@@ -5,7 +5,7 @@ const router = new express.Router()
 const addVechileSchema = require('../middleware/Joi-Schemas/Vechile')
 const Repair = require('../models/repair')
 
-router.post('/vechile',auth,async(req,res)=>{
+router.post('/vechile/:token',auth,async(req,res)=>{
     try {
         await addVechileSchema.validateAsync(req.body)
         const vechile = new Vechile({
@@ -13,14 +13,14 @@ router.post('/vechile',auth,async(req,res)=>{
             owner : req.user._id
         })
         const newVechile = await vechile.save()
-        res.status(201).send(newVechile)
+        res.send({token:req.token,vechile : newVechile})
     }
     catch (e) {
         res.status(400).send(e)
     } 
 })
 
-router.get('/vechiles/:id',auth,async(req,res)=>{
+router.get('/vechiles/:id/:token',auth,async(req,res)=>{
     const _id = req.params.id
     try {
     //    const task = await Task.findById(_id)
@@ -29,22 +29,22 @@ router.get('/vechiles/:id',auth,async(req,res)=>{
        if(!vechile){
         return res.status(404).send({error:'No vechile Found'})
         }
-    res.send(vechile)
+        res.render("vechile/SingleVechile.ejs",{vechile : vechile,user : req.user,token:req.token})
     } catch (e) {
         res.status(500).send()   
     }
 })
 
-router.get('/vechile/me',auth,async(req,res)=>{
+router.get('/vechile/me/:token',auth,async(req,res)=>{
     try {
         const vechile = await Vechile.find({owner : req.user._id})
-        res.send(vechile)
+        res.render("vechile/Allvechiles.ejs",{vechile : vechile,user : req.user,token:req.token})
     } catch (error) {
         res.send(400).error(error)
     }
 })
 
-router.patch('/vechile/:id',auth,async(req,res)=>{
+router.patch('/vechile/:id/:token',auth,async(req,res)=>{
     const updates = Object.keys(req.body)
     const allowedUpdates =['vechileno']
     const isValidOperation = updates.every((update)=> allowedUpdates.includes(update))
@@ -62,27 +62,27 @@ router.patch('/vechile/:id',auth,async(req,res)=>{
         }
         updates.every((update)=> vechile[update] = req.body[update] )
 
-        await vechile.save()
-        res.send(vechile)
+        const updatedvechile =await vechile.save()
+        res.send({vechile : updatedvechile,user : req.user,token:req.token})
     } catch (e) {
         return res.status(404).send(e)
     }
 })
 
-router.delete('/vechile/:id',auth,async(req,res)=>{
+router.delete('/vechile/:id/:token',auth,async(req,res)=>{
     try {
         const vechile = await Vechile.findOne({_id:req.params.id,owner:req.user._id})
         if (!vechile) {
             return res.status(400).send({error : 'No vechile exist with this user'})
         }
         await vechile.remove()
-        res.send(vechile)
+        res.send({token:req.token})
     } catch (e) {
         res.status(400).send(e.message)
     }
 })
 
-router.get('/vechiles/repair/:id',auth,async (req,res)=>{
+router.get('/vechiles/repair/:id/:token',auth,async (req,res)=>{
     const vechileid = req.params.id
     const vechile = await Vechile.findOne({_id : vechileid,owner : req.user._id})
         if (!vechile) {
@@ -90,9 +90,9 @@ router.get('/vechiles/repair/:id',auth,async (req,res)=>{
         }
     const repair = await Repair.find({vechileid : vechileid})
     if (!repair) {
-        return res.status(400).send({error : 'NO repairs found'})
+        return res.render("repair/Allvrepair.ejs",{error : 'NO repairs found'})
     }
-    res.send(repair)
+    res.render("repair/Allrepair.ejs",{vechile : vechile,user : req.user,token:req.token,repair:repair})
 })
 
 module.exports = router
