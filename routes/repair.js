@@ -28,14 +28,14 @@ router.post('/repair/:id/:token',auth,async(req,res)=>{
 
 // router.patch('/repair/:vechileid/:repairid',auth,async(req,res)=>{
 //     const updates = Object.keys(req.body)
-//     const allowedUpdates =['parts','date','cost']
+//     const allowedUpdates =['parts','date','cost','invoice','partyname','km','gst']
 //     const isValidOperation = updates.every((update)=> allowedUpdates.includes(update))
 //     if (!isValidOperation) {
 //         return res.status(400).send({ error: 'Invalid Updates!'})       
 //     }
 //     req.body.parts.forEach(element => {
 //         const partsUpdates = Object.keys(element)
-//         const partsAllowedUpdates = ['partname','cost']
+//         const partsAllowedUpdates = ['partname','cost','quantity','hsn']
 //         const isValidOperation = partsUpdates.every((update)=>partsAllowedUpdates.includes(update))
 //         if (!isValidOperation) {
 //             return res.status(400).send({ error: 'Invalid Updates!'})       

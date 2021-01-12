@@ -48,21 +48,26 @@
   </div>
 </nav>
 
+<div class="container text-center text-secondary m-5"> Party Name : <u><%= repair.partyname %></u> </div>
+<div class="container text-center text-secondary m-5"> Invoice No : <u><%= repair.invoice %></u> </div>
 <div class="container text-center text-primary m-5"> Repair was done on <u><%= repair.date %></u>  which costed :<u><%= repair.cost %></u> </div>
-
 <table class="table table-striped">
     <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col">Parts</th>
-        <th scope="col">Cost</th>
+        <th scope="col">HSN</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Rate</th>
       </tr>
     </thead>
     <tbody>
-      <% var i=1; repair.parts.forEach(function(part){ %> 
+      <% var i=1; repair.parts.forEach(function(part){ %>
       <tr>
         <th scope="row"><%= i %></th>
         <td><%= part.partname %></td>
+        <td><%= part.hsn %></td>
+        <td><%= part.quantity %></td>
         <td><%= part.cost %></td>
       </tr>
       <%  i ++ }); %>

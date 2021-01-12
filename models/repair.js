@@ -9,7 +9,15 @@ const repairSchema = new mongoose.Schema({
             required : true
         },
         cost : {
+            type : Number,
+            required : true,
+        },
+        hsn : {
             type : String,
+            required : true,
+        },
+        quantity : {
+            type : Number,
             required : true,
         }
     }],
@@ -22,7 +30,23 @@ const repairSchema = new mongoose.Schema({
         }
     },
     cost :{
+        type : Number,
+        required : true
+    },
+    invoice :{
         type : String,
+        required : true
+    },
+    partyname :{
+        type : String,
+        required : true
+    },
+    gst :{
+        type : Number,
+        required : true
+    },
+    km :{
+        type : Number,
         required : true
     },
     vechileid : {

@@ -37,20 +37,20 @@
         Add Repair
       </button>
              <!-- Modal -->
-<div class="modal fade" id="addrepair" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
+<div class="modal fade  mw-100" id="addrepair" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  mw-100" role="document">
+      <div class="modal-content mw-100">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Add Repair </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body mw-100 mh-100">
             <div class="container list_wrapper">  
                 <div class="row">
 
-                    <div class="col-xs-7 col-sm-7 col-md-7">
+                    <div class="col-xs-4 col-sm-4 col-md-4">
 
                         <div class="form-group">
                             Part Name
@@ -60,9 +60,27 @@
                     </div>
 
                     <div class="col-xs-4 col-sm-4 col-md-4">
-                        <div class="form-group">
+
+                      <div class="form-group">
+                          HSN
+                          <input name="list[0][]" id="list[0][1]" type="text" placeholder="HSN" class="form-control"/>
+                          
+                      </div>
+                  </div>
+
+                  <div class="col-xs-1 col-sm-1 col-md-1">
+
+                    <div class="form-group">
+                        Quantity
+                        <input name="list[0][]" id="list[0][2]" type="number" class="form-control"/>
+                        
+                    </div>
+                </div>
+
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        <div>
                             Cost
-                            <input autocomplete="off" name="list[0][]" id="list[0][1]" type="text" placeholder="Cost" class="form-control"/>
+                            <input autocomplete="off" name="list[0][3]" id="list[0][3]" type="number" placeholder="Cost" class="form-control"/>
                         </div>
                     </div> 
 
@@ -76,14 +94,28 @@
               <div class="row">
                 <div class="col-xs-7 col-sm-7 col-md-7">
                   <div class="form-group">
-                   Total Cost
-                  <input autocomplete="off" id="cost" name="Cost" type="text" placeholder="Total Cost" class="form-control"/>
+                   Party Name
+                  <input autocomplete="off" id="partyname" type="text" placeholder="Party Name" class="form-control"/>
                 </div>
               </div>
               <div class="col-xs-5 col-sm-5 col-md-5">
                 <div class="form-group">
                  Date
                  <input class="form-control" id="date" type="date" value="2011-08-19" id="example-date-input">
+              </div>
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-xs-7 col-sm-7 col-md-7">
+                  <div class="form-group">
+                   Invoice No : 
+                  <input autocomplete="off" id="invoice" type="text" placeholder="Invoice No" class="form-control"/>
+                </div>
+              </div>
+              <div class="col-xs-5 col-sm-5 col-md-5">
+                <div class="form-group">
+                 Running Km :  
+                <input autocomplete="off" id="km" type="number" placeholder="Running Km" class="form-control"/>
               </div>
             </div>
             </div>
@@ -111,7 +143,11 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Parts</th>
-        <th scope="col">Cost</th>
+        <th scope="col">Party Name</th>
+        <th scope="col">Invoice</th>
+        <th scope="col">Running Km</th>
+        <th scope="col">GST</th>
+        <th scope="col">Total Cost</th>
         <th scope="col">Date</th>
       </tr>
     </thead>
@@ -122,6 +158,10 @@
         <td>
             <a type="button" class="btn btn-primary" href="/repair/<%= vechile._id %>/<%= repair._id %>/<%= token %>">Check Part</a>
         </td>
+        <td><%= repair.partyname %></td>
+        <td><%= repair.invoice %></td>
+        <td><%= repair.km %></td>
+        <td><%= repair.gst %></td>
         <td><%= repair.cost %></td>
         <td><%= repair.date %></td>
       </tr>
@@ -161,7 +201,7 @@
       //Check maximum number of input fields
       if(x < list_maxField){ 
           x++; //Increment field counter
-          var list_fieldHTML = '<div class="row"><div class="col-xs-7 col-sm-7 col-md-7"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][0]" type="text" placeholder="Part Name" class="form-control"/></div></div><div class="col-xs-4 col-sm-4 col-md-4"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][1]" type="text" placeholder="Cost" class="form-control"/></div></div><div class="col-xs-1 col-sm-7 col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div></div>'; //New input field html 
+          var list_fieldHTML = '<div class="row"><div class="col-xs-4 col-sm-4 col-md-4"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][0]" type="text" placeholder="Part Name" class="form-control"/></div></div><div class="col-xs-4 col-sm-4 col-md-4"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][1]" type="text" placeholder="HSN" class="form-control"/></div></div><div class="col-xs-1 col-sm-1 col-md-1"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][2]" type="number" class="form-control"/></div></div><div class="col-xs-2 col-sm-2 col-md-2"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][3]" type="number" placeholder="Cost" class="form-control"/></div></div><div class="col-xs-1 col-sm-7 col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div></div>'; //New input field html 
           $('.list_wrapper').append(list_fieldHTML); //Add field html
       }
         });
@@ -174,16 +214,26 @@
         });
        $("#submit").click( function() {
          var m = x;
+         var totalcost = 0;
+         var gst = 0;
          const parts = []
        while (m>= 0) {
+         totalcost = totalcost + ((document.getElementById('list['+m+'][3]').value)*(document.getElementById('list['+m+'][2]').value));
          parts.push({
            partname : document.getElementById('list['+m+'][0]').value,
-           cost : document.getElementById('list['+m+'][1]').value
+           hsn : document.getElementById('list['+m+'][1]').value,
+           quantity : document.getElementById('list['+m+'][2]').value,
+           cost : document.getElementById('list['+m+'][3]').value
          })
          m--;
        }
-       const cost = document.getElementById('cost').value
+       gst = totalcost*0.18;
+       totalcost = totalcost+gst;
        const date = document.getElementById('date').value
+       console.log(date);
+       const partyname = document.getElementById('partyname').value
+       const invoice = document.getElementById('invoice').value
+       const km = document.getElementById('km').value
        const token = $('#logoutbtn').data("token")
        const vechileid = $('#submit').data("vechileid")
        $.ajax({
@@ -191,7 +241,7 @@
           url: '/repair/'+vechileid+'/'+token,
           contentType: "application/json",
           processData: false,
-          data:  JSON.stringify({parts : parts,cost:cost,date :date})
+          data:  JSON.stringify({parts : parts,date :date,cost:totalcost,invoice : invoice,partyname : partyname,km:km,gst:gst})
       }).done(function (data) {
           window.open('/vechiles/repair/'+data.vechile._id+'/'+data.token,'_self',false)
         }).fail(function ( jqXHR, textStatus, errorThrown) {
