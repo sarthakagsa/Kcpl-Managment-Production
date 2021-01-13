@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="#">
+
+    <title>Kurseong Carrier Maintainence</title>
+    <link rel="icon" href="img/LOGO.png">
+  </head>
+  <body>
+
+    <div class="alert alert-danger" id="errorbox" role="alert" style="display: none;"></div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Navigation Bar-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">Kurseong Carrier</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/home/<%= token %>">Home</a>
+      </li>  
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addconsignor">Add Consignor</button>
+              <!-- Modal -->
+      <div class="modal fade" id="addconsignor" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add Consignor </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Consignor Name" id="consignorname">
+                  <input type="text" class="form-control" placeholder="Address" id="address">
+                </div>
+                  <button class="btn btn-outline-secondary container" id="addconsignordetail">Add</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+        <button class="btn btn-secondary ml-1" id="deletevechile">Welcome <%= user.name %></button>
+        <button class="btn btn-primary ml-1" data-token='<%= token %>' id="logoutbtn">Logout</button>
+    </ul>
+    
+  </div>
+</nav>
+
+  <!-- body Part-->
+
+    <div class="container">
+    <div class="row" style="margin-top: 2%;">
+        <% consignor.forEach(function(consignor){ %>          
+                <div class="col-sm-6">
+                    <div class="card border-primary">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= consignor.consignorname %></h5>
+                        <h5 class="card-title">Address : <%= consignor.address %></h5>
+                        <a href="/consignors/<%= consignor._id %>/<%=token%>" class="btn btn-primary">Check</a>
+                    </div>
+                    </div>
+                </div>
+        <% }); %>        
+</div>
+  </div>
+
+
+  <script>
+    $("#logoutbtn").click(function() {
+      const token = $('#logoutbtn').data("token")
+      $.ajax({
+          type: "POST",
+          url: '/users/logout/'+token,
+          contentType: "application/json",
+          processData: false,
+      }).done(function (data) {
+          window.open('/login','_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    })
+    $("#addconsignordetail").click(function() {
+        const consignorname = document.getElementById('consignorname').value
+        const address = document.getElementById('address').value
+        const token = $('#logoutbtn').data("token")
+      $.ajax({
+          type: "POST",
+          url: '/consignor/'+token,
+          contentType: "application/json",
+          processData: false,
+          data:  JSON.stringify({consignorname : consignorname,address : address})
+      }).done(function (data) {
+          window.open('/consignor/me/'+data.token,'_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    })
+
+  </script>
+
+  </body>
+</html>

@@ -6,6 +6,8 @@ const vechileRouter = require('./routes/vechile')
 const repairRouter = require('./routes/repair')
 const homeRouter = require('./routes/home')
 const tireRouter = require('./routes/tire')
+const consignorRouter = require('./routes/consignor')
+const lrRouter = require('./routes/lr')
 const port = process.env.PORT
 const path = require('path')
 
@@ -24,6 +26,8 @@ app.use(vechileRouter)
 app.use(repairRouter)
 app.use(homeRouter)
 app.use(tireRouter)
+app.use(consignorRouter)
+app.use(lrRouter)
 
 app.listen(port,()=>{
     console.log('server is connected to the port : '+port)

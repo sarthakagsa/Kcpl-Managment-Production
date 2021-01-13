@@ -38,6 +38,7 @@ const tireSchema = new mongoose.Schema({
     },
     invoice :{
         type : String,
+        uniquen: true,
         required : true
     },
     partyname :{
