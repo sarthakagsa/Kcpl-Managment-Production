@@ -6,23 +6,49 @@ const Vechile = require('../models/vechile')
 const Lr = require('../models/lr')
 const Consignor = require('../models/consignor')
 
-router.post('/lr/:vechileid/:consignorid',auth,async(req,res)=>{
-    const vechile_id = req.params.vechileid
-    const consignor_id = req.params.consignorid
+router.get('/lr/add/:token',auth,async (req,res)=>{
     try {
-        const vechile = await Vechile.findOne({_id : vechile_id,owner : req.user._id})
+        const vechile = await Vechile.find({owner : req.user._id})
         if (!vechile) {
             return res.status(400).send({error : 'The vechile is not associated with this user'})
         }
-        const consignor = await Consignor.findOne({_id : consignor_id,owner : req.user._id})
+        const consignor = await Consignor.find({owner : req.user._id})
         if (!consignor) {
             return res.status(400).send({error : 'The consignor is not associated with this user'})
         }
-        const lr = new Lr({
-            ...req.body,
-            vechileid : vechile_id,
-            consignorid : consignor_id
-        })
+        res.render('lr/Addlr',{user:req.user,token: req.token,vechile:vechile,consignor:consignor})
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+router.get('/lr/view/:token',auth,async (req,res)=>{
+    try {
+        const vechile = await Vechile.find({owner : req.user._id})
+        if (!vechile) {
+            return res.status(400).send({error : 'The vechile is not associated with this user'})
+        }
+        const consignor = await Consignor.find({owner : req.user._id})
+        if (!consignor) {
+            return res.status(400).send({error : 'The consignor is not associated with this user'})
+        }
+        res.render('lr/Viewlr',{user:req.user,token: req.token,vechile:vechile,consignor:consignor})
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+router.post('/lr/:token',auth,async(req,res)=>{
+    try {
+        const vechile = await Vechile.findOne({_id : req.body.vechileid,owner : req.user._id})
+        if (!vechile) {
+            return res.status(400).send({error : 'The vechile is not associated with this user'})
+        }
+        const consignor = await Consignor.findOne({_id : req.body.consignorid,owner : req.user._id})
+        if (!consignor) {
+            return res.status(400).send({error : 'The consignor is not associated with this user'})
+        }
+        const lr = new Lr(req.body)
         const newLr = await lr.save()
         res.status(201).send(newLr)
     }
@@ -93,18 +119,17 @@ router.delete('/lr/:lrid',auth,async (req,res)=>{
 })
 
 //Get All LRS
-router.get('/lr/:vechileid/:consignorid',auth,async (req,res)=>{
+router.post('/lr/view/:token',auth,async (req,res)=>{
     try {
-        const lr = await Lr.find({vechileid: req.params.vechileid,consignorid : req.params.consignorid})
+        const lr = await Lr.find({vechileid: req.body.vechileid,consignorid : req.body.consignorid})
         if (!lr) {
-            return res.send({error: ' No such file found'})
+            return res.status(400).send({error: ' No such file found'})
         }
-        res.send(lr)
+        res.send({lr : lr})
     } catch (error) {
         res.status(400).send(error)
     }
 })
-
 
 
 module.exports = router

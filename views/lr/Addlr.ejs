@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Kurseong Carrier Maintainence</title>
+    <link rel="icon" href="img/LOGO.png">
+  </head>
+  <body>
+
+    <div class="alert alert-danger" id="errorbox" role="alert" style="display: none;"></div>
+    <div class="alert alert-info" id="infobox" role="alert" style="display: none;"></div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Navigation Bar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">Kurseong Carrier</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/home/<%= token %>">Home</a>
+      </li>  
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <button class="btn btn-secondary ml-1" id="deletevechile">Welcome <%= user.name %></button>
+      <button class="btn btn-primary ml-1" data-token='<%= token %>' id="logoutbtn">Logout</button>
+   </ul>
+   
+  </div>
+</nav>
+
+  <!-- body Part-->
+  <div class="container text-secondary text-center mt-2"><h3>ADD LR</h3></div>
+
+  <div class="container mt-4">
+      <div class="row">
+          <div class="col-md-6">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Consignor</label>
+                </div>
+                <select class="custom-select" id="consignoroption">
+                  <option selected>Choose...</option>
+                  <% consignor.forEach(function(consignor){ %>
+                    <option data-consignorid="<%= consignor._id %>"><%= consignor.consignorname %></option>
+                    <% }); %>
+                </select>
+              </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Vechile No</label>
+                </div>
+                <select class="custom-select" id="vechileoption">
+                  <option selected>Choose...</option>
+                  <% vechile.forEach(function(vechile){ %>
+                    <option data-vechileid="<%= vechile._id%>"><%= vechile.vechileno %></option>
+                    <% }); %>
+                </select>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                Date
+                <input class="form-control" id="date" type="date" value="2011-08-19">
+             </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                LR
+                <input class="form-control" id="lrnumber" type="text" placeholder="LR NO:">
+             </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                Origin
+                <input class="form-control" id="origin" type="text" placeholder="Origin">
+             </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                Destination
+                <input class="form-control" id="destination" type="text" placeholder="Destination">
+             </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                Party Name 
+                <input class="form-control" id="partyname" type="text" placeholder="Party Name">
+             </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                Invoice No
+                <input class="form-control" id="invoice" type="text" placeholder="Invoice">
+             </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                C/B 
+                <input class="form-control" id="boxes" type="number" placeholder="Boxes">
+             </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                Loading Charges
+                <input class="form-control" id="loadingcharges" type="number" placeholder="Loading Charges">
+             </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                Unloading Charges 
+                <input class="form-control" id="unloadingcharges" type="number" placeholder="Unloading Charges">
+             </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                Toll Tax
+                <input class="form-control" id="tolltax" type="number" placeholder="Toll Tax">
+             </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                SNT
+                <input class="form-control" id="snt" type="number" placeholder="SNT">
+             </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                Sale Tax
+                <input class="form-control" id="saletax" type="number" placeholder="Sale Tax">
+             </div>
+        </div>
+      </div>
+      <div class="row">          
+        <div class="col-md-6">
+            <div class="form-group">
+                Opening Km
+                <input class="form-control" id="openingkm" type="number" placeholder="Opening KM">
+             </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                Closing Km
+                <input class="form-control" id="closingkm" type="number" placeholder="Closing KM">
+             </div>
+        </div>
+      </div>
+      <button class="btn btn-success container mb-2" id="submitbtn">Submit</button>
+  </div>
+
+
+  <script>
+    $("#logoutbtn").click(function() {
+      const token = $('#logoutbtn').data("token")
+      $.ajax({
+          type: "POST",
+          url: '/users/logout/'+token,
+          contentType: "application/json",
+          processData: false,
+      }).done(function (data) {
+          window.open('/login','_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    })
+    $("#submitbtn").click(function() {
+        const consignorid = $('#consignoroption').find(":selected").data("consignorid");
+        const vechileid = $('#vechileoption').find(":selected").data("vechileid");
+        const date = document.getElementById('date').value
+        const lrnumber = document.getElementById('lrnumber').value
+        const origin = document.getElementById('origin').value
+        const destination = document.getElementById('destination').value
+        const partyname = document.getElementById('partyname').value
+        const invoice = document.getElementById('invoice').value
+        const boxes = document.getElementById('boxes').value
+        const loadingcharges = document.getElementById('loadingcharges').value
+        const unloadingcharges = document.getElementById('unloadingcharges').value
+        const tolltax = document.getElementById('tolltax').value
+        const snt = document.getElementById('snt').value
+        const saletax = document.getElementById('saletax').value
+        const openingkm = document.getElementById('openingkm').value
+        const closingkm = document.getElementById('closingkm').value
+        const token = $('#logoutbtn').data("token")
+        $.ajax({
+          type: "POST",
+          url: '/lr/'+token,
+          contentType: "application/json",
+          processData: false,
+          data:  JSON.stringify({consignorid : consignorid,vechileid : vechileid,date : date,lrnumber : lrnumber,origin : origin, destination : destination, partyname : partyname,invoice : invoice,boxes : boxes, loadingcharges : loadingcharges, unloadingcharges : unloadingcharges,tolltax : tolltax,snt : snt, saletax : saletax,openingkm : openingkm,closingkm : closingkm})
+      }).done(function (data) {
+            const y = document.getElementById("infobox");
+            document.getElementById("infobox").innerHTML = "LR has been added";
+            if (y.style.display === "none") {
+              y.style.display = "block";
+            }
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    })
+  </script>
+
+  </body>
+</html>

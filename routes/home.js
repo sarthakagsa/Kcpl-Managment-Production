@@ -14,4 +14,11 @@ router.get('/home/:token',auth,(req,res)=>{
     res.render('home',{user:req.user,token: req.token})
 })
 
+router.get('/lr/me/:token',auth,(req,res)=>{
+    res.render('lr/lr',{user:req.user,token: req.token})
+})
+
+
+
+
 module.exports = router

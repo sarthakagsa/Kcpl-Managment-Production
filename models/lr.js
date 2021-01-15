@@ -5,7 +5,7 @@ const lrSchema = new mongoose.Schema({
     date : {
         type : String,
         validate(value){
-            if (!validator.isDate(value,{format: 'DD-MM-YYYY'})) {
+            if (!validator.isDate(value,{format: 'YYYY-MM-DD'})) {
                 throw new Error('Date is invalid')
             }
         }
@@ -15,7 +15,7 @@ const lrSchema = new mongoose.Schema({
         required : true
     },
     lrnumber : {
-        type : Number,
+        type : String,
         required : true
     },
     partyname : {
@@ -35,8 +35,7 @@ const lrSchema = new mongoose.Schema({
         required : true
     },
     loadingcharges : {
-        type : Number,
-        required : true
+        type : Number
     },
     unloadingcharges : {
         type : Number
