@@ -5,6 +5,7 @@ const User = require('../models/user')
 const Vechile = require('../models/vechile')
 const Lr = require('../models/lr')
 const Consignor = require('../models/consignor')
+const ExcelJs = require('exceljs')
 
 router.get('/lr/add/:token',auth,async (req,res)=>{
     try {
@@ -122,9 +123,35 @@ router.delete('/lr/:lrid',auth,async (req,res)=>{
 router.post('/lr/view/:token',auth,async (req,res)=>{
     try {
         const lr = await Lr.find({vechileid: req.body.vechileid,consignorid : req.body.consignorid})
-        if (!lr) {
+        if (!lr[0]) {
             return res.status(400).send({error: ' No such file found'})
         }
+        const workbook = new ExcelJs.Workbook();
+        const worksheet = workbook.addWorksheet('My Users');
+        worksheet.columns = [
+            {header: 'S.no', key: 's_no', width: 10},
+            {header: 'Date', key: 'date', width: 10},
+            {header: 'Origin', key: 'origin', width: 10},
+            {header: 'Party Name', key: 'partyname', width: 30},
+            {header: 'Destination', key: 'destination', width: 10},
+            {header: 'Invoice No', key: 'invoice', width: 40},
+            {header: 'LR', key: 'lrnumber', width: 10},
+            {header: 'C/B', key: 'boxes', width: 10},
+            {header: 'Opening KM', key: 'openingkm', width: 10},
+            {header: 'Closing KM', key: 'closingkm', width: 10},
+            {header: 'Loading Charges', key: 'loadingcharges', width: 10},
+            {header: 'Unloading Charges', key: 'unloadingcharges', width: 10}
+        ];
+        let count = 1;
+        lr.forEach(lr => {
+            lr.s_no = count;
+            worksheet.addRow(lr);
+            count += 1;
+        });
+        worksheet.getRow(1).eachCell((cell) => {
+            cell.font = {bold: true};
+        });
+        await workbook.xlsx.writeFile('lr.xlsx')
         res.send({lr : lr})
     } catch (error) {
         res.status(400).send(error)

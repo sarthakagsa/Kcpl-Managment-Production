@@ -28,7 +28,8 @@ const lrSchema = new mongoose.Schema({
     },
     invoice : {
         type : String,
-        required : true
+        required : true,
+        unique : true
     },
     boxes : {
         type : Number,
@@ -41,12 +42,10 @@ const lrSchema = new mongoose.Schema({
         type : Number
     },
     openingkm:{
-        type : Number,
-        required : true
+        type : Number
     },
     closingkm : {
-        type : Number,
-        required : true
+        type : Number
     },
     tolltax : {
         type : Number

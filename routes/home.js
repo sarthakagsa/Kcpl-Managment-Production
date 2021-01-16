@@ -18,6 +18,9 @@ router.get('/lr/me/:token',auth,(req,res)=>{
     res.render('lr/lr',{user:req.user,token: req.token})
 })
 
+router.get('/downloadlr',(req,res)=>{
+    res.download('lr.xlsx')
+})
 
 
 
