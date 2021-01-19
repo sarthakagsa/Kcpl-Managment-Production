@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Lr = require('./lr')
+const Lr = require('./llr')
 
 const consignorSchema = new mongoose.Schema({
     consignorname : {

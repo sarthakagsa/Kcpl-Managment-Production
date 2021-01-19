@@ -38,6 +38,29 @@ router.get('/lr/view/:token',auth,async (req,res)=>{
         res.status(400).send(error)
     }
 })
+//Get single LRs
+router.get('/lr/view/single/:token',auth,async (req,res)=>{
+    try {
+        const lr = []
+        const vechile = await Vechile.find({owner : req.user._id})
+        if (!vechile) {
+            return res.status(400).send({error : 'The vechile is not associated with this user'})
+        }
+        vechile.forEach(async(vechile) => {
+            const lrs = await Lr.find({vechileid : vechile._id})
+            lrs.forEach(element => {
+               lr.push(element) 
+            });
+        });
+        const consignor = await Consignor.find({owner : req.user._id})
+        if (!consignor) {
+            return res.status(400).send({error : 'The consignor is not associated with this user'})
+        }
+        res.render('lr/Singlelr',{lr : lr,user:req.user,token: req.token,vechile:vechile,consignor:consignor})
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
 
 router.post('/lr/:token',auth,async(req,res)=>{
     try {
@@ -93,7 +116,7 @@ router.post('/lr/:token',auth,async(req,res)=>{
 //     }
 // })
 
-router.get('/lr/:lrid',auth,async (req,res)=>{
+router.get('/lr/:lrid/:token',auth,async (req,res)=>{
     try {
         const lr = await Lr.findOne({_id: req.params.lrid})
         if (!lr) {

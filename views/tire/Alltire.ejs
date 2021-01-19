@@ -226,7 +226,7 @@
          var gst = 0;
          const parts = []
        while (m>= 0) {
-         totalcost = totalcost + ((document.getElementById('list['+m+'][4]').value)*(document.getElementById('list['+m+'][2]').value));
+         totalcost = totalcost + ((document.getElementById('list['+m+'][4]').value)*(document.getElementById('list['+m+'][3]').value));
          parts.push({
            partname : document.getElementById('list['+m+'][0]').value,
            partnumber : document.getElementById('list['+m+'][1]').value,
@@ -236,7 +236,9 @@
          })
          m--;
        }
+       console.log(totalcost);
        gst = totalcost*0.18;
+       console.log(gst);
        totalcost = totalcost+gst;
        const date = document.getElementById('date').value
        const partyname = document.getElementById('partyname').value

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Repair = require('./repair')
 const Tire = require('./tire')
-const Lr = require('./lr')
+const Lr = require('./llr')
 
 const vechileSchema = new mongoose.Schema({
         vechileno : {

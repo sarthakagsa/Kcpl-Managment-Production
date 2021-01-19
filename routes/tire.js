@@ -34,7 +34,7 @@ router.post('/tire/:id/:token',auth,async(req,res)=>{
 //     }
 //     req.body.parts.forEach(element => {
 //         const partsUpdates = Object.keys(element)
-//         const partsAllowedUpdates = ['partname','cost','quantity','hsn']
+//         const partsAllowedUpdates = ['partname','cost','quantity','hsn','partnumber']
 //         const isValidOperation = partsUpdates.every((update)=>partsAllowedUpdates.includes(update))
 //         if (!isValidOperation) {
 //             return res.status(400).send({ error: 'Invalid Updates!'})       
