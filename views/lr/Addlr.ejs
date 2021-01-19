@@ -214,11 +214,7 @@
           processData: false,
           data:  JSON.stringify({consignorid : consignorid,vechileid : vechileid,date : date,lrnumber : lrnumber,origin : origin, destination : destination, partyname : partyname,invoice : invoice,boxes : boxes, loadingcharges : loadingcharges, unloadingcharges : unloadingcharges,tolltax : tolltax,snt : snt, saletax : saletax,openingkm : openingkm,closingkm : closingkm})
       }).done(function (data) {
-            const y = document.getElementById("infobox");
-            document.getElementById("infobox").innerHTML = "LR has been added";
-            if (y.style.display === "none") {
-              y.style.display = "block";
-            }
+        window.open('/lr/add/'+data.token,'_self',false)
         }).fail(function ( jqXHR, textStatus, errorThrown) {
             const x = document.getElementById("errorbox");
             document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
@@ -227,6 +223,26 @@
             }
           });
     })
+    function forceKeyPressUppercase(e)
+  {
+    var charInput = e.keyCode;
+    if((charInput >= 97) && (charInput <= 122)) { // lowercase
+      if(!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
+        var newChar = charInput - 32;
+        var start = e.target.selectionStart;
+        var end = e.target.selectionEnd;
+        e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+        e.target.setSelectionRange(start+1, start+1);
+        e.preventDefault();
+      }
+    }
+  }
+
+  document.getElementById("origin").addEventListener("keypress", forceKeyPressUppercase, false);
+  document.getElementById("destination").addEventListener("keypress", forceKeyPressUppercase, false);
+  document.getElementById("partyname").addEventListener("keypress", forceKeyPressUppercase, false);
+  document.getElementById("invoice").addEventListener("keypress", forceKeyPressUppercase, false);
+  document.getElementById("lrnumber").addEventListener("keypress", forceKeyPressUppercase, false);
   </script>
 
   </body>

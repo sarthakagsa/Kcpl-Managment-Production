@@ -3,7 +3,7 @@ const express = require('express')
 const router = new express.Router()
 const User = require('../models/user')
 const Vechile = require('../models/vechile')
-const Lr = require('../models/lr')
+const Lr = require('../models/llr')
 const Consignor = require('../models/consignor')
 const ExcelJs = require('exceljs')
 
@@ -51,11 +51,10 @@ router.post('/lr/:token',auth,async(req,res)=>{
         }
         const lr = new Lr(req.body)
         const newLr = await lr.save()
-        res.status(201).send(newLr)
+        res.status(201).send({newLr,token : req.token})
     }
     catch (e) {
-        console.log(e);
-        res.status(400).send(e.message)
+        res.status(400).send(e)
     }
 })
 
@@ -122,12 +121,38 @@ router.delete('/lr/:lrid',auth,async (req,res)=>{
 //Get All LRS
 router.post('/lr/view/:token',auth,async (req,res)=>{
     try {
-        const lr = await Lr.find({vechileid: req.body.vechileid,consignorid : req.body.consignorid})
+        if (!req.body.vechileid) {
+            const lr = await Lr.find({consignorid : req.body.consignorid,billed : false})
+            if (!lr[0]) {
+                return res.status(400).send('No Lrs to be billed for th given option')
+            }
+            return res.send({lr : lr})
+        }
+        if (!req.body.consignorid) {
+            const lr = await Lr.find({vechileid : req.body.vechileid,billed : false})
+            if (!lr[0]) {
+                return res.status(400).send('No Lrs to be billed for th given option')
+            }
+            return res.send({lr : lr})
+        }
+        const lr = await Lr.find({vechileid: req.body.vechileid,consignorid : req.body.consignorid,billed : false})
         if (!lr[0]) {
             return res.status(400).send({error: ' No such file found'})
         }
+        res.send({lr : lr})
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+//Get Selected LR for billing
+
+router.post('/lr/billlr/:token',auth,async (req,res)=>{
+    try {
+        const billedlr = []
+        const lrs = req.body
         const workbook = new ExcelJs.Workbook();
-        const worksheet = workbook.addWorksheet('My Users');
+        const worksheet = workbook.addWorksheet('LR');
         worksheet.columns = [
             {header: 'S.no', key: 's_no', width: 10},
             {header: 'Date', key: 'date', width: 10},
@@ -142,21 +167,30 @@ router.post('/lr/view/:token',auth,async (req,res)=>{
             {header: 'Loading Charges', key: 'loadingcharges', width: 10},
             {header: 'Unloading Charges', key: 'unloadingcharges', width: 10}
         ];
-        let count = 1;
-        lr.forEach(lr => {
-            lr.s_no = count;
-            worksheet.addRow(lr);
-            count += 1;
+        lrs.forEach(async(lr) => {
+            const billlr = await Lr.findById(lr.lrid)
+            billedlr.push(billlr)
+            //worksheet.addRow(billlr);
+            // billlr.billed = true
+            // billlr.save()
         });
         worksheet.getRow(1).eachCell((cell) => {
             cell.font = {bold: true};
         });
-        await workbook.xlsx.writeFile('lr.xlsx')
-        res.send({lr : lr})
-    } catch (error) {
-        res.status(400).send(error)
-    }
-})
-
+        await Lr.find()
+        let count = 1;
+        billedlr.forEach(lr => {
+            lr.s_no = count;
+            worksheet.addRow(lr);
+            count += 1;
+            lr.billed = true
+            lr.save()
+        });
+        const data = await workbook.xlsx.writeFile('lr.xlsx')
+        res.send({token : req.token})
+        } catch (error) {
+            res.status(400).send(error)
+        }        
+    })
 
 module.exports = router

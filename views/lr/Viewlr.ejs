@@ -12,7 +12,6 @@
     <link rel="icon" href="img/LOGO.png">
   </head>
   <body>
-
     <div class="alert alert-danger" id="errorbox" role="alert" style="display: none;"></div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -77,9 +76,16 @@
       <button class="btn btn-success container mb-2" id="submitbtn">Submit</button>
   </div>
 
+  <div class="container text-center text-danger" style="display: none;" id="notificationbox">
+    Please Select the Lrs to be billed
+    <br>
+    Note : Once billed The Lrs wont be shown again (however you can check indiviual Lrs)
+  </div>
+
   <table class="table table-striped table-bordered" id="lrtable">
     <thead>
       <tr>
+        <th scope="col">Checkbox</th>
         <th scope="col">Date</th>
         <th scope="col">From</th>
         <th scope="col">LR</th>
@@ -94,13 +100,14 @@
         <th scope="col">Toll Tax</th>
         <th scope="col">SNT</th>
         <th scope="col">Sale Tax</th>
+        <th scope="col" style="display: none;"></th>
       </tr>
     </thead>
     <tbody id="lrbody">
     </tbody>
   </table>
-
-  <a class="btn btn-primary m-2" id="exportbtn" href="/downloadlr" style="display: none;">Export</a>
+  <button class="container btn btn-success" id="billbtn" style="display: none;">Bill</button>
+  <a class="btn btn-primary container" id="exportbtn" href="/downloadlr/<%= token%>" style="display: none;">Export</a>
 
 
   <script>
@@ -132,17 +139,61 @@
           processData: false,
           data:  JSON.stringify({consignorid : consignorid,vechileid : vechileid})
       }).done(function (data) {
+        var count = 0;
           data.lr.forEach(lr => {
-            $('#lrbody').after('<tr> <th scope="row">'+lr.date+'</th> <td>'+lr.origin+'</td> <td>'+lr.lrnumber+'</td> <td>'+lr.partyname+'</td> <td>'+lr.destination+'</td> <td>'+lr.invoice+'</td><td>'+lr.boxes+'</td> <td>'+lr.loadingcharges+'</td><td>'+lr.unloadingcharges+'</td><td>'+lr.openingkm+'</td><td>'+lr.closingkm+'</td><td>'+lr.tolltax+'</td><td>'+lr.snt+'</td><td>'+lr.saletax+'</td> </tr>');
-            const y = document.getElementById("exportbtn");
-            if (y.style.display === "none") {
+            $('#lrbody').after('<tr><td><input type="checkbox" name ="chk1" value = "'+count+'" /></td><th scope="row">'+lr.date+'</th> <td>'+lr.origin+'</td> <td id="list['+count+']">'+lr.lrnumber+'</td> <td>'+lr.partyname+'</td> <td>'+lr.destination+'</td> <td>'+lr.invoice+'</td><td>'+lr.boxes+'</td> <td >'+lr.loadingcharges+'</td><td> '+lr.unloadingcharges+'</td><td> '+lr.openingkm+'</td><td >'+lr.closingkm+'</td><td >'+lr.tolltax+'</td><td >'+lr.snt+'</td><td >'+lr.saletax+'</td> <td id="list['+count+'][0]"  style="display: none;">'+lr._id+'</td> </tr>');
+            count++;
+            const l = document.getElementById("notificationbox");
+            if (l.style.display === "none"){
+              l.style.display = "block";
+            }
+            const y = document.getElementById("billbtn");
+            if (y.style.display === "none"){
               y.style.display = "block";
             }
           });
 
         }).fail(function ( jqXHR, textStatus, errorThrown) {
             const x = document.getElementById("errorbox");
-            document.getElementById("errorbox").innerHTML = "Please Select the Appropriate Options";
+            document.getElementById("errorbox").innerHTML = "Desired option is not appropriate or else all the Lrs have aldready been billed";
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    })
+
+    $("#billbtn").click(function() {
+      const vechileid = $('#vechileoption').find(":selected").data("vechileid");
+      console.log(vechileid);
+      const token = $('#logoutbtn').data("token")
+      var arr_id = [];	
+      const lr = [];	
+      $(":checkbox:checked").each(function(i){
+        id = $(this).val();
+        const lrid = $('#logoutbtn').data("lrid")
+        arr_id[i]=id;
+        lr.push({
+          lrid : document.getElementById('list['+id+'][0]').innerHTML,
+          lrnumber : document.getElementById('list['+id+']').innerHTML
+        })
+      })
+      if(arr_id.length == 0){
+        return alert("atleast check one");
+      }
+      $.ajax({
+          type: "POST",
+          url: '/lr/billlr/'+token,
+          contentType: "application/json",
+          processData: false,
+          data:  JSON.stringify(lr)
+      }).done(function (data) {
+            const z = document.getElementById("exportbtn");
+            if (z.style.display === "none"){
+              z.style.display = "block";
+            }
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
             if (x.style.display === "none") {
               x.style.display = "block";
             }

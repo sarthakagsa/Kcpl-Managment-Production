@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 
-const LRSchema = new mongoose.Schema({
+const newlrSchema = new mongoose.Schema({
     date : {
         type : String,
         validate(value){
@@ -78,6 +78,6 @@ const LRSchema = new mongoose.Schema({
     // }
 })
 
-const LR = mongoose.model('LR',LRSchema)
+const newlr = mongoose.model('newlr',newlrSchema)
 
-module.exports = LR
+module.exports = newlr
