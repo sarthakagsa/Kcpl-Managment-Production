@@ -54,6 +54,12 @@
       <div class="row">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Search</label>
+                </div>
+                <input type="search" id="searchBox">
+              </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
                   <label class="input-group-text" for="inputGroupSelect01">LR NO</label>
                 </div>
                 <select class="custom-select" id="lroption">
@@ -131,6 +137,28 @@
             }
           });
     })
+
+    searchBox = document.querySelector("#searchBox");
+    lroption = document.querySelector("#lroption");
+    var when = "keyup";
+    searchBox.addEventListener("keyup", function (e) {
+    var text = e.target.value; //searchBox value
+    var options = lroption.options; //select options
+    for (var i = 0; i < options.length; i++) {
+        var option = options[i]; //current option
+        var optionText = option.text; //option text ("Somalia")
+        var lowerOptionText = optionText.toLowerCase(); //option text lowercased for case insensitive testing
+        var lowerText = text.toLowerCase(); //searchBox value lowercased for case insensitive testing
+        var regex = new RegExp("^" + text, "i"); //regExp, explained in post
+        var match = optionText.match(regex); //test if regExp is true
+        var contains = lowerOptionText.indexOf(lowerText) != -1; //test if searchBox value is contained by the option text
+        if (match || contains) { //if one or the other goes through
+            option.selected = true; //select that option
+            return; //prevent other code inside this event from executing
+        }
+        searchBox.selectedIndex = 0; //if nothing matches it selects the default option
+    }
+});
   </script>
 
   </body>
