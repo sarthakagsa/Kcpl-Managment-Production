@@ -7,6 +7,21 @@ const Lr = require('../models/llr')
 const Consignor = require('../models/consignor')
 const ExcelJs = require('exceljs')
 
+function dynamicSort(property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a,b) {
+        /* next line works with strings and numbers, 
+         * and you may want to customize it to your needs
+         */
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+}
+
 router.get('/lr/add/:token',auth,async (req,res)=>{
     try {
         const vechile = await Vechile.find({owner : req.user._id})
@@ -56,7 +71,8 @@ router.get('/lr/view/single/:token',auth,async (req,res)=>{
         if (!consignor) {
             return res.status(400).send({error : 'The consignor is not associated with this user'})
         }
-        res.render('lr/Singlelr',{lr : lr,user:req.user,token: req.token,vechile:vechile,consignor:consignor})
+        const sortedlr = lr.sort(dynamicSort("-lrnumber"))
+        res.render('lr/Singlelr',{lr : sortedlr,user:req.user,token: req.token,vechile:vechile,consignor:consignor})
     } catch (error) {
         res.status(400).send(error)
     }
@@ -144,7 +160,6 @@ router.post('/lr/view/:token',auth,async (req,res)=>{
             return res.send({lr : lr})
         }
         const lr = await Lr.find({vechileid: req.body.vechileid,consignorid : req.body.consignorid,billed : false})
-        await lr.sort({lrnumber : -1})
         if (!lr[0]) {
             return res.status(400).send({error: ' No such file found'})
         }
