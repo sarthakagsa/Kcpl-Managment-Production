@@ -22,6 +22,10 @@ const tireSchema = new mongoose.Schema({
         quantity : {
             type : Number,
             required : true,
+        },
+        gst : {
+            type : Number,
+            required : true
         }
     }],
     date : {
