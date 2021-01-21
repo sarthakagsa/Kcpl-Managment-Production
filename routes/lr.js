@@ -144,6 +144,7 @@ router.post('/lr/view/:token',auth,async (req,res)=>{
             return res.send({lr : lr})
         }
         const lr = await Lr.find({vechileid: req.body.vechileid,consignorid : req.body.consignorid,billed : false})
+        await lr.sort({lrnumber : -1})
         if (!lr[0]) {
             return res.status(400).send({error: ' No such file found'})
         }
