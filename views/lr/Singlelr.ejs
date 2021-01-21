@@ -52,51 +52,129 @@
 
   <div class="container mt-4">
       <div class="row">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <label class="input-group-text" for="inputGroupSelect01">Search</label>
-                </div>
-                <input type="search" id="searchBox">
-              </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <label class="input-group-text" for="inputGroupSelect01">LR NO</label>
-                </div>
-                <select class="custom-select" id="lroption">
-                  <option selected>Choose...</option>
-                  <% lr.forEach(function(lr){ %>
-                    <option data-lrid="<%= lr._id %>"><%= lr.lrnumber %></option>
-                    <% }); %>
-                </select>
-              </div>
+        <div class="col-md-4">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Search</label>
+            </div>
+            <input type="search" id="searchBox">
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">LR NO</label>
+            </div>
+            <select class="custom-select" id="lroption">
+              <option selected>Choose...</option>
+              <% lr.forEach(function(lr){ %>
+                <option data-lrid="<%= lr._id %>"><%= lr.lrnumber %></option>
+                <% }); %>
+            </select>
+          </div>
+        </div>
       </div>
       <button class="btn btn-success container mb-2" id="submitbtn">Submit</button>
   </div>
 
-  <table class="table table-striped table-bordered" id="lrtable">
-    <thead>
-      <tr>
-        <th scope="col">Date</th>
-        <th scope="col">From</th>
-        <th scope="col">LR</th>
-        <th scope="col">Party</th>
-        <th scope="col">Destination</th>
-        <th scope="col">Invoice no</th>
-        <th scope="col">C/B</th>
-        <th scope="col">Loading</th>
-        <th scope="col">Unloading</th>
-        <th scope="col">Opening Km</th>
-        <th scope="col">Closing Km</th>
-        <th scope="col">Toll Tax</th>
-        <th scope="col">SNT</th>
-        <th scope="col">Sale Tax</th>
-        <th scope="col">Billed</th>
-      </tr>
-    </thead>
-    <tbody id="lrbody">
-    </tbody>
-  </table>
-
+  <div class="container" style="display: none;" id="lrdetails" >
+    <div class="row">
+      <div class="col-md-6">
+          <div class="form-group">
+              Date
+              <input class="form-control" id="date" type="date">
+           </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+          <div class="form-group">
+              Origin
+              <input class="form-control" id="origin" type="text" placeholder="Origin">
+           </div>
+      </div>
+      <div class="col-md-6">
+          <div class="form-group">
+              Destination
+              <input class="form-control" id="destination" type="text" placeholder="Destination">
+           </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+          <div class="form-group">
+              Party Name 
+              <input class="form-control" id="partyname" type="text" placeholder="Party Name">
+           </div>
+      </div>
+      <div class="col-md-6">
+          <div class="form-group">
+              Invoice No
+              <input class="form-control" id="invoice" type="text" placeholder="Invoice">
+           </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+          <div class="form-group">
+              C/B 
+              <input class="form-control" id="boxes" type="number" placeholder="Boxes">
+           </div>
+      </div>
+      <div class="col-md-2">
+          <div class="form-group">
+              Loading Charges
+              <input class="form-control" id="loadingcharges" type="number" placeholder="Loading Charges">
+           </div>
+      </div>
+      <div class="col-md-2">
+          <div class="form-group">
+              Unloading Charges 
+              <input class="form-control" id="unloadingcharges" type="number" placeholder="Unloading Charges">
+           </div>
+      </div>
+      <div class="col-md-2">
+          <div class="form-group">
+              Toll Tax
+              <input class="form-control" id="tolltax" type="number" placeholder="Toll Tax">
+           </div>
+      </div>
+      <div class="col-md-2">
+          <div class="form-group">
+              SNT
+              <input class="form-control" id="snt" type="number" placeholder="SNT">
+           </div>
+      </div>
+      <div class="col-md-2">
+          <div class="form-group">
+              Sale Tax
+              <input class="form-control" id="saletax" type="number" placeholder="Sale Tax">
+           </div>
+      </div>
+    </div>
+    <div class="row">          
+      <div class="col-md-5">
+          <div class="form-group">
+              Opening Km
+              <input class="form-control" id="openingkm" type="number" placeholder="Opening KM">
+           </div>
+      </div>
+      <div class="col-md-5">
+          <div class="form-group">
+              Closing Km
+              <input class="form-control" id="closingkm" type="number" placeholder="Closing KM">
+           </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+            Billed
+            <input class="form-control" id="billed" type="checkbox">
+         </div>
+      </div>
+    </div>
+    <button class="btn btn-secondary container mb-2" id="updatebtn">Update</button>
+    <button class="btn btn-danger container mb-2" onclick="confirmation();" id="deletetbh">Delete Repair</button>
+  </div>
 
   <script>
     $("#logoutbtn").click(function() {
@@ -118,7 +196,6 @@
     })
     $("#submitbtn").click(function() {
         const lrid = $('#lroption').find(":selected").data("lrid");
-        console.log(lrid);
         const token = $('#logoutbtn').data("token")
         $.ajax({
           type: "GET",
@@ -127,11 +204,27 @@
           processData: false
       }).done(function (data) {
           const lr = data
-            $('#lrbody').after('<tr><th scope="row">'+lr.date+'</th> <td>'+lr.origin+'</td> <td>'+lr.lrnumber+'</td> <td>'+lr.partyname+'</td> <td>'+lr.destination+'</td> <td>'+lr.invoice+'</td><td>'+lr.boxes+'</td> <td >'+lr.loadingcharges+'</td><td> '+lr.unloadingcharges+'</td><td> '+lr.openingkm+'</td><td >'+lr.closingkm+'</td><td >'+lr.tolltax+'</td><td >'+lr.snt+'</td><td >'+lr.saletax+'</td> <td>'+lr.billed+'</td> </tr>');
-
+          $('#date').val(lr.date)
+          $('#origin').val(lr.origin)
+          $('#destination').val(lr.destination)
+          $('#partyname').val(lr.partyname)
+          $('#invoice').val(lr.invoice)
+          $('#boxes').val(lr.boxes)
+          $('#loadingcharges').val(lr.loadingcharges)
+          $('#unloadingcharges').val(lr.unloadingcharges)
+          $('#tolltax').val(lr.tolltax)
+          $('#snt').val(lr.snt)
+          $('#saletax').val(lr.saletax)
+          $('#openingkm').val(lr.openingkm)
+          $('#closingkm').val(lr.closingkm)
+          $('#billed').prop('checked',lr.billed)
+            const x = document.getElementById("lrdetails");
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
         }).fail(function ( jqXHR, textStatus, errorThrown) {
             const x = document.getElementById("errorbox");
-            document.getElementById("errorbox").innerHTML = "Desired option is not appropriate or else all the Lrs have aldready been billed";
+            document.getElementById("errorbox").innerHTML = "Desired option is not appropriate";
             if (x.style.display === "none") {
               x.style.display = "block";
             }
@@ -159,6 +252,62 @@
         searchBox.selectedIndex = 0; //if nothing matches it selects the default option
     }
 });
+
+$("#updatebtn").click(function() {
+      const lrid = $('#lroption').find(":selected").data("lrid");
+      const token = $('#logoutbtn').data("token")
+      const date = $('#date').val
+      const origin = $('#origin').val
+      const destination = $('#destination').val
+      const partyname = $('#partyname').val
+      const invoice = $('#invoice').val
+      const boxes = $('#boxes').val
+      const loadingcharges = $('#loadingcharges').val
+      const unloadingcharges = $('#unloadingcharges').val
+      const tolltax = $('#tolltax').val
+      const snt = $('#snt').val
+      const saletax = $('#saletax').val
+      const openingkm = $('#openingkm').val
+      const closingkm = $('#closingkm').val
+      const billed = $('#billed').prop('checked')
+      $.ajax({
+          type: "PATCH",
+          url: '/lr/update/'+lrid+'/'+token,
+          contentType: "application/json",
+          processData: false,
+          data:  JSON.stringify({date : date,origin : origin, destination : destination, partyname : partyname,invoice : invoice,boxes : boxes, loadingcharges : loadingcharges, unloadingcharges : unloadingcharges,tolltax : tolltax,snt : snt, saletax : saletax,openingkm : openingkm,closingkm : closingkm,billed : billed})
+      }).done(function (data) {
+          window.open('/lr/view/single/'+data.token,'_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    })
+
+    function confirmation(){
+    var result = confirm("Are you sure you want to delete?");
+    if(result){
+      const lrid = $('#lroption').find(":selected").data("lrid");
+      const token = $('#logoutbtn').data("token")
+      $.ajax({
+          type: "DELETE",
+          url: '/lr/'+lrid+'/'+token,
+          contentType: "application/json",
+          processData: false
+      }).done(function (data) {
+        window.open('/lr/view/single/'+data.token,'_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    }
+}
   </script>
 
   </body>

@@ -81,40 +81,25 @@ router.post('/lr/:token',auth,async(req,res)=>{
     }
 })
 
-// router.patch('/repair/:vechileid/:repairid',auth,async(req,res)=>{
-//     const updates = Object.keys(req.body)
-//     const allowedUpdates =['parts','date','cost','invoice','partyname','km','gst']
-//     const isValidOperation = updates.every((update)=> allowedUpdates.includes(update))
-//     if (!isValidOperation) {
-//         return res.status(400).send({ error: 'Invalid Updates!'})       
-//     }
-//     req.body.parts.forEach(element => {
-//         const partsUpdates = Object.keys(element)
-//         const partsAllowedUpdates = ['partname','cost','quantity','hsn']
-//         const isValidOperation = partsUpdates.every((update)=>partsAllowedUpdates.includes(update))
-//         if (!isValidOperation) {
-//             return res.status(400).send({ error: 'Invalid Updates!'})       
-//         }
-//     })
-//     try {
-//         const vechile = await Vechile.findOne({_id:req.params.vechileid,owner : req.user._id})        
-        
-//         //const task = await Task.findByIdAndUpdate(req.params.id,req.body,{new : true, runValidators : true})
-//         if (!vechile) {
-//             return res.status(404).send({error : "Vechile is not found"})
-//         }
-
-//         const repair = await Repair.findOne({_id: req.params.repairid,vechileid:req.params.vechileid})
-//         if (!repair) {
-//             return res.status(404).send({error : "The following docs is not found"})
-//         }
-//         updates.every((update)=> repair[update] = req.body[update] )
-//         await repair.save()
-//         res.send(repair)
-//     } catch (e) {
-//         return res.status(404).send(e)
-//     }
-// })
+router.patch('/lr/update/:lrid/:token',auth,async(req,res)=>{
+    const updates = Object.keys(req.body)
+    const allowedUpdates =['date','origin','siliguri','destination','partyname','invoice','boxes','loadingcharges','unloadingcharges','tolltax','snt','saletax','openingkm','closingkm','billed']
+    const isValidOperation = updates.every((update)=> allowedUpdates.includes(update))
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Invalid Updates!'})       
+    }
+    try {
+        const lr = await Lr.findOne({_id : req.params.lrid})     
+         if (!lr) {
+            return res.status(404).send({error : "LR is not found"})
+        }
+        updates.every((update)=> lr[update] = req.body[update] )
+        await lr.save()
+        res.send({lr,token : req.token})
+    } catch (e) {
+        return res.status(404).send(e)
+    }
+})
 
 router.get('/lr/:lrid/:token',auth,async (req,res)=>{
     try {
@@ -128,14 +113,14 @@ router.get('/lr/:lrid/:token',auth,async (req,res)=>{
     }
 })
 
-router.delete('/lr/:lrid',auth,async (req,res)=>{
+router.delete('/lr/:lrid/:token',auth,async (req,res)=>{
     try {
         const lr = await Lr.findOne({_id: req.params.lrid})
         if (!lr) {
             return res.send({error: ' No such file found'})
         }
         await lr.remove()
-        res.send(lr) 
+        res.send({lr,token : req.token}) 
     } catch (error) {
         res.status(400).send(error)
     }
