@@ -93,7 +93,12 @@ router.get('/vechiles/repair/:id/:token',auth,async (req,res)=>{
     if (!repair) {
         return res.render("repair/Allvrepair.ejs",{error : 'NO repairs found'})
     }
-    res.render("repair/Allrepair.ejs",{vechile : vechile,user : req.user,token:req.token,repair:repair})
+    let totalcost = 0
+    repair.forEach(repair => {
+        totalcost = totalcost + repair.cost
+    });
+    totalcost = Math.round(totalcost)
+    res.render("repair/Allrepair.ejs",{vechile : vechile,user : req.user,token:req.token,repair:repair,totalcost : totalcost})
 })
 
 router.get('/vechiles/tire/:id/:token',auth,async (req,res)=>{
@@ -106,7 +111,12 @@ router.get('/vechiles/tire/:id/:token',auth,async (req,res)=>{
     if (!tire) {
         return res.render("tire/Alltire.ejs",{error : 'NO repairs found'})
     }
-    res.render("tire/Alltire.ejs",{vechile : vechile,user : req.user,token:req.token,tire:tire})
+    let totalcost = 0
+    tire.forEach(tire => {
+        totalcost = totalcost + tire.cost
+    });
+    totalcost = Math.round(totalcost)
+    res.render("tire/Alltire.ejs",{vechile : vechile,user : req.user,token:req.token,tire:tire,totalcost : totalcost})
 })
 
 module.exports = router

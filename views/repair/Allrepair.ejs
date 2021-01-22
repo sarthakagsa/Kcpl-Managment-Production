@@ -133,6 +133,9 @@
 </nav>
 
   <!-- body Part-->
+
+  <div class="container text-center">Total Reparing Cost for the Vehicle : <p class="text-danger"><%= totalcost %></p></div>
+
   <table class="table table-striped">
     <thead>
       <tr>
@@ -224,7 +227,8 @@
          })
          m--;
        }
-       totalcost = totalcost+totalgst;
+       totalgst = Math.round(totalgst)
+       totalcost = Math.round(totalcost+totalgst)
        const date = document.getElementById('date').value
        console.log(date);
        const partyname = document.getElementById('partyname').value
