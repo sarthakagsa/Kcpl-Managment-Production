@@ -96,7 +96,7 @@
               <div class="col-xs-5 col-sm-5 col-md-5">
                 <div class="form-group">
                  Date
-                 <input class="form-control" id="date" type="date" value="2011-08-19" id="example-date-input">
+                 <input class="form-control" id="date" type="date" min="2000-01-01" max="2011-08-19" id="example-date-input">
               </div>
             </div>
             <div class="container">
@@ -272,6 +272,20 @@ function forceKeyPressUppercase(e)
   document.getElementById("partyname").addEventListener("keypress", forceKeyPressUppercase, false);
   document.getElementById("invoice").addEventListener("keypress", forceKeyPressUppercase, false);
 
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+  if(dd<10){
+          dd='0'+dd
+      } 
+      if(mm<10){
+          mm='0'+mm
+      } 
+
+  today = yyyy+'-'+mm+'-'+dd;
+  document.getElementById("date").setAttribute("max", today);
+  document.getElementById("date").setAttribute("value", today);
 
   </script>
 
