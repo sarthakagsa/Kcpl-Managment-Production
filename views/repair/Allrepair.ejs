@@ -52,13 +52,13 @@
                     <div class="col-xs-4 col-sm-4 col-md-4">
                         <div class="form-group">
                             Part Name
-                            <input name="list[0][]" id="list[0][0]" type="text" placeholder="Part Name" class="form-control" style="text-transform: uppercase;" />                            
+                            <input name="list[0][]" id="list[0][0]" type="text" placeholder="Part Name" class="form-control" oninput="this.value = this.value.toUpperCase()" />                            
                         </div>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4">
                       <div class="form-group">
                           HSN
-                          <input name="list[0][]" id="list[0][1]" type="text" placeholder="HSN" class="form-control" style="text-transform: uppercase;"/>                          
+                          <input name="list[0][]" id="list[0][1]" type="text" placeholder="HSN" class="form-control" oninput="this.value = this.value.toUpperCase()"/>                          
                       </div>
                   </div>
                   <div class="col-xs-1 col-sm-1 col-md-1">
@@ -90,7 +90,7 @@
                 <div class="col-xs-7 col-sm-7 col-md-7">
                   <div class="form-group">
                    Party Name
-                  <input autocomplete="off" id="partyname" type="text" placeholder="Party Name" class="form-control" style="text-transform: uppercase;"/>
+                  <input autocomplete="off" id="partyname" type="text" placeholder="Party Name" class="form-control"/>
                 </div>
               </div>
               <div class="col-xs-5 col-sm-5 col-md-5">
@@ -104,7 +104,7 @@
                 <div class="col-xs-7 col-sm-7 col-md-7">
                   <div class="form-group">
                    Invoice No : 
-                  <input autocomplete="off" id="invoice" type="text" placeholder="Invoice No" class="form-control" style="text-transform: uppercase;"/>
+                  <input autocomplete="off" id="invoice" type="text" placeholder="Invoice No" class="form-control"/>
                 </div>
               </div>
               <div class="col-xs-5 col-sm-5 col-md-5">
@@ -196,7 +196,7 @@
       //Check maximum number of input fields
       if(x < list_maxField){ 
           x++; //Increment field counter
-          var list_fieldHTML = '<div class="row"><div class="col-xs-4 col-sm-4 col-md-4"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][0]" type="text" placeholder="Part Name" class="form-control" style="text-transform: uppercase;"/></div></div><div class="col-xs-4 col-sm-4 col-md-4"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][1]" type="text" placeholder="HSN" class="form-control" style="text-transform: uppercase;"/></div></div><div class="col-xs-1 col-sm-1 col-md-1"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][2]" type="number" class="form-control"/></div></div><div class="col-xs-1 col-sm-1 col-md-1"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][3]" type="number" placeholder="Cost" class="form-control"/></div></div><div class="col-xs-1 col-sm-1 col-md-1"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][4]" type="number" placeholder="GST" class="form-control"/></div></div><div class="col-xs-1 col-sm-7 col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div></div>'; //New input field html 
+          var list_fieldHTML = '<div class="row"><div class="col-xs-4 col-sm-4 col-md-4"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][0]" type="text" placeholder="Part Name" class="form-control" oninput="this.value = this.value.toUpperCase()"/></div></div><div class="col-xs-4 col-sm-4 col-md-4"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][1]" type="text" placeholder="HSN" class="form-control" oninput="this.value = this.value.toUpperCase()"/></div></div><div class="col-xs-1 col-sm-1 col-md-1"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][2]" type="number" class="form-control"/></div></div><div class="col-xs-1 col-sm-1 col-md-1"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][3]" type="number" placeholder="Cost" class="form-control"/></div></div><div class="col-xs-1 col-sm-1 col-md-1"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][4]" type="number" placeholder="GST" class="form-control"/></div></div><div class="col-xs-1 col-sm-7 col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div></div>'; //New input field html 
           $('.list_wrapper').append(list_fieldHTML); //Add field html
       }
         });
@@ -250,6 +250,23 @@
        })
 });
 
+function forceKeyPressUppercase(e)
+  {
+    var charInput = e.keyCode;
+    if((charInput >= 97) && (charInput <= 122)) { // lowercase
+      if(!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
+        var newChar = charInput - 32;
+        var start = e.target.selectionStart;
+        var end = e.target.selectionEnd;
+        e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+        e.target.setSelectionRange(start+1, start+1);
+        e.preventDefault();
+      }
+    }
+  }
+
+  document.getElementById("partyname").addEventListener("keypress", forceKeyPressUppercase, false);
+  document.getElementById("invoice").addEventListener("keypress", forceKeyPressUppercase, false);
 
 
   </script>

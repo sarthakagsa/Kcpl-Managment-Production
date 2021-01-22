@@ -60,13 +60,13 @@
                       <div class="col-xs-4 col-sm-4 col-md-4">
                           <div class="form-group">
                               Part Name
-                              <input  id="list[<%= i %>][0]" type="text" placeholder="Part Name" class="form-control" style="text-transform: uppercase;" value="<%= part.partname %>"/>                            
+                              <input  id="list[<%= i %>][0]" type="text" placeholder="Part Name" class="form-control" oninput="this.value = this.value.toUpperCase()" value="<%= part.partname %>"/>                            
                           </div>
                       </div>
                       <div class="col-xs-2 col-sm-2 col-md-2">
                         <div class="form-group">
                             HSN
-                            <input  id="list[<%= i %>][1]" type="text" placeholder="HSN" class="form-control" style="text-transform: uppercase;" value="<%= part.hsn %>"/>                          
+                            <input  id="list[<%= i %>][1]" type="text" placeholder="HSN" class="form-control" oninput="this.value = this.value.toUpperCase()" value="<%= part.hsn %>"/>                          
                         </div>
                       </div>
                       <div class="col-xs-1 col-sm-1 col-md-1">
@@ -95,7 +95,7 @@
                       <div class="col-xs-7 col-sm-7 col-md-7">
                         <div class="form-group">
                           Party Name
-                          <input autocomplete="off" id="partyname" type="text" value="<%= repair.partyname %>" placeholder="Party Name" class="form-control" style="text-transform: uppercase;"/>
+                          <input autocomplete="off" id="partyname" type="text" value="<%= repair.partyname %>" placeholder="Party Name" class="form-control" oninput="this.value = this.value.toUpperCase()"/>
                         </div>
                       </div>
                       <div class="col-xs-5 col-sm-5 col-md-5">
@@ -109,7 +109,7 @@
                       <div class="col-xs-7 col-sm-7 col-md-7">
                         <div class="form-group">
                           Invoice No : 
-                          <input autocomplete="off" id="invoice" type="text" value="<%= repair.invoice %>" placeholder="Invoice No" class="form-control" style="text-transform: uppercase;"/>
+                          <input autocomplete="off" id="invoice" type="text" value="<%= repair.invoice %>" placeholder="Invoice No" class="form-control" oninput="this.value = this.value.toUpperCase()"/>
                         </div>
                       </div>
                       <div class="col-xs-5 col-sm-5 col-md-5">

@@ -256,19 +256,19 @@
 $("#updatebtn").click(function() {
       const lrid = $('#lroption').find(":selected").data("lrid");
       const token = $('#logoutbtn').data("token")
-      const date = $('#date').val
-      const origin = $('#origin').val
-      const destination = $('#destination').val
-      const partyname = $('#partyname').val
-      const invoice = $('#invoice').val
-      const boxes = $('#boxes').val
-      const loadingcharges = $('#loadingcharges').val
-      const unloadingcharges = $('#unloadingcharges').val
-      const tolltax = $('#tolltax').val
-      const snt = $('#snt').val
-      const saletax = $('#saletax').val
-      const openingkm = $('#openingkm').val
-      const closingkm = $('#closingkm').val
+      const date = document.getElementById('date').value
+      const origin = document.getElementById('origin').value
+      const destination = document.getElementById('destination').value
+      const partyname = document.getElementById('partyname').value
+      const invoice = document.getElementById('invoice').value
+      const boxes = document.getElementById('boxes').value
+      const loadingcharges = document.getElementById('loadingcharges').value
+      const unloadingcharges = document.getElementById('unloadingcharges').value
+      const tolltax = document.getElementById('tolltax').value
+      const snt = document.getElementById('snt').value
+      const saletax = document.getElementById('saletax').value
+      const openingkm = document.getElementById('openingkm').value
+      const closingkm = document.getElementById('closingkm').value
       const billed = $('#billed').prop('checked')
       $.ajax({
           type: "PATCH",
@@ -308,6 +308,26 @@ $("#updatebtn").click(function() {
           });
     }
 }
+
+      function forceKeyPressUppercase(e)
+        {
+          var charInput = e.keyCode;
+          if((charInput >= 97) && (charInput <= 122)) { // lowercase
+            if(!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
+              var newChar = charInput - 32;
+              var start = e.target.selectionStart;
+              var end = e.target.selectionEnd;
+              e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+              e.target.setSelectionRange(start+1, start+1);
+              e.preventDefault();
+            }
+          }
+      }
+
+  document.getElementById("origin").addEventListener("keypress", forceKeyPressUppercase, false);
+  document.getElementById("destination").addEventListener("keypress", forceKeyPressUppercase, false);
+  document.getElementById("partyname").addEventListener("keypress", forceKeyPressUppercase, false);
+  document.getElementById("invoice").addEventListener("keypress", forceKeyPressUppercase, false);
   </script>
 
   </body>

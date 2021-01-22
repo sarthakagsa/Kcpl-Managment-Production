@@ -99,7 +99,7 @@ router.post('/lr/:token',auth,async(req,res)=>{
 
 router.patch('/lr/update/:lrid/:token',auth,async(req,res)=>{
     const updates = Object.keys(req.body)
-    const allowedUpdates =['date','origin','siliguri','destination','partyname','invoice','boxes','loadingcharges','unloadingcharges','tolltax','snt','saletax','openingkm','closingkm','billed']
+    const allowedUpdates =['date','origin','destination','partyname','invoice','boxes','loadingcharges','unloadingcharges','tolltax','snt','saletax','openingkm','closingkm','billed']
     const isValidOperation = updates.every((update)=> allowedUpdates.includes(update))
     if (!isValidOperation) {
         return res.status(400).send({ error: 'Invalid Updates!'})       
@@ -110,8 +110,8 @@ router.patch('/lr/update/:lrid/:token',auth,async(req,res)=>{
             return res.status(404).send({error : "LR is not found"})
         }
         updates.every((update)=> lr[update] = req.body[update] )
-        await lr.save()
-        res.send({lr,token : req.token})
+        const savedlr =  await lr.save()
+        res.send({savedlr,token : req.token})
     } catch (e) {
         return res.status(404).send(e)
     }
@@ -159,11 +159,11 @@ router.post('/lr/view/:token',auth,async (req,res)=>{
             }
             return res.send({lr : lr})
         }
-        const lr = await Lr.find({vechileid: req.body.vechileid,consignorid : req.body.consignorid,billed : false})
+        const lr = await Lr.find({vechileid: req.body.vechileid,consignorid : req.body.consignorid,billed : false}).sort({lrnumber : 1}).collation({locale: "en_US", numericOrdering: true})
         if (!lr[0]) {
             return res.status(400).send({error: ' No such file found'})
         }
-        res.send({lr : lr})
+        res.send({lr : sortedlr})
     } catch (error) {
         res.status(400).send(error)
     }
