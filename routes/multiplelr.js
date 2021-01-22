@@ -3,7 +3,7 @@ const express = require('express')
 const router = new express.Router()
 const User = require('../models/user')
 const Vechile = require('../models/vechile')
-const Lr = require('../models/llr')
+const Lr = require('../models/multiplelr')
 const Consignor = require('../models/consignor')
 const ExcelJs = require('exceljs')
 
@@ -22,7 +22,7 @@ function dynamicSort(property) {
     }
 }
 
-router.get('/lr/add/:token',auth,async (req,res)=>{
+router.get('/multiplelr/add/:token',auth,async (req,res)=>{
     try {
         const vechile = await Vechile.find({owner : req.user._id})
         if (!vechile) {
@@ -32,7 +32,7 @@ router.get('/lr/add/:token',auth,async (req,res)=>{
         if (!consignor) {
             return res.status(400).send({error : 'The consignor is not associated with this user'})
         }
-        res.render('lr/Addlr',{user:req.user,token: req.token,vechile:vechile,consignor:consignor})
+        res.render('multiplelr/Addlr',{user:req.user,token: req.token,vechile:vechile,consignor:consignor})
     } catch (error) {
         res.status(400).send(error)
     }

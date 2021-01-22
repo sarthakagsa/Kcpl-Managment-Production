@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 
-const LRSchema = new mongoose.Schema({
+const multipleLrSchema = new mongoose.Schema({
     date : {
         type : String,
         validate(value){
@@ -11,50 +11,42 @@ const LRSchema = new mongoose.Schema({
         },
         required : true
     },
-    origin : {
-        type : String,
-        required : true
-    },
     lrnumber : {
         type : Number,
         unique : true,
         required : true
     },
-    partyname : {
-        type : String,
-        required : true
-    },
-    destination : {
-        type : String,
-        required : true
-    },
-    invoice : {
-        type : String,
-        required : true
-    },
+    details : [
+        {
+            partyname : {
+                type : String,
+                required : true
+            },
+            destination : {
+                type : String,
+                required : true
+            },
+            invoice : {
+                type : String
+            },
+            invoicedate : {
+                type : String,
+                validate(value){
+                    if (!validator.isDate(value,{format: 'YYYY-MM-DD'})) {
+                        throw new Error('Date is invalid')
+                    }
+                }
+            }
+        }
+    ],
     boxes : {
         type : Number,
         required : true
-    },
-    loadingcharges : {
-        type : Number
-    },
-    unloadingcharges : {
-        type : Number
     },
     openingkm:{
         type : Number
     },
     closingkm : {
-        type : Number
-    },
-    tolltax : {
-        type : Number
-    },
-    snt : {
-        type : Number
-    },
-    saletax : {
         type : Number
     },
     vechileid : {
@@ -71,13 +63,8 @@ const LRSchema = new mongoose.Schema({
         type : Boolean,
         default : false
     }
-    // consigneeid : {
-    //     type : mongoose.Schema.Types.ObjectId,
-    //     required : true,
-    //     ref : 'Consignee'
-    // }
 })
 
-const LR = mongoose.model('LR',LRSchema)
+const LR = mongoose.model('multipleLr',multipleLrSchema)
 
 module.exports = LR
