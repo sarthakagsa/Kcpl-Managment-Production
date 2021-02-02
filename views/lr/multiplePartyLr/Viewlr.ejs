@@ -33,10 +33,10 @@
         <a class="nav-link" href="/home/<%= token %>">Home</a>
       </li>  
       <li class="nav-item active">
-        <a class="nav-link" href="/lr/view/single/<%= token %>">View Single LR</a>
+        <a class="nav-link" href="/lr/multiplepartylr/view/single/<%= token %>">View Single LR</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="/lr/add/<%= token %>">Add LR</a>
+        <a class="nav-link" href="/lr/multiplepartylr/add/<%= token %>">Add LR</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
@@ -140,7 +140,7 @@
         const token = $('#logoutbtn').data("token")
         $.ajax({
           type: "POST",
-          url: '/lr/view/'+token,
+          url: '/lr/singlepartylr/view/'+token,
           contentType: "application/json",
           processData: false,
           data:  JSON.stringify({consignorid : consignorid,vechileid : vechileid})
@@ -188,7 +188,7 @@
       }
       $.ajax({
           type: "POST",
-          url: '/lr/billlr/'+token,
+          url: '/lr/singlepartylr/billlr/'+token,
           contentType: "application/json",
           processData: false,
           data:  JSON.stringify(lr)

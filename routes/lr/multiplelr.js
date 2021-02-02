@@ -1,10 +1,9 @@
-const auth = require('../middleware/auth')
+const auth = require('../../middleware/auth')
 const express = require('express')
 const router = new express.Router()
-const User = require('../models/user')
-const Vechile = require('../models/vechile')
-const Lr = require('../models/llr')
-const Consignor = require('../models/consignor')
+const Vechile = require('../../models/vechile')
+const Lr = require('../../models/multiplelr')
+const Consignor = require('../../models/consignor')
 const ExcelJs = require('exceljs')
 
 function dynamicSort(property) {
@@ -22,7 +21,7 @@ function dynamicSort(property) {
     }
 }
 
-router.get('/lr/add/:token',auth,async (req,res)=>{
+router.get('/lr/multiplepartylr/add/:token',auth,async (req,res)=>{
     try {
         const vechile = await Vechile.find({owner : req.user._id})
         if (!vechile) {
@@ -32,13 +31,13 @@ router.get('/lr/add/:token',auth,async (req,res)=>{
         if (!consignor) {
             return res.status(400).send({error : 'The consignor is not associated with this user'})
         }
-        res.render('lr/Addlr',{user:req.user,token: req.token,vechile:vechile,consignor:consignor})
+        res.render('lr/multiplePartyLr/Addlr',{user:req.user,token: req.token,vechile:vechile,consignor:consignor})
     } catch (error) {
         res.status(400).send(error)
     }
 })
 
-router.get('/lr/view/:token',auth,async (req,res)=>{
+router.get('/lr/multiplepartylr/view/:token',auth,async (req,res)=>{
     try {
         const vechile = await Vechile.find({owner : req.user._id})
         if (!vechile) {
@@ -48,13 +47,13 @@ router.get('/lr/view/:token',auth,async (req,res)=>{
         if (!consignor) {
             return res.status(400).send({error : 'The consignor is not associated with this user'})
         }
-        res.render('lr/Viewlr',{user:req.user,token: req.token,vechile:vechile,consignor:consignor})
+        res.render('lr/multiplePartyLr/Viewlr',{user:req.user,token: req.token,vechile:vechile,consignor:consignor})
     } catch (error) {
         res.status(400).send(error)
     }
 })
 //Get single LRs
-router.get('/lr/view/single/:token',auth,async (req,res)=>{
+router.get('/lr/multiplepartylr/view/single/:token',auth,async (req,res)=>{
     try {
         const lr = []
         const vechile = await Vechile.find({owner : req.user._id})
@@ -72,13 +71,13 @@ router.get('/lr/view/single/:token',auth,async (req,res)=>{
             return res.status(400).send({error : 'The consignor is not associated with this user'})
         }
         const sortedlr = lr.sort(dynamicSort("-lrnumber"))
-        res.render('lr/Singlelr',{lr : sortedlr,user:req.user,token: req.token,vechile:vechile,consignor:consignor})
+        res.render('lr/multiplePartyLr/Singlelr',{lr : sortedlr,user:req.user,token: req.token,vechile:vechile,consignor:consignor})
     } catch (error) {
         res.status(400).send(error)
     }
 })
 
-router.post('/lr/:token',auth,async(req,res)=>{
+router.post('/lr/multiplepartylr/:token',auth,async(req,res)=>{
     try {
         const vechile = await Vechile.findOne({_id : req.body.vechileid,owner : req.user._id})
         if (!vechile) {
@@ -97,13 +96,21 @@ router.post('/lr/:token',auth,async(req,res)=>{
     }
 })
 
-router.patch('/lr/update/:lrid/:token',auth,async(req,res)=>{
+router.patch('/lr/multiplepartylr/update/:lrid/:token',auth,async(req,res)=>{
     const updates = Object.keys(req.body)
-    const allowedUpdates =['date','origin','destination','partyname','invoice','boxes','loadingcharges','unloadingcharges','tolltax','snt','saletax','openingkm','closingkm','billed']
+    const allowedUpdates =['details','date','openingkm','closingkm','billed']
     const isValidOperation = updates.every((update)=> allowedUpdates.includes(update))
     if (!isValidOperation) {
         return res.status(400).send({ error: 'Invalid Updates!'})       
     }
+    req.body.details.forEach(element => {
+        const partsUpdates = Object.keys(element)
+        const partsAllowedUpdates = ['partyname','destination','invoice','invoicedate','boxes','returnboxes']
+        const isValidOperation = partsUpdates.every((update)=>partsAllowedUpdates.includes(update))
+        if (!isValidOperation) {
+            return res.status(400).send({ error: 'Invalid Updates!'})       
+        }
+    })
     try {
         const lr = await Lr.findOne({_id : req.params.lrid})     
          if (!lr) {
@@ -118,7 +125,7 @@ router.patch('/lr/update/:lrid/:token',auth,async(req,res)=>{
     }
 })
 
-router.get('/lr/:lrid/:token',auth,async (req,res)=>{
+router.get('/lr/multiplepartylr/:lrid/:token',auth,async (req,res)=>{
     try {
         const lr = await Lr.findOne({_id: req.params.lrid})
         if (!lr) {
@@ -130,7 +137,7 @@ router.get('/lr/:lrid/:token',auth,async (req,res)=>{
     }
 })
 
-router.delete('/lr/:lrid/:token',auth,async (req,res)=>{
+router.delete('/lr/multiplepartylr/:lrid/:token',auth,async (req,res)=>{
     try {
         const lr = await Lr.findOne({_id: req.params.lrid})
         if (!lr) {
@@ -144,7 +151,7 @@ router.delete('/lr/:lrid/:token',auth,async (req,res)=>{
 })
 
 //Get All LRS
-router.post('/lr/view/:token',auth,async (req,res)=>{
+router.post('/lr/multiplepartylr/view/:token',auth,async (req,res)=>{
     try {
         if (!req.body.vechileid) {
             const lr = await Lr.find({consignorid : req.body.consignorid,billed : false}).sort({lrnumber : 1}).collation({locale: "en_US", numericOrdering: true})
@@ -172,7 +179,7 @@ router.post('/lr/view/:token',auth,async (req,res)=>{
 
 //Get Selected LR for billing
 
-router.post('/lr/billlr/:token',auth,async (req,res)=>{
+router.post('/lr/multiplepartylr/billlr/:token',auth,async (req,res)=>{
     try {
         const billedlr = []
         const lrs = req.body

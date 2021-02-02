@@ -36,13 +36,17 @@ const multipleLrSchema = new mongoose.Schema({
                         throw new Error('Date is invalid')
                     }
                 }
-            }
+            },
+            boxes : {
+                type : Number,
+                required : true
+            },
+            returnboxes : {
+                type : Number,
+                required : true
+            },
         }
     ],
-    boxes : {
-        type : Number,
-        required : true
-    },
     openingkm:{
         type : Number
     },

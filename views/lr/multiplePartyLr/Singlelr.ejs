@@ -33,10 +33,10 @@
         <a class="nav-link" href="/home/<%= token %>">Home</a>
       </li>  
       <li class="nav-item active">
-        <a class="nav-link" href="/lr/add/<%= token %>">Add LR</a>
+        <a class="nav-link" href="/lr/multiplepartylr/add/<%= token %>">Add LR</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="/lr/view/<%= token %>">View LR</a>
+        <a class="nav-link" href="/lr/multiplepartylr/view/<%= token %>">View LR</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
@@ -77,101 +77,70 @@
       <button class="btn btn-success container mb-2" id="submitbtn">Submit</button>
   </div>
 
-  <div class="container" style="display: none;" id="lrdetails" >
+  <div class="container" id="lrdetailsbox" style = "display: none;">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-2">
           <div class="form-group">
               Date
-              <input class="form-control" id="date" type="date" value="" max="">
+              <input class="form-control" id="dates" type="date">
            </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-          <div class="form-group">
-              Origin
-              <input class="form-control" id="origin" type="text" placeholder="Origin">
-           </div>
-      </div>
-      <div class="col-md-6">
-          <div class="form-group">
-              Destination
-              <input class="form-control" id="destination" type="text" placeholder="Destination">
-           </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-          <div class="form-group">
-              Party Name 
-              <input class="form-control" id="partyname" type="text" placeholder="Party Name">
-           </div>
-      </div>
-      <div class="col-md-6">
-          <div class="form-group">
-              Invoice No
-              <input class="form-control" id="invoice" type="text" placeholder="Invoice">
-           </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">
-          <div class="form-group">
-              C/B 
-              <input class="form-control" id="boxes" type="number" placeholder="Boxes">
-           </div>
-      </div>
-      <div class="col-md-2">
-          <div class="form-group">
-              Loading Charges
-              <input class="form-control" id="loadingcharges" type="number" placeholder="Loading Charges">
-           </div>
-      </div>
-      <div class="col-md-2">
-          <div class="form-group">
-              Unloading Charges 
-              <input class="form-control" id="unloadingcharges" type="number" placeholder="Unloading Charges">
-           </div>
-      </div>
-      <div class="col-md-2">
-          <div class="form-group">
-              Toll Tax
-              <input class="form-control" id="tolltax" type="number" placeholder="Toll Tax">
-           </div>
-      </div>
-      <div class="col-md-2">
-          <div class="form-group">
-              SNT
-              <input class="form-control" id="snt" type="number" placeholder="SNT">
-           </div>
-      </div>
-      <div class="col-md-2">
-          <div class="form-group">
-              Sale Tax
-              <input class="form-control" id="saletax" type="number" placeholder="Sale Tax">
-           </div>
-      </div>
-    </div>
-    <div class="row">          
-      <div class="col-md-5">
+      </div>         
+      <div class="col-md-4">
           <div class="form-group">
               Opening Km
               <input class="form-control" id="openingkm" type="number" placeholder="Opening KM">
            </div>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-4">
           <div class="form-group">
               Closing Km
               <input class="form-control" id="closingkm" type="number" placeholder="Closing KM">
            </div>
       </div>
       <div class="col-md-2">
-        <div class="form-group">
+        <div class="form-group text-center">
             Billed
             <input class="form-control" id="billed" type="checkbox">
          </div>
       </div>
     </div>
+  </div>
+  <div class="container" id="lrdetails" style = "display: none;"> 
+    <div class="row">
+      <div class="col-xs-2 col-sm-2 col-md-2">
+          <div class="form-group">
+              Party Name
+          </div>
+      </div>
+      <div class="col-xs-2 col-sm-2 col-md-2">
+          <div class="form-group">
+              Destination
+          </div>
+      </div>
+      <div class="col-xs-2 col-sm-2 col-md-2">
+          <div class="form-group">
+              Invoice
+          </div>
+      </div>
+      <div class="col-xs-2 col-sm-2 col-md-2">
+          <div class="form-group">
+              Invoice Date
+           </div>
+      </div> 
+      <div class="col-xs-2 col-sm-2 col-md-2">
+          <div class="form-group">
+              No of Cases:
+          </div>
+      </div>
+      <div class="col-xs-2 col-sm-2 col-md-2">
+          <div class="form-group">
+              No of returned Cases:
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-2" id="btns" style="display: none;">
     <button class="btn btn-secondary container mb-2" id="updatebtn">Update</button>
     <button class="btn btn-danger container mb-2" onclick="confirmation();" id="deletetbh">Delete Repair</button>
   </div>
@@ -195,33 +164,74 @@
           });
     })
     $("#submitbtn").click(function() {
+      const x = document.getElementById("lrdetails");
         const lrid = $('#lroption').find(":selected").data("lrid");
         const token = $('#logoutbtn').data("token")
         $.ajax({
           type: "GET",
-          url: '/lr/'+lrid+'/'+token,
+          url: '/lr/multiplepartylr/'+lrid+'/'+token,
           contentType: "application/json",
           processData: false
       }).done(function (data) {
           const lr = data
-          $('#date').val(lr.date)
-          $('#origin').val(lr.origin)
-          $('#destination').val(lr.destination)
-          $('#partyname').val(lr.partyname)
-          $('#invoice').val(lr.invoice)
-          $('#boxes').val(lr.boxes)
-          $('#loadingcharges').val(lr.loadingcharges)
-          $('#unloadingcharges').val(lr.unloadingcharges)
-          $('#tolltax').val(lr.tolltax)
-          $('#snt').val(lr.snt)
-          $('#saletax').val(lr.saletax)
-          $('#openingkm').val(lr.openingkm)
-          $('#closingkm').val(lr.closingkm)
+          document.getElementById("dates").value = lr.date;
+          document.getElementById("openingkm").value = lr.openingkm;
+          document.getElementById("closingkm").value = lr.closingkm;
           $('#billed').prop('checked',lr.billed)
-            const x = document.getElementById("lrdetails");
+          var count = 0
+          lr.details.forEach(detail => {
+            $('#lrdetails').append('<div class = "row mt-1" ><div class="col-xs-2 col-sm-2 col-md-2"><input  id="list['+count+'][0]" type="text" value="'+detail.partyname+'" class="form-control" oninput="this.value = this.value.toUpperCase()" /></div><div class="col-xs-2 col-sm-2 col-md-2"><input id="list['+count+'][1]" type="text" value="'+detail.destination+'n" class="form-control" oninput="this.value = this.value.toUpperCase()" /></div><div class="col-xs-2 col-sm-2 col-md-2"><input  id="list['+count+'][2]" type="text" value="'+detail.invoice+'" class="form-control" oninput="this.value = this.value.toUpperCase()" /></div><div class="col-xs-2 col-sm-2 col-md-2"><input  id="list['+count+'][3]" type="date" value="'+detail.invoicedate+'" class="form-control" oninput="this.value = this.value.toUpperCase()" /></div><div class="col-xs-2 col-sm-2 col-md-2"><input  id="list['+count+'][4]" type="number" value="'+detail.boxes+'" class="form-control" oninput="this.value = this.value.toUpperCase()" /></div><div class="col-xs-2 col-sm-2 col-md-2"><input  id="list['+count+'][5]" type="number" value="'+detail.returnboxes+'" class="form-control" oninput="this.value = this.value.toUpperCase()" /></div></div>')
+            count++
+          });
+          const x = document.getElementById("lrdetails");
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            } 
+            const y = document.getElementById("lrdetailsbox");
+            if (y.style.display === "none") {
+              y.style.display = "block";
+            }
+            const z = document.getElementById("btns");
+            if (z.style.display === "none") {
+              z.style.display = "block";
+            }
+     $("#updatebtn").click( function() {
+         var m = lr.details.length
+         var l =0
+         const details = []
+       while (l>m) {
+         details.push({
+           partyname : document.getElementById('list['+m+'][0]').value,
+           destination : document.getElementById('list['+m+'][1]').value,
+           invoice : document.getElementById('list['+m+'][2]').value,
+           invoicedate : document.getElementById('list['+m+'][3]').value,
+           boxes : document.getElementById('list['+m+'][4]').value,
+           returnboxes : document.getElementById('list['+m+'][5]').value
+         })
+         l++;
+       }
+       const date = document.getElementById('dates').value
+       const openingkm = document.getElementById('openingkm').value
+       const closingkm = document.getElementById('closingkm').value
+       const billed = $('#billed').prop('checked')
+       const token = $('#logoutbtn').data("token")
+       const lrid = $('#lroption').find(":selected").data("lrid");
+       $.ajax({
+          type: "PATCH",
+          url: '/lr/multiplepartylr/update/'+lrid+'/'+token,
+          contentType: "application/json",
+          processData: false,
+          data:  JSON.stringify({details : details,date :date,openingkm : openingkm,closingkm : closingkm,billed : billed})
+      }).done(function (data) {
+          window.open('/lr/multiplepartylr/view/single/'+data.token,'_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
             if (x.style.display === "none") {
               x.style.display = "block";
             }
+          });
+       })
         }).fail(function ( jqXHR, textStatus, errorThrown) {
             const x = document.getElementById("errorbox");
             document.getElementById("errorbox").innerHTML = "Desired option is not appropriate";
@@ -253,40 +263,6 @@
     }
 });
 
-$("#updatebtn").click(function() {
-      const lrid = $('#lroption').find(":selected").data("lrid");
-      const token = $('#logoutbtn').data("token")
-      const date = document.getElementById('date').value
-      const origin = document.getElementById('origin').value
-      const destination = document.getElementById('destination').value
-      const partyname = document.getElementById('partyname').value
-      const invoice = document.getElementById('invoice').value
-      const boxes = document.getElementById('boxes').value
-      const loadingcharges = document.getElementById('loadingcharges').value
-      const unloadingcharges = document.getElementById('unloadingcharges').value
-      const tolltax = document.getElementById('tolltax').value
-      const snt = document.getElementById('snt').value
-      const saletax = document.getElementById('saletax').value
-      const openingkm = document.getElementById('openingkm').value
-      const closingkm = document.getElementById('closingkm').value
-      const billed = $('#billed').prop('checked')
-      $.ajax({
-          type: "PATCH",
-          url: '/lr/update/'+lrid+'/'+token,
-          contentType: "application/json",
-          processData: false,
-          data:  JSON.stringify({date : date,origin : origin, destination : destination, partyname : partyname,invoice : invoice,boxes : boxes, loadingcharges : loadingcharges, unloadingcharges : unloadingcharges,tolltax : tolltax,snt : snt, saletax : saletax,openingkm : openingkm,closingkm : closingkm,billed : billed})
-      }).done(function (data) {
-          window.open('/lr/view/single/'+data.token,'_self',false)
-        }).fail(function ( jqXHR, textStatus, errorThrown) {
-            const x = document.getElementById("errorbox");
-            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
-            if (x.style.display === "none") {
-              x.style.display = "block";
-            }
-          });
-    })
-
     function confirmation(){
     var result = confirm("Are you sure you want to delete?");
     if(result){
@@ -294,11 +270,11 @@ $("#updatebtn").click(function() {
       const token = $('#logoutbtn').data("token")
       $.ajax({
           type: "DELETE",
-          url: '/lr/'+lrid+'/'+token,
+          url: '/lr/multiplepartylr/'+lrid+'/'+token,
           contentType: "application/json",
           processData: false
       }).done(function (data) {
-        window.open('/lr/view/single/'+data.token,'_self',false)
+        window.open('/lr/multiplepartylr/view/single/'+data.token,'_self',false)
         }).fail(function ( jqXHR, textStatus, errorThrown) {
             const x = document.getElementById("errorbox");
             document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
@@ -308,26 +284,6 @@ $("#updatebtn").click(function() {
           });
     }
 }
-
-      function forceKeyPressUppercase(e)
-        {
-          var charInput = e.keyCode;
-          if((charInput >= 97) && (charInput <= 122)) { // lowercase
-            if(!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
-              var newChar = charInput - 32;
-              var start = e.target.selectionStart;
-              var end = e.target.selectionEnd;
-              e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
-              e.target.setSelectionRange(start+1, start+1);
-              e.preventDefault();
-            }
-          }
-      }
-
-  document.getElementById("origin").addEventListener("keypress", forceKeyPressUppercase, false);
-  document.getElementById("destination").addEventListener("keypress", forceKeyPressUppercase, false);
-  document.getElementById("partyname").addEventListener("keypress", forceKeyPressUppercase, false);
-  document.getElementById("invoice").addEventListener("keypress", forceKeyPressUppercase, false);
 
   var today = new Date();
   var dd = today.getDate();
@@ -341,8 +297,8 @@ $("#updatebtn").click(function() {
       } 
 
   today = yyyy+'-'+mm+'-'+dd;
-  document.getElementById("date").setAttribute("max", today);
-  document.getElementById("date").setAttribute("value", today);
+  document.getElementById("dates").setAttribute("max", today);
+  document.getElementById("dates").setAttribute("value", today);
   </script>
 
   </body>

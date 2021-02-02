@@ -33,10 +33,10 @@
         <a class="nav-link" href="/home/<%= token %>">Home</a>
       </li> 
       <li class="nav-item active">
-        <a class="nav-link" href="/lr/view/single/<%= token %>">View Single LR</a>
+        <a class="nav-link" href="/lr/singlepartylr/view/single/<%= token %>">View Single LR</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="/lr/view/<%= token %>">View LR</a>
+        <a class="nav-link" href="/lr/singlepartylr/view/<%= token %>">View LR</a>
       </li> 
     </ul>
     <ul class="navbar-nav ml-auto">
@@ -215,12 +215,12 @@
         const token = $('#logoutbtn').data("token")
         $.ajax({
           type: "POST",
-          url: '/lr/'+token,
+          url: '/lr/singlepartylr/'+token,
           contentType: "application/json",
           processData: false,
           data:  JSON.stringify({consignorid : consignorid,vechileid : vechileid,date : date,lrnumber : lrnumber,origin : origin, destination : destination, partyname : partyname,invoice : invoice,boxes : boxes, loadingcharges : loadingcharges, unloadingcharges : unloadingcharges,tolltax : tolltax,snt : snt, saletax : saletax,openingkm : openingkm,closingkm : closingkm})
       }).done(function (data) {
-        window.open('/lr/add/'+data.token,'_self',false)
+        window.open('/lr/singlepartylr/add/'+data.token,'_self',false)
         }).fail(function ( jqXHR, textStatus, errorThrown) {
             const x = document.getElementById("errorbox");
             document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;

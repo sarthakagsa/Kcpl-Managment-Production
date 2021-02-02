@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Kurseong Carrier Maintainence</title>
+    <link rel="icon" href="img/LOGO.png">
+  </head>
+  <body>
+
+    <div class="alert alert-danger" id="errorbox" role="alert" style="display: none;"></div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Navigation Bar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">Kurseong Carrier</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/home/<%= token %>">Home</a>
+      </li> 
+      <li class="nav-item active">
+        <a class="nav-link" href="/lr/multiplepartylr/view/single/<%= token %>">View Single LR</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/lr/multiplepartylr/view/<%= token %>">View LR</a>
+      </li> 
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <button class="btn btn-secondary ml-1" id="deletevechile">Welcome <%= user.name %></button>
+      <button class="btn btn-primary ml-1" data-token='<%= token %>' id="logoutbtn">Logout</button>
+   </ul>
+   
+  </div>
+</nav>
+
+  <!-- body Part-->
+  <div class="container text-secondary text-center mt-2"><h3>ADD LR</h3></div>
+
+  <div class="container mt-4">
+      <div class="row">
+          <div class="col-md-6">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Consignor</label>
+                </div>
+                <select class="custom-select" id="consignoroption">
+                  <option selected>Choose...</option>
+                  <% consignor.forEach(function(consignor){ %>
+                    <option data-consignorid="<%= consignor._id %>"><%= consignor.consignorname %></option>
+                    <% }); %>
+                </select>
+              </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Vechile No</label>
+                </div>
+                <select class="custom-select" id="vechileoption">
+                  <option selected>Choose...</option>
+                  <% vechile.forEach(function(vechile){ %>
+                    <option data-vechileid="<%= vechile._id%>"><%= vechile.vechileno %></option>
+                    <% }); %>
+                </select>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                Date
+                <input class="form-control"id="dates" type="date">
+             </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                LR
+                <input class="form-control" id="lrnumber" type="text" placeholder="LR NO:">
+             </div>
+        </div>
+      </div>
+      <div class="row">          
+        <div class="col-md-6">
+            <div class="form-group">
+                Opening Km
+                <input class="form-control" id="openingkm" type="number" placeholder="Opening KM">
+             </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                Closing Km
+                <input class="form-control" id="closingkm" type="number" placeholder="Closing KM">
+             </div>
+        </div>
+      </div>
+  </div>
+  <div class="container list_wrapper">  
+    <div class="row">
+        <div class="col-xs-2 col-sm-2 col-md-2">
+            <div class="form-group">
+                Party Name
+                <input name="list[0][]" id="list[0][0]" type="text" placeholder="Party Name" class="form-control" oninput="this.value = this.value.toUpperCase()" />                            
+            </div>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2">
+            <div class="form-group">
+                Destination
+                <input name="list[0][]" id="list[0][1]" type="text" placeholder="Destination" class="form-control" oninput="this.value = this.value.toUpperCase()"/>                          
+            </div>
+        </div>
+        <div class="col-xs-1 col-sm-1 col-md-1">
+            <div class="form-group">
+                Invoice
+                <input name="list[0][]" id="list[0][2]" type="text" placeholder="Invoice" class="form-control" />                        
+            </div>
+        </div>
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                <div class="form-group">
+                    Invoice Date
+                    <input class="form-control" id="list[0][3]" type="date">
+                 </div>
+            </div> 
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                <div class="form-group">
+                    No of Cases:
+                    <input name="list[0][]" id="list[0][4]" type="number" placeholder="Cases" class="form-control" />                        
+                </div>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                <div class="form-group">
+                    No of returned Cases:
+                    <input name="list[0][]" id="list[0][5]" type="number" placeholder="Returned Cases" class="form-control" />                        
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1 col-md-1">
+                <br>
+            <button class="btn btn-primary list_add_button" type="button">+</button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <button class="btn btn-success container mb-2" id="submitbtn">Submit</button>
+    </div>
+
+
+  <script>
+    $("#logoutbtn").click(function() {
+      const token = $('#logoutbtn').data("token")
+      $.ajax({
+          type: "POST",
+          url: '/users/logout/'+token,
+          contentType: "application/json",
+          processData: false,
+      }).done(function (data) {
+          window.open('/login','_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    })
+    function forceKeyPressUppercase(e)
+      {
+        var charInput = e.keyCode;
+        if((charInput >= 97) && (charInput <= 122)) { // lowercase
+          if(!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
+            var newChar = charInput - 32;
+            var start = e.target.selectionStart;
+            var end = e.target.selectionEnd;
+            e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+            e.target.setSelectionRange(start+1, start+1);
+            e.preventDefault();
+          }
+        }
+      }
+  document.getElementById("lrnumber").addEventListener("keypress", forceKeyPressUppercase, false);
+
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+  if(dd<10){
+          dd='0'+dd
+      } 
+      if(mm<10){
+          mm='0'+mm
+      } 
+
+  today = yyyy+'-'+mm+'-'+dd;
+  document.getElementById("dates").setAttribute("max", today);
+  document.getElementById("dates").setAttribute("value", today);
+
+
+  var x = 0; //Initial field counter
+  var list_maxField = 10000; //Input fields increment limitation
+  
+        //Once add button is clicked
+  $('.list_add_button').click(function()
+      {
+        //Check maximum number of input fields
+        if(x < list_maxField){ 
+            x++; //Increment field counter
+            var list_fieldHTML = '<div class="row"><div class="col-xs-2 col-sm-2 col-md-2"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][0]" type="text" placeholder="Party Name" class="form-control" oninput="this.value = this.value.toUpperCase()"/></div></div><div class="col-xs-2 col-sm-2 col-md-2"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][1]" type="text" placeholder="Destination" class="form-control" oninput="this.value = this.value.toUpperCase()"/></div></div><div class="col-xs-1 col-sm-1 col-md-1"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][2]" type="text" class="form-control"/></div></div><div class="col-xs-2 col-sm-2 col-md-2"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][3]" type="date" class="form-control"/></div></div><div class="col-xs-2 col-sm-2 col-md-2"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][4]" type="number" placeholder="Cases" class="form-control"/></div></div><div class="col-xs-2 col-sm-2 col-md-2"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][5]" type="number" placeholder="Returned Cases" class="form-control"/></div></div><div class="col-xs-1 col-sm-7 col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div></div>'; //New input field html 
+            $('.list_wrapper').append(list_fieldHTML); //Add field html
+        }
+            });
+        
+            //Once remove button is clicked
+            $('.list_wrapper').on('click', '.list_remove_button', function()
+            {
+            $(this).closest('div.row').remove(); //Remove field html
+            x--; //Decrement field counter            
+        });
+
+        $("#submitbtn").click( function() {
+         var m = x;
+         const details = []
+       while (m>= 0) {
+         details.push({
+           partyname : document.getElementById('list['+m+'][0]').value,
+           destination : document.getElementById('list['+m+'][1]').value,
+           invoice : document.getElementById('list['+m+'][2]').value,
+           invoicedate : document.getElementById('list['+m+'][3]').value,
+           boxes : document.getElementById('list['+m+'][4]').value,
+           returnboxes : document.getElementById('list['+m+'][5]').value,
+         })
+         m--;
+       }
+       const date = document.getElementById('dates').value
+       const lrnumber = document.getElementById('lrnumber').value
+       const openingkm = document.getElementById('openingkm').value
+       const closingkm = document.getElementById('closingkm').value
+       const token = $('#logoutbtn').data("token")
+       const consignorid = $('#consignoroption').find(":selected").data("consignorid");
+        const vechileid = $('#vechileoption').find(":selected").data("vechileid");
+        $.ajax({
+          type: "POST",
+          url: '/lr/multiplepartylr/'+token,
+          contentType: "application/json",
+          processData: false,
+          data:  JSON.stringify({consignorid : consignorid,vechileid : vechileid,date : date,lrnumber : lrnumber,openingkm : openingkm,closingkm : closingkm,details : details})
+      }).done(function (data) {
+        window.open('/lr/multiplepartylr/add/'+data.token,'_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+       })      
+
+  </script>
+
+  </body>
+</html>

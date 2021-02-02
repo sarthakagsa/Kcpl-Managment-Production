@@ -44,24 +44,34 @@
   <!-- body Part-->
 
 <div class="container">
+  <div class="row" style="margin-top: 2%;">
+    <div class="col-sm-6">
+      <div class="card border-primary">
+        <div class="card-body">
+          <h5 class="card-title">Add LR</h5>
+          <a href="/lr/multiplepartylr/add/<%= token %>" class="btn btn-primary">GO!</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card border-primary">
+        <div class="card-body">
+          <h5 class="card-title">View LR</h5>
+          <a href="/lr/multiplepartylr/view/<%= token %>" class="btn btn-primary">GO!</a>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="row mt-2" >
     <div class="col-sm-6">
       <div class="card border-primary">
         <div class="card-body">
-          <h5 class="card-title">Single Party LR</h5>
-          <a href="/lr/singlepartylr/<%= token %>" class="btn btn-primary">GO!</a>
+          <h5 class="card-title">View Single LR</h5>
+          <a href="/lr/multiplepartylr/view/single/<%= token %>" class="btn btn-primary">GO!</a>
         </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="card border-primary">
-        <div class="card-body">
-          <h5 class="card-title">Multiple Party LR</h5>
-          <a href="/lr/multiplepartylr/<%= token %>" class="btn btn-primary">GO!</a>
-        </div>
-      </div>
-    </div>
-  </div>    
+  </div>
 </div>
 
 
@@ -83,6 +93,7 @@
             }
           });
     })
+
   </script>
 
   </body>
