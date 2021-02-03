@@ -93,19 +93,15 @@
       <tr>
         <th scope="col">Checkbox</th>
         <th scope="col">Date</th>
-        <th scope="col">From</th>
         <th scope="col">LR</th>
-        <th scope="col">Party</th>
+        <th scope="col">Party Name</th>
         <th scope="col">Destination</th>
         <th scope="col">Invoice no</th>
-        <th scope="col">C/B</th>
-        <th scope="col">Loading</th>
-        <th scope="col">Unloading</th>
+        <th scope="col">Invoice Date</th>
+        <th scope="col">No of Cases</th>
+        <th scope="col">No of Return Cases</th>
         <th scope="col">Opening Km</th>
         <th scope="col">Closing Km</th>
-        <th scope="col">Toll Tax</th>
-        <th scope="col">SNT</th>
-        <th scope="col">Sale Tax</th>
         <th scope="col" style="display: none;"></th>
       </tr>
     </thead>
@@ -113,7 +109,7 @@
     </tbody>
   </table>
   <button class="container btn btn-success mt-2" id="billbtn" style="display: none;">Bill</button>
-  <a class="btn btn-primary container mt-2" id="exportbtn" href="/downloadlr/<%= token%>" style="display: none;">Export</a>
+  <a class="btn btn-primary container mt-2" id="exportbtn" href="/downloadmultiplepartylr/<%= token%>" style="display: none;">Export</a>
 
 
   <script>
@@ -140,14 +136,16 @@
         const token = $('#logoutbtn').data("token")
         $.ajax({
           type: "POST",
-          url: '/lr/singlepartylr/view/'+token,
+          url: '/lr/multiplepartylr/view/'+token,
           contentType: "application/json",
           processData: false,
           data:  JSON.stringify({consignorid : consignorid,vechileid : vechileid})
       }).done(function (data) {
         var count = 0;
           data.lr.forEach(lr => {
-            $('#lrbody').after('<tr><td><input type="checkbox" name ="chk1" value = "'+count+'" /></td><th scope="row">'+lr.date+'</th> <td>'+lr.origin+'</td> <td id="list['+count+']">'+lr.lrnumber+'</td> <td>'+lr.partyname+'</td> <td>'+lr.destination+'</td> <td>'+lr.invoice+'</td><td>'+lr.boxes+'</td> <td >'+lr.loadingcharges+'</td><td> '+lr.unloadingcharges+'</td><td> '+lr.openingkm+'</td><td >'+lr.closingkm+'</td><td >'+lr.tolltax+'</td><td >'+lr.snt+'</td><td >'+lr.saletax+'</td> <td id="list['+count+'][0]"  style="display: none;">'+lr._id+'</td> </tr>');
+            lr.details.forEach(detail => {
+              $('#lrbody').after('<tr><td><input type="checkbox" name ="chk1" value = "'+count+'" /></td><th scope="row">'+lr.date+'</th> <td id="list['+count+']">'+lr.lrnumber+'</td> <td>'+detail.partyname+'</td> <td>'+detail.destination+'</td> <td>'+detail.invoice+'</td><td>'+detail.invoicedate+'</td> <td >'+detail.boxes+'</td><td> '+lr.returnboxes+'</td><td> '+lr.openingkm+'</td><td >'+lr.closingkm+'</td> <td id="list['+count+'][0]"  style="display: none;">'+lr._id+'</td> </tr>');
+            });
             count++;
             const l = document.getElementById("notificationbox");
             if (l.style.display === "none"){
@@ -169,8 +167,6 @@
     })
 
     $("#billbtn").click(function() {
-      const vechileid = $('#vechileoption').find(":selected").data("vechileid");
-      console.log(vechileid);
       const token = $('#logoutbtn').data("token")
       var arr_id = [];	
       const lr = [];	
@@ -188,7 +184,7 @@
       }
       $.ajax({
           type: "POST",
-          url: '/lr/singlepartylr/billlr/'+token,
+          url: '/lr/multiplepartylr/billlr/'+token,
           contentType: "application/json",
           processData: false,
           data:  JSON.stringify(lr)

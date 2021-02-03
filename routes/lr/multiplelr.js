@@ -181,23 +181,26 @@ router.post('/lr/multiplepartylr/view/:token',auth,async (req,res)=>{
 
 router.post('/lr/multiplepartylr/billlr/:token',auth,async (req,res)=>{
     try {
-        const billedlr = []
-        const lrs = req.body
+        let billedlr = []
+        let lrs = req.body
+        lrs = lrs.filter((lr, index, self) =>
+            index === self.findIndex((t) => (
+                t.lrid === lr.lrid && t.lrnumber === lr.lrnumber
+            ))
+        )
         const workbook = new ExcelJs.Workbook();
         const worksheet = workbook.addWorksheet('LR');
         worksheet.columns = [
-            {header: 'S.no', key: 's_no', width: 10},
             {header: 'Date', key: 'date', width: 10},
-            {header: 'Origin', key: 'origin', width: 10},
+            {header: 'LR', key: 'lrnumber', width: 10},
             {header: 'Party Name', key: 'partyname', width: 30},
             {header: 'Destination', key: 'destination', width: 10},
             {header: 'Invoice No', key: 'invoice', width: 40},
-            {header: 'LR', key: 'lrnumber', width: 10},
-            {header: 'C/B', key: 'boxes', width: 10},
+            {header: 'Invoice Date', key: 'invoicedate', width: 15},
+            {header: 'No of Cases', key: 'boxes', width: 10},
+            {header: 'No of Return Cases', key: 'returnboxes', width: 10},
             {header: 'Opening KM', key: 'openingkm', width: 10},
             {header: 'Closing KM', key: 'closingkm', width: 10},
-            {header: 'Loading Charges', key: 'loadingcharges', width: 10},
-            {header: 'Unloading Charges', key: 'unloadingcharges', width: 10}
         ];
         lrs.forEach(async(lr) => {
             const billlr = await Lr.findById(lr.lrid)
@@ -207,15 +210,20 @@ router.post('/lr/multiplepartylr/billlr/:token',auth,async (req,res)=>{
             cell.font = {bold: true};
         });
         await Lr.find()
-        let count = 1;
         billedlr.forEach(lr => {
-            lr.s_no = count;
-            worksheet.addRow(lr);
-            count += 1;
-            lr.billed = true
+            lr.details.forEach(detail => {
+                lr.partyname= detail.partyname;
+                lr.destination= detail.destination;
+                lr.invoice= detail.invoice;
+                lr.invoicedate= detail.invoicedate;
+                lr.boxes= detail.boxes;
+                lr.returnboxes= detail.returnboxes;
+                worksheet.addRow(lr);
+            });            
+            // lr.billed = true
             lr.save()
         });
-        await workbook.xlsx.writeFile('lr.xlsx')
+        await workbook.xlsx.writeFile('multiplepartylr.xlsx')
         res.send({token : req.token})
         } catch (error) {
             res.status(400).send(error)

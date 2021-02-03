@@ -199,14 +199,14 @@
          var m = lr.details.length
          var l =0
          const details = []
-       while (l>m) {
+       while (l<m) {
          details.push({
-           partyname : document.getElementById('list['+m+'][0]').value,
-           destination : document.getElementById('list['+m+'][1]').value,
-           invoice : document.getElementById('list['+m+'][2]').value,
-           invoicedate : document.getElementById('list['+m+'][3]').value,
-           boxes : document.getElementById('list['+m+'][4]').value,
-           returnboxes : document.getElementById('list['+m+'][5]').value
+           partyname : document.getElementById('list['+l+'][0]').value,
+           destination : document.getElementById('list['+l+'][1]').value,
+           invoice : document.getElementById('list['+l+'][2]').value,
+           invoicedate : document.getElementById('list['+l+'][3]').value,
+           boxes : document.getElementById('list['+l+'][4]').value,
+           returnboxes : document.getElementById('list['+l+'][5]').value
          })
          l++;
        }
@@ -216,6 +216,7 @@
        const billed = $('#billed').prop('checked')
        const token = $('#logoutbtn').data("token")
        const lrid = $('#lroption').find(":selected").data("lrid");
+       console.log(details);
        $.ajax({
           type: "PATCH",
           url: '/lr/multiplepartylr/update/'+lrid+'/'+token,

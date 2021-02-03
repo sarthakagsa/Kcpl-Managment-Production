@@ -130,7 +130,7 @@
             <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     Invoice Date
-                    <input class="form-control" id="list[0][3]" type="date">
+                    <input class="form-control" id="list[0][3]" type="date" value="null">
                  </div>
             </div> 
             <div class="col-xs-2 col-sm-2 col-md-2">
@@ -231,6 +231,7 @@
          var m = x;
          const details = []
        while (m>= 0) {
+         console.log(document.getElementById('list['+m+'][3]').value);
          details.push({
            partyname : document.getElementById('list['+m+'][0]').value,
            destination : document.getElementById('list['+m+'][1]').value,

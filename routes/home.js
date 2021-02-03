@@ -21,6 +21,9 @@ router.get('/lr/me/:token',auth,(req,res)=>{
 router.get('/downloadlr/:token',auth,(req,res)=>{
     res.download('lr.xlsx')
 })
+router.get('/downloadmultiplepartylr/:token',auth,(req,res)=>{
+    res.download('multiplepartylr.xlsx')
+})
 
 
 

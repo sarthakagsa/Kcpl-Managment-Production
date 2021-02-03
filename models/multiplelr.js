@@ -31,19 +31,17 @@ const multipleLrSchema = new mongoose.Schema({
             },
             invoicedate : {
                 type : String,
-                validate(value){
-                    if (!validator.isDate(value,{format: 'YYYY-MM-DD'})) {
+                validate(value){                    
+                    if (!validator.isDate(value,{format: 'YYYY-MM-DD'})& value) {
                         throw new Error('Date is invalid')
                     }
                 }
             },
             boxes : {
-                type : Number,
-                required : true
+                type : Number
             },
             returnboxes : {
-                type : Number,
-                required : true
+                type : Number
             },
         }
     ],
