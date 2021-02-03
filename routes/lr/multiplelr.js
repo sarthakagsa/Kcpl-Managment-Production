@@ -220,7 +220,7 @@ router.post('/lr/multiplepartylr/billlr/:token',auth,async (req,res)=>{
                 lr.returnboxes= detail.returnboxes;
                 worksheet.addRow(lr);
             });            
-            // lr.billed = true
+            lr.billed = true
             lr.save()
         });
         await workbook.xlsx.writeFile('multiplepartylr.xlsx')
