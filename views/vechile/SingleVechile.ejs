@@ -72,25 +72,34 @@
   <div class="container text-center text-primary" style="margin-top: 2%;"><h3 data-vechileid ="<%= vechile._id %>" id="vechileid">Vechile No : <%= vechile.vechileno %></h3></div>
     <div class="container">
     <div class="row" style="margin-top: 2%;">
-  <div class="col-sm-6">
-    <div class="card border-primary">
-      <div class="card-body">
-        <h5 class="card-title">Repair</h5>
-        <a href="/vechiles/repair/<%= vechile._id %>/<%= token %>" class="btn btn-primary">Check</a>
+      <div class="col-sm-6">
+        <div class="card border-primary">
+          <div class="card-body">
+            <h5 class="card-title">Repair</h5>
+            <a href="/vechiles/repair/<%= vechile._id %>/<%= token %>" class="btn btn-primary">Check</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card border-primary">
+          <div class="card-body">
+            <h5 class="card-title">Tyre</h5>
+            <a href="/vechiles/tire/<%= vechile._id %>/<%= token %>" class="btn btn-primary">Check</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-sm-6">
+        <div class="card border-primary">
+          <div class="card-body">
+            <h5 class="card-title">Paper</h5>
+            <a href="/vechile/papers/<%= vechile._id %>/<%= token %>" class="btn btn-primary">Check</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-sm-6">
-    <div class="card border-primary">
-      <div class="card-body">
-        <h5 class="card-title">Tyre</h5>
-        <a href="/vechiles/tire/<%= vechile._id %>/<%= token %>" class="btn btn-primary">Check</a>
-      </div>
-    </div>
-  </div>
-</div>
-  </div>
-
 
   <script>
     $("#logoutbtn").click(function() {

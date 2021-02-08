@@ -134,7 +134,11 @@
             }
           });
     })
+    let countsub = 0
     $("#submitbtn").click(function() {
+        if (countsub >= 1) {
+          return alert("Refresh the page to view another one");
+        }
         const consignorid = $('#consignoroption').find(":selected").data("consignorid");
         const vechileid = $('#vechileoption').find(":selected").data("vechileid");
         const token = $('#logoutbtn').data("token")
@@ -145,6 +149,7 @@
           processData: false,
           data:  JSON.stringify({consignorid : consignorid,vechileid : vechileid})
       }).done(function (data) {
+        countsub ++
         var count = 0;
           data.lr.forEach(lr => {
             $('#lrbody').after('<tr><td><input type="checkbox" name ="chk1" value = "'+count+'" /></td><th scope="row">'+lr.date+'</th> <td>'+lr.origin+'</td> <td id="list['+count+']">'+lr.lrnumber+'</td> <td>'+lr.partyname+'</td> <td>'+lr.destination+'</td> <td>'+lr.invoice+'</td><td>'+lr.boxes+'</td> <td >'+lr.loadingcharges+'</td><td> '+lr.unloadingcharges+'</td><td> '+lr.openingkm+'</td><td >'+lr.closingkm+'</td><td >'+lr.tolltax+'</td><td >'+lr.snt+'</td><td >'+lr.saletax+'</td> <td id="list['+count+'][0]"  style="display: none;">'+lr._id+'</td> </tr>');

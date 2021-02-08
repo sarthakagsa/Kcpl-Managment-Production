@@ -10,6 +10,7 @@ const consignorRouter = require('./routes/consignor')
 const lrRouter = require('./routes/lr/lr')
 const singlelrRouter = require('./routes/lr/singlelr')
 const multiplelrRouter = require('./routes/lr/multiplelr')
+const paperRouter = require('./routes/paper')
 const port = process.env.PORT
 const path = require('path')
 
@@ -32,6 +33,7 @@ app.use(consignorRouter)
 app.use(lrRouter)
 app.use(singlelrRouter)
 app.use(multiplelrRouter)
+app.use(paperRouter)
 
 app.listen(port,()=>{
     console.log('server is connected to the port : '+port)

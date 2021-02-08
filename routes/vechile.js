@@ -41,7 +41,28 @@ router.get('/vechile/me/:token',auth,async(req,res)=>{
         const vechile = await Vechile.find({owner : req.user._id})
         res.render("vechile/Allvechiles.ejs",{vechile : vechile,user : req.user,token:req.token})
     } catch (error) {
-        res.send(400).error(error)
+        res.status(400).send(error)
+    }
+})
+
+router.get('/vechile/me/chart/:token',auth,async(req,res)=>{
+    try {
+        let totalrepair = 0
+        let totalcost = 0
+        const repairs = []
+        const vechile = await Vechile.find({owner : req.user._id})
+        vechile.forEach(async(vechile) => {
+            const repair = await Repair.find({vechileid : vechile._id})
+            repair.forEach(repair => {
+                repairs.push(repair)
+                totalcost = totalcost + repair.cost
+            });
+        });
+        await Repair.find()
+        totalrepair = repairs.length
+        res.send({vechile : vechile,user : req.user,token:req.token,totalrepair : totalrepair,totalcost : totalcost})
+    } catch (error) {
+        res.status(400).send(error)
     }
 })
 

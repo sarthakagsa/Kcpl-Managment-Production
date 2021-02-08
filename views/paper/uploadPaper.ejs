@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Kurseong Carrier Maintainence</title>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand">Kurseong Carrier</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/home/<%= token %>">Home</a>
+          </li>  
+          <li class="nav-item active">
+            <a class="nav-link" href="/vechile/me/<%= token %>">Check All Vechiles</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <button class="btn btn-secondary ml-1" id="deletevechile">Welcome <%= user.name %></button>
+          <button class="btn btn-primary ml-1" data-token='<%= token %>' id="logoutbtn">Logout</button>
+       </ul>
+       
+      </div>
+    </nav>
+    <h1 class="text-center display-4 my-4">Please Upload Paper Pictures and data</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 card">
+          <form action="/uploadpaper/pollution/<%= vechileid %>/<%= token %>" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                  <div class="form-group">
+                    Pollution Date
+                    <%if (paper.pollution) { %>
+                      <input class="form-control" class="date" type="date" name="pollution" value="<%=paper.pollution.date %>">
+                      <% }
+                      else{ %>
+                        <input class="form-control" class="date" type="date" name="pollution" value="null">
+                      <% } %>
+                  </div>
+              </div>
+            </div>
+            <div class="custom-file mb-3">
+              <input type="file" name="file" id="file" class="custom-file-input">
+              <label for="file" class="custom-file-label">Choose File</label>
+            </div>
+            <input type="submit" value="Submit" class="btn btn-primary btn-block">
+          </form>
+          <hr>
+          <div class="container">
+              <div class="row">
+          <% if(paper.pollution.imagefilename){ %>
+              <div class="col-md-6 mb-3">
+                  <a href="/paperimage/<%= paper.pollution.imagefilename %>/<%= token %>" alt=""> Check</a>                
+                        <form method="POST" action="/files/deletepollutionimage/<%= vechileid %>/<%= paper.pollution.imagefileid %>/<%= token %>">
+                          <button class="btn btn-danger btn-block mt-4">Delete</button>
+                        </form>
+              </div>
+                <% } else { %>
+                  <p>No files to show</p>
+                  <% } %>
+              </div>
+              </div>  
+        </div>
+        <div class="col-md-6 card">
+          <form action="/uploadpaper/authorityletter/<%= vechileid %>/<%= token %>" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                  <div class="form-group">
+                    Authority Letter Date
+                    <%if (paper.authorityletter) { %>
+                    <input class="form-control" class="date" type="date" name="authorityletter" value="<%=paper.authorityletter.date %>">
+                    <% }
+                    else{ %>
+                      <input class="form-control" class="date" type="date" name="authorityletter" value="null">
+                    <% } %>
+                  </div>
+              </div>
+            </div>
+            <div class="custom-file mb-3">
+              <input type="file" name="file" id="file" class="custom-file-input">
+              <label for="file" class="custom-file-label">Choose File</label>
+            </div>
+            <input type="submit" value="Submit" class="btn btn-primary btn-block">
+          </form>
+          <hr>
+          <div class="container">
+              <div class="row">
+          <% if(paper.authorityletter.imagefilename){ %>
+              <div class="col-md-6 mb-3">
+                  <a href="/paperimage/<%= paper.authorityletter.imagefilename %>/<%= token %>" alt=""> Check</a>                
+                        <form method="POST" action="/files/<%= paper.authorityletter.imagefileid %>">
+                          <button class="btn btn-danger btn-block mt-4">Delete</button>
+                        </form>
+              </div>
+                <% } else { %>
+                  <p>No files to show</p>
+                  <% } %>
+              </div>
+              </div>  
+        </div>
+      </div>
+    </div>
+  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+      <script>
+        $("#logoutbtn").click(function() {
+          const token = $('#logoutbtn').data("token")
+          $.ajax({
+              type: "POST",
+              url: '/users/logout/'+token,
+              contentType: "application/json",
+              processData: false,
+          }).done(function (data) {
+              window.open('/login','_self',false)
+            }).fail(function ( jqXHR, textStatus, errorThrown) {
+              console.log(jqXHR.responseText);
+                const x = document.getElementById("errorbox");
+                document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+                if (x.style.display === "none") {
+                  x.style.display = "block";
+                }
+              });
+        })  
+            
+      </script>
+  </body>
+</html>
