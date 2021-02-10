@@ -7,7 +7,6 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="kc.css">
 
     <title>Kurseong Carrier Maintainence</title>
     <link rel="icon" href="img/LOGO.png">
@@ -116,27 +115,26 @@
     //   };
     //   window.requestAnimationFrame(step);
     // }
-  //   $(document).ready(function(){
-  // const token = $('#logoutbtn').data("token")
-  // $.ajax({
-  //         type: "GET",
-  //         url: '/vechile/me/chart/'+token,
-  //         contentType: "application/json",
-  //         processData: false
-  //     }).done(function (data) {
-  //       const totalcost = document.getElementById("totalcost");
-  //       const repairingdone = document.getElementById("repairingdone");
-  //       animateValue(totalcost, 0, data.totalcost , 1600);
-  //       animateValue(repairingdone, 0, data.totalrepair , 1600);
-
-  //       }).fail(function ( jqXHR, textStatus, errorThrown) {
-  //           const x = document.getElementById("errorbox");
-  //           document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
-  //           if (x.style.display === "none") {
-  //             x.style.display = "block";
-  //           }
-  //         });
-  //       });
+    let count =0
+if (count <= 0 ) {
+  $(document).ready(function(){
+  const token = $('#logoutbtn').data("token")
+  $.ajax({
+          type: "POST",
+          url: '/checkpapervalidity/'+token,
+          contentType: "application/json",
+          processData: false
+      }).done(function (data) {
+        count ++
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+        });
+}
 
         
   </script>

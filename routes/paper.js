@@ -1,16 +1,15 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const path = require('path');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
-const methodOverride = require('method-override');
 const router = new express.Router()
 const auth = require('../middleware/auth')
 const Vechile = require('../models/vechile');
 const Paper = require('../models/paper');
+const nodemailer = require("nodemailer");
 
 // Mongo URI
 const mongoURI = process.env.MONGODB_URL;
@@ -835,5 +834,206 @@ router.post('/files/deleteroadtaximage/:vechileid/:id/:token',auth, async(req, r
     res.status(400).send(error)
   }
 });
+
+router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
+  try {
+    let transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'sarthakag.sa@gmail.com',
+            pass: 'Tintin@123'
+        }
+    });
+    let date2 = new Date();
+    let dd = String(date2.getDate()).padStart(2, '0');
+    let mm = String(date2.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = date2.getFullYear();
+
+    date2 = yyyy + '-' + mm + '-' + dd;
+
+    date2 = new Date(date2)
+    let paper = await Paper.find()
+    paper.forEach(async(papers) => {
+      if (papers.pollution) {
+        if (papers.pollution.date) {
+          let date1 = papers.pollution.date
+          date1 = new Date(date1)
+          let Difference_In_Time = date2.getTime() - date1.getTime();
+          let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+          const vechile = await Vechile.findById(papers.vechileid)
+          if (Difference_In_Days <= 30 && !papers.pollution.notified ) {
+            let info = await transporter.sendMail({
+                to: process.env.EMAILID,
+                subject: 'TransSwift - PaperUpdate',
+                text: 'The Pollution Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.pollution.date
+              });
+              if (info.messageId) {
+                papers.pollution.notified = true
+              }
+          }
+          let papertobesaved = await Paper.findById(papers._id)
+          papertobesaved.pollution = {
+            date : papers.pollution.date,
+            notified : papers.pollution.notified,
+          }
+          papertobesaved = await papertobesaved.save()
+        }
+      }
+      if (papers.authorityletter) {
+        if (papers.authorityletter.date) {
+          let date1 = papers.authorityletter.date
+          date1 = new Date(date1)
+          let Difference_In_Time = date2.getTime() - date1.getTime();
+          let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+          const vechile = await Vechile.findById(papers.vechileid)
+          if (Difference_In_Days <= 30 && !papers.authorityletter.notified ) {
+            let info = await transporter.sendMail({
+                to: process.env.EMAILID,
+                subject: 'TransSwift - PaperUpdate',
+                text: 'The Authority Letter Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.authorityletter.date
+              });
+              if (info.messageId) {
+                papers.authorityletter.notified = true
+              }
+          }
+          let papertobesaved = await Paper.findById(papers._id)
+          papertobesaved.authorityletter = {
+            date : papers.authorityletter.date,
+            notified : papers.authorityletter.notified,
+          }
+          papertobesaved = await papertobesaved.save()
+        }
+      }
+      if (papers.insurance) {
+        if (papers.insurance.date) {
+          let date1 = papers.insurance.date
+          date1 = new Date(date1)
+          let Difference_In_Time = date2.getTime() - date1.getTime();
+          let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+          const vechile = await Vechile.findById(papers.vechileid)
+          if (Difference_In_Days <= 30 && !papers.insurance.notified ) {
+            let info = await transporter.sendMail({
+                to: process.env.EMAILID,
+                subject: 'TransSwift - PaperUpdate',
+                text: 'The Insurance Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.insurance.date
+              });
+              if (info.messageId) {
+                papers.insurance.notified = true
+              }
+          }
+          let papertobesaved = await Paper.findById(papers._id)
+          papertobesaved.insurance = {
+            date : papers.insurance.date,
+            notified : papers.insurance.notified,
+          }
+          papertobesaved = await papertobesaved.save()
+        }
+      }
+      if (papers.fitness) {
+        if (papers.fitness.date) {
+          let date1 = papers.fitness.date
+          date1 = new Date(date1)
+          let Difference_In_Time = date2.getTime() - date1.getTime();
+          let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+          const vechile = await Vechile.findById(papers.vechileid)
+          if (Difference_In_Days <= 30 && !papers.fitness.notified ) {
+            let info = await transporter.sendMail({
+                to: process.env.EMAILID,
+                subject: 'TransSwift - PaperUpdate',
+                text: 'The Fitness Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.fitness.date
+              });
+              if (info.messageId) {
+                papers.fitness.notified = true
+              }
+          }
+          let papertobesaved = await Paper.findById(papers._id)
+          papertobesaved.fitness = {
+            date : papers.fitness.date,
+            notified : papers.fitness.notified,
+          }
+          papertobesaved = await papertobesaved.save()
+        }
+      }
+      if (papers.statepermit) {
+        if (papers.statepermit.date) {
+          let date1 = papers.statepermit.date
+          date1 = new Date(date1)
+          let Difference_In_Time = date2.getTime() - date1.getTime();
+          let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+          const vechile = await Vechile.findById(papers.vechileid)
+          if (Difference_In_Days <= 30 && !papers.statepermit.notified ) {
+            let info = await transporter.sendMail({
+                to: process.env.EMAILID,
+                subject: 'TransSwift - PaperUpdate',
+                text: 'The Statepermit Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.statepermit.date
+              });
+              if (info.messageId) {
+                papers.statepermit.notified = true
+              }
+          }
+          let papertobesaved = await Paper.findById(papers._id)
+          papertobesaved.statepermit = {
+            date : papers.statepermit.date,
+            notified : papers.statepermit.notified,
+          }
+          papertobesaved = await papertobesaved.save()
+        }
+      }
+      if (papers.nationalpermit) {
+        if (papers.nationalpermit.date) {
+          let date1 = papers.nationalpermit.date
+          date1 = new Date(date1)
+          let Difference_In_Time = date2.getTime() - date1.getTime();
+          let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+          const vechile = await Vechile.findById(papers.vechileid)
+          if (Difference_In_Days <= 30 && !papers.nationalpermit.notified ) {
+            let info = await transporter.sendMail({
+                to: process.env.EMAILID,
+                subject: 'TransSwift - PaperUpdate',
+                text: 'The Nationalpermit Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.nationalpermit.date
+              });
+              if (info.messageId) {
+                papers.nationalpermit.notified = true
+              }
+          }
+          let papertobesaved = await Paper.findById(papers._id)
+          papertobesaved.nationalpermit = {
+            date : papers.nationalpermit.date,
+            notified : papers.nationalpermit.notified,
+          }
+          papertobesaved = await papertobesaved.save()
+        }
+      }
+      if (papers.roadtax) {
+        if (papers.roadtax.date) {
+          let date1 = papers.roadtax.date
+          date1 = new Date(date1)
+          let Difference_In_Time = date2.getTime() - date1.getTime();
+          let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+          const vechile = await Vechile.findById(papers.vechileid)
+          if (Difference_In_Days <= 30 && !papers.roadtax.notified ) {
+            let info = await transporter.sendMail({
+                to: process.env.EMAILID,
+                subject: 'TransSwift - PaperUpdate',
+                text: 'The Roadtax Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.roadtax.date
+              });
+              if (info.messageId) {
+                papers.roadtax.notified = true
+              }
+          }
+          let papertobesaved = await Paper.findById(papers._id)
+          papertobesaved.roadtax = {
+            date : papers.roadtax.date,
+            notified : papers.roadtax.notified,
+          }
+          papertobesaved = await papertobesaved.save()
+        }
+      }
+    });
+  } catch (error) {
+    res.status(400).send(error)
+  }
+})
+
 
 module.exports = router

@@ -12,6 +12,10 @@ const paperSchema = new mongoose.Schema({
         imagefileid : {
             type : mongoose.Schema.Types.ObjectId
         },
+        notified : {
+            type : Boolean,
+            default : false
+        },
         type : Object
     },
     authorityletter : {
@@ -23,6 +27,10 @@ const paperSchema = new mongoose.Schema({
         },
         imagefileid : {
             type : mongoose.Schema.Types.ObjectId
+        },
+        notified : {
+            type : Boolean,
+            default : false
         },
         type : Object
     },
@@ -36,6 +44,10 @@ const paperSchema = new mongoose.Schema({
         imagefileid : {
             type : mongoose.Schema.Types.ObjectId
         },
+        notified : {
+            type : Boolean,
+            default : false
+        },
         type : Object
     },
     fitness : {
@@ -47,6 +59,10 @@ const paperSchema = new mongoose.Schema({
         },
         imagefileid : {
             type : mongoose.Schema.Types.ObjectId
+        },
+        notified : {
+            type : Boolean,
+            default : false
         },
         type : Object
     },
@@ -60,6 +76,10 @@ const paperSchema = new mongoose.Schema({
         imagefileid : {
             type : mongoose.Schema.Types.ObjectId
         },
+        notified : {
+            type : Boolean,
+            default : false
+        },
         type : Object
     },
     nationalpermit : {
@@ -72,6 +92,10 @@ const paperSchema = new mongoose.Schema({
         imagefileid : {
             type : mongoose.Schema.Types.ObjectId
         },
+        notified : {
+            type : Boolean,
+            default : false
+        },
         type : Object
     },
     roadtax : {
@@ -83,6 +107,10 @@ const paperSchema = new mongoose.Schema({
         },
         imagefileid : {
             type : mongoose.Schema.Types.ObjectId
+        },
+        notified : {
+            type : Boolean,
+            default : false
         },
         type : Object
     },
