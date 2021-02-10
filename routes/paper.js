@@ -61,24 +61,7 @@ router.get('/vechile/papers/:vechileid/:token',auth, async(req, res) => {
     }
   let paper = await Paper.find({ vechileid : req.params.vechileid})
   paper = paper[0]
-  gfs.files.find().toArray((err, files) => {
-    // Check if files
-    if (!files || files.length === 0) {
-      res.render('paper/uploadPaper', { files: false,token : req.token,user : req.user,vechileid : req.params.vechileid , paper : paper });
-    } else {
-      files.map(file => {
-        if (
-          file.contentType === 'image/jpeg' ||
-          file.contentType === 'image/png'
-        ) {
-          file.isImage = true;
-        } else {
-          file.isImage = false;
-        }
-      });
-      res.render('paper/uploadPaper', {files: files,token : req.token,user : req.user,vechileid : req.params.vechileid ,paper : paper });
-    }
-  });
+  res.render('paper/uploadPaper', {token : req.token,user : req.user,vechileid : req.params.vechileid ,paper : paper })
   } catch (error) {
     res.status(400).send({error : error})
   }

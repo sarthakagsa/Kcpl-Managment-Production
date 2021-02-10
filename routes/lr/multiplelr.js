@@ -154,7 +154,7 @@ router.delete('/lr/multiplepartylr/:lrid/:token',auth,async (req,res)=>{
 router.post('/lr/multiplepartylr/view/:token',auth,async (req,res)=>{
     try {
         if (!req.body.vechileid) {
-            const lr = await Lr.find({consignorid : req.body.consignorid,billed : false}).sort({lrnumber : 1}).collation({locale: "en_US", numericOrdering: true})
+            const lr = await Lr.find({consignorid : req.body.consignorid,billed : false}).sort({date : 1}).collation({locale: "en_US", numericOrdering: true})
             if (!lr[0]) {
                 return res.status(400).send('No Lrs to be billed for th given option')
             }

@@ -43,8 +43,13 @@
               <div class="col-xs-6 col-sm-6 col-md-6">
                   <div class="form-group">
                     Pollution Date
-                    <%if (paper.pollution) { %>
-                      <input class="form-control" class="date" type="date" name="pollution" value="<%=paper.pollution.date %>">
+                    <%if (paper) { %>
+                      <%if (paper.pollution) { %>
+                        <input class="form-control" class="date" type="date" name="pollution" value="<%=paper.pollution.date %>">
+                        <% }
+                        else{ %>
+                          <input class="form-control" class="date" type="date" name="pollution" value="null">
+                        <% } %>
                       <% }
                       else{ %>
                         <input class="form-control" class="date" type="date" name="pollution" value="null">
@@ -61,16 +66,24 @@
           <hr>
           <div class="container">
               <div class="row">
-          <% if(paper.pollution.imagefilename){ %>
+          <% if(paper){ %>
+            <% if(paper.pollution){ %>
+              <% if(paper.pollution.imagefileid){ %>
               <div class="col-md-6 mb-3">
                   <a href="/paperimage/<%= paper.pollution.imagefilename %>/<%= token %>" alt=""> Check</a>                
                         <form method="POST" action="/files/deletepollutionimage/<%= vechileid %>/<%= paper.pollution.imagefileid %>/<%= token %>">
                           <button class="btn btn-danger btn-block mt-4">Delete</button>
                         </form>
               </div>
+              <% } else { %>
+                <p>No files to show</p>
+                <% } %>
                 <% } else { %>
                   <p>No files to show</p>
-                  <% } %>
+                  <% } %> 
+                  <% } else { %>
+                    <p>No files to show</p>
+                    <% } %>
               </div>
               </div>  
         </div>
@@ -80,8 +93,13 @@
               <div class="col-xs-6 col-sm-6 col-md-6">
                   <div class="form-group">
                     Authority Letter Date
-                    <%if (paper.authorityletter) { %>
-                    <input class="form-control" class="date" type="date" name="authorityletter" value="<%=paper.authorityletter.date %>">
+                    <%if (paper) { %>
+                      <%if (paper.authorityletter) { %>
+                        <input class="form-control" class="date" type="date" name="authorityletter" value="<%=paper.authorityletter.date %>">
+                        <% }
+                        else{ %>
+                          <input class="form-control" class="date" type="date" name="authorityletter" value="null">
+                        <% } %>
                     <% }
                     else{ %>
                       <input class="form-control" class="date" type="date" name="authorityletter" value="null">
@@ -98,13 +116,21 @@
           <hr>
           <div class="container">
               <div class="row">
-          <% if(paper.authorityletter.imagefilename){ %>
+      <% if(paper){ %>
+        <% if(paper.authorityletter){ %>
+          <% if(paper.authorityletter.imagefileid){ %>
               <div class="col-md-6 mb-3">
                   <a href="/paperimage/<%= paper.authorityletter.imagefilename %>/<%= token %>" alt=""> Check</a>                
                         <form method="POST" action="/files/<%= paper.authorityletter.imagefileid %>">
                           <button class="btn btn-danger btn-block mt-4">Delete</button>
                         </form>
               </div>
+              <% } else { %>
+                <p>No files to show</p>
+                <% } %>
+                <% } else { %>
+                  <p>No files to show</p>
+                  <% } %>
                 <% } else { %>
                   <p>No files to show</p>
                   <% } %>

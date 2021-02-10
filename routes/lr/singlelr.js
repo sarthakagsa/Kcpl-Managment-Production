@@ -160,7 +160,7 @@ router.post('/lr/singlepartylr/view/:token',auth,async (req,res)=>{
             }
             return res.send({lr : lr})
         }
-        const lr = await Lr.find({vechileid: req.body.vechileid,consignorid : req.body.consignorid,billed : false}).sort({lrnumber : 1}).collation({locale: "en_US", numericOrdering: true})
+        const lr = await Lr.find({vechileid: req.body.vechileid,consignorid : req.body.consignorid,billed : false}).sort({date : 1}).collation({locale: "en_US", numericOrdering: true})
         if (!lr[0]) {
             return res.status(400).send({error: ' No such file found'})
         }
