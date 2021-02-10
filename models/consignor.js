@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Lr = require('./llr')
+const MultipleLr = require('./multiplelr')
 
 const consignorSchema = new mongoose.Schema({
     consignorname : {
@@ -21,6 +22,7 @@ const consignorSchema = new mongoose.Schema({
 consignorSchema.pre('remove', async function (next){
     const consignor = this 
     await Lr.deleteMany({consignorid : consignor._id})
+    await MultipleLr.deleteMany({consignorid : consignor._id})
     next()
 })
 

@@ -41,8 +41,8 @@
           <form action="/uploadpaper/pollution/<%= vechileid %>/<%= token %>" method="POST" enctype="multipart/form-data">
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6">
-                  <div class="form-group">
-                    Pollution Date
+                  <div class="form-group text-primary">
+                    Pollution Expiry Date
                     <%if (paper) { %>
                       <%if (paper.pollution) { %>
                         <input class="form-control" class="date" type="date" name="pollution" value="<%=paper.pollution.date %>">
@@ -62,37 +62,37 @@
               <label for="file" class="custom-file-label">Choose File</label>
             </div>
             <input type="submit" value="Submit" class="btn btn-primary btn-block">
-          </form>
-          <hr>
-          <div class="container">
+            </form>
+            <hr>
+            <div class="container">
               <div class="row">
-          <% if(paper){ %>
-            <% if(paper.pollution){ %>
-              <% if(paper.pollution.imagefileid){ %>
-              <div class="col-md-6 mb-3">
-                  <a href="/paperimage/<%= paper.pollution.imagefilename %>/<%= token %>" alt=""> Check</a>                
+                <% if(paper){ %>
+                  <% if(paper.pollution){ %>
+                    <% if(paper.pollution.imagefileid){ %>
+                    <div class="col-md-6 mb-3">
+                        <a href="/paperimage/<%= paper.pollution.imagefilename %>/<%= token %>" alt=""> Check</a>                
                         <form method="POST" action="/files/deletepollutionimage/<%= vechileid %>/<%= paper.pollution.imagefileid %>/<%= token %>">
                           <button class="btn btn-danger btn-block mt-4">Delete</button>
                         </form>
-              </div>
-              <% } else { %>
-                <p>No files to show</p>
-                <% } %>
+                   </div>
                 <% } else { %>
-                  <p>No files to show</p>
-                  <% } %> 
+                <p>No files to show</p>
+                  <% } %>
                   <% } else { %>
                     <p>No files to show</p>
-                    <% } %>
-              </div>
+                    <% } %> 
+                    <% } else { %>
+                      <p>No files to show</p>
+                      <% } %>
+                </div>
               </div>  
         </div>
         <div class="col-md-6 card">
           <form action="/uploadpaper/authorityletter/<%= vechileid %>/<%= token %>" method="POST" enctype="multipart/form-data">
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6">
-                  <div class="form-group">
-                    Authority Letter Date
+                  <div class="form-group text-primary">
+                    Authority Letter Expiry Date
                     <%if (paper) { %>
                       <%if (paper.authorityletter) { %>
                         <input class="form-control" class="date" type="date" name="authorityletter" value="<%=paper.authorityletter.date %>">
@@ -116,25 +116,281 @@
           <hr>
           <div class="container">
               <div class="row">
-      <% if(paper){ %>
-        <% if(paper.authorityletter){ %>
-          <% if(paper.authorityletter.imagefileid){ %>
-              <div class="col-md-6 mb-3">
-                  <a href="/paperimage/<%= paper.authorityletter.imagefilename %>/<%= token %>" alt=""> Check</a>                
-                        <form method="POST" action="/files/deleteauthorityletterimage/<%= vechileid %>/<%= paper.authorityletter.imagefileid %>/<%= token %>">
+                <% if(paper){ %>
+                 <% if(paper.authorityletter){ %>
+                    <% if(paper.authorityletter.imagefileid){ %>
+                      <div class="col-md-6 mb-3">
+                          <a href="/paperimage/<%= paper.authorityletter.imagefilename %>/<%= token %>" alt=""> Check</a>                
+                          <form method="POST" action="/files/deleteauthorityletterimage/<%= vechileid %>/<%= paper.authorityletter.imagefileid %>/<%= token %>">
+                            <button class="btn btn-danger btn-block mt-4">Delete</button>
+                          </form>
+                      </div>
+                <% } else { %>
+                  <p>No files to show</p>
+                  <% } %>
+                  <% } else { %>
+                    <p>No files to show</p>
+                    <% } %>
+                    <% } else { %>
+                      <p>No files to show</p>
+                      <% } %>
+                </div>
+            </div>  
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-6 card">
+          <form action="/uploadpaper/insurance/<%= vechileid %>/<%= token %>" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                  <div class="form-group text-primary">
+                    Insurance Expiry Date
+                    <%if (paper) { %>
+                      <%if (paper.insurance) { %>
+                        <input class="form-control" class="date" type="date" name="insurance" value="<%=paper.insurance.date %>">
+                        <% }
+                        else{ %>
+                          <input class="form-control" class="date" type="date" name="insurance" value="null">
+                        <% } %>
+                      <% }
+                      else{ %>
+                        <input class="form-control" class="date" type="date" name="insurance" value="null">
+                      <% } %>
+                  </div>
+              </div>
+            </div>
+            <div class="custom-file mb-3">
+              <input type="file" name="file" id="file" class="custom-file-input">
+              <label for="file" class="custom-file-label">Choose File</label>
+            </div>
+            <input type="submit" value="Submit" class="btn btn-primary btn-block">
+            </form>
+            <hr>
+            <div class="container">
+              <div class="row">
+                <% if(paper){ %>
+                  <% if(paper.insurance){ %>
+                    <% if(paper.insurance.imagefileid){ %>
+                    <div class="col-md-6 mb-3">
+                        <a href="/paperimage/<%= paper.insurance.imagefilename %>/<%= token %>" alt=""> Check</a>                
+                        <form method="POST" action="/files/deleteinsuranceimage/<%= vechileid %>/<%= paper.insurance.imagefileid %>/<%= token %>">
                           <button class="btn btn-danger btn-block mt-4">Delete</button>
                         </form>
-              </div>
-              <% } else { %>
+                   </div>
+                <% } else { %>
                 <p>No files to show</p>
-                <% } %>
-                <% } else { %>
-                  <p>No files to show</p>
                   <% } %>
-                <% } else { %>
-                  <p>No files to show</p>
-                  <% } %>
+                  <% } else { %>
+                    <p>No files to show</p>
+                    <% } %> 
+                    <% } else { %>
+                      <p>No files to show</p>
+                      <% } %>
+                </div>
+              </div>  
+        </div>
+        <div class="col-md-6 card">
+          <form action="/uploadpaper/fitness/<%= vechileid %>/<%= token %>" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                  <div class="form-group text-primary">
+                    Fitness Expiry Date
+                    <%if (paper) { %>
+                      <%if (paper.fitness) { %>
+                        <input class="form-control" class="date" type="date" name="fitness" value="<%=paper.fitness.date %>">
+                        <% }
+                        else{ %>
+                          <input class="form-control" class="date" type="date" name="fitness" value="null">
+                        <% } %>
+                    <% }
+                    else{ %>
+                      <input class="form-control" class="date" type="date" name="fitness" value="null">
+                    <% } %>
+                  </div>
               </div>
+            </div>
+            <div class="custom-file mb-3">
+              <input type="file" name="file" id="file" class="custom-file-input">
+              <label for="file" class="custom-file-label">Choose File</label>
+            </div>
+            <input type="submit" value="Submit" class="btn btn-primary btn-block">
+          </form>
+          <hr>
+          <div class="container">
+              <div class="row">
+                <% if(paper){ %>
+                 <% if(paper.fitness){ %>
+                    <% if(paper.fitness.imagefileid){ %>
+                      <div class="col-md-6 mb-3">
+                          <a href="/paperimage/<%= paper.fitness.imagefilename %>/<%= token %>" alt=""> Check</a>                
+                          <form method="POST" action="/files/deletefitnessimage/<%= vechileid %>/<%= paper.fitness.imagefileid %>/<%= token %>">
+                            <button class="btn btn-danger btn-block mt-4">Delete</button>
+                          </form>
+                      </div>
+                <% } else { %>
+                  <p>No files to show</p>
+                  <% } %>
+                  <% } else { %>
+                    <p>No files to show</p>
+                    <% } %>
+                    <% } else { %>
+                      <p>No files to show</p>
+                      <% } %>
+                </div>
+            </div>  
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-6 card">
+          <form action="/uploadpaper/statepermit/<%= vechileid %>/<%= token %>" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                  <div class="form-group text-primary">
+                    Statepermit Expiry Date
+                    <%if (paper) { %>
+                      <%if (paper.statepermit) { %>
+                        <input class="form-control" class="date" type="date" name="statepermit" value="<%=paper.statepermit.date %>">
+                        <% }
+                        else{ %>
+                          <input class="form-control" class="date" type="date" name="statepermit" value="null">
+                        <% } %>
+                      <% }
+                      else{ %>
+                        <input class="form-control" class="date" type="date" name="statepermit" value="null">
+                      <% } %>
+                  </div>
+              </div>
+            </div>
+            <div class="custom-file mb-3">
+              <input type="file" name="file" id="file" class="custom-file-input">
+              <label for="file" class="custom-file-label">Choose File</label>
+            </div>
+            <input type="submit" value="Submit" class="btn btn-primary btn-block">
+            </form>
+            <hr>
+            <div class="container">
+              <div class="row">
+                <% if(paper){ %>
+                  <% if(paper.statepermit){ %>
+                    <% if(paper.statepermit.imagefileid){ %>
+                    <div class="col-md-6 mb-3">
+                        <a href="/paperimage/<%= paper.statepermit.imagefilename %>/<%= token %>" alt=""> Check</a>                
+                        <form method="POST" action="/files/deletestatepermitimage/<%= vechileid %>/<%= paper.statepermit.imagefileid %>/<%= token %>">
+                          <button class="btn btn-danger btn-block mt-4">Delete</button>
+                        </form>
+                   </div>
+                <% } else { %>
+                <p>No files to show</p>
+                  <% } %>
+                  <% } else { %>
+                    <p>No files to show</p>
+                    <% } %> 
+                    <% } else { %>
+                      <p>No files to show</p>
+                      <% } %>
+                </div>
+              </div>  
+        </div>
+        <div class="col-md-6 card">
+          <form action="/uploadpaper/nationalpermit/<%= vechileid %>/<%= token %>" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                  <div class="form-group text-primary">
+                    Nationalpermit Expiry Date
+                    <%if (paper) { %>
+                      <%if (paper.nationalpermit) { %>
+                        <input class="form-control" class="date" type="date" name="nationalpermit" value="<%=paper.nationalpermit.date %>">
+                        <% }
+                        else{ %>
+                          <input class="form-control" class="date" type="date" name="nationalpermit" value="null">
+                        <% } %>
+                    <% }
+                    else{ %>
+                      <input class="form-control" class="date" type="date" name="nationalpermit" value="null">
+                    <% } %>
+                  </div>
+              </div>
+            </div>
+            <div class="custom-file mb-3">
+              <input type="file" name="file" id="file" class="custom-file-input">
+              <label for="file" class="custom-file-label">Choose File</label>
+            </div>
+            <input type="submit" value="Submit" class="btn btn-primary btn-block">
+          </form>
+          <hr>
+          <div class="container">
+              <div class="row">
+                <% if(paper){ %>
+                 <% if(paper.nationalpermit){ %>
+                    <% if(paper.nationalpermit.imagefileid){ %>
+                      <div class="col-md-6 mb-3">
+                          <a href="/paperimage/<%= paper.nationalpermit.imagefilename %>/<%= token %>" alt=""> Check</a>                
+                          <form method="POST" action="/files/deletenationalpermitimage/<%= vechileid %>/<%= paper.nationalpermit.imagefileid %>/<%= token %>">
+                            <button class="btn btn-danger btn-block mt-4">Delete</button>
+                          </form>
+                      </div>
+                <% } else { %>
+                  <p>No files to show</p>
+                  <% } %>
+                  <% } else { %>
+                    <p>No files to show</p>
+                    <% } %>
+                    <% } else { %>
+                      <p>No files to show</p>
+                      <% } %>
+                </div>
+            </div>  
+        </div>
+      </div>
+      <div class="row mt-4 mb-4">
+        <div class="col-md-6 card">
+          <form action="/uploadpaper/roadtax/<%= vechileid %>/<%= token %>" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                  <div class="form-group text-primary">
+                    Road Tax Expiry Date
+                    <%if (paper) { %>
+                      <%if (paper.roadtax) { %>
+                        <input class="form-control" class="date" type="date" name="roadtax" value="<%=paper.roadtax.date %>">
+                        <% }
+                        else{ %>
+                          <input class="form-control" class="date" type="date" name="roadtax" value="null">
+                        <% } %>
+                      <% }
+                      else{ %>
+                        <input class="form-control" class="date" type="date" name="roadtax" value="null">
+                      <% } %>
+                  </div>
+              </div>
+            </div>
+            <div class="custom-file mb-3">
+              <input type="file" name="file" id="file" class="custom-file-input">
+              <label for="file" class="custom-file-label">Choose File</label>
+            </div>
+            <input type="submit" value="Submit" class="btn btn-primary btn-block">
+            </form>
+            <hr>
+            <div class="container">
+              <div class="row">
+                <% if(paper){ %>
+                  <% if(paper.roadtax){ %>
+                    <% if(paper.roadtax.imagefileid){ %>
+                    <div class="col-md-6 mb-3">
+                        <a href="/paperimage/<%= paper.roadtax.imagefilename %>/<%= token %>" alt=""> Check</a>                
+                        <form method="POST" action="/files/deleteroadtaximage/<%= vechileid %>/<%= paper.roadtax.imagefileid %>/<%= token %>">
+                          <button class="btn btn-danger btn-block mt-4">Delete</button>
+                        </form>
+                   </div>
+                <% } else { %>
+                <p>No files to show</p>
+                  <% } %>
+                  <% } else { %>
+                    <p>No files to show</p>
+                    <% } %> 
+                    <% } else { %>
+                      <p>No files to show</p>
+                      <% } %>
+                </div>
               </div>  
         </div>
       </div>

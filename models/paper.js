@@ -27,28 +27,69 @@ const paperSchema = new mongoose.Schema({
         type : Object
     },
     insurance : {
-        type : Date
+        date : {
+            type : Date
+        },
+        imagefilename : {
+             type : String
+        },
+        imagefileid : {
+            type : mongoose.Schema.Types.ObjectId
+        },
+        type : Object
     },
     fitness : {
-        type : Date
+        date : {
+            type : Date
+        },
+        imagefilename : {
+             type : String
+        },
+        imagefileid : {
+            type : mongoose.Schema.Types.ObjectId
+        },
+        type : Object
     },
     statepermit : {
-        type : Date
+        date : {
+            type : Date
+        },
+        imagefilename : {
+             type : String
+        },
+        imagefileid : {
+            type : mongoose.Schema.Types.ObjectId
+        },
+        type : Object
     },
     nationalpermit : {
-        type : Date
+        date : {
+            type : Date
+        },
+        imagefilename : {
+             type : String
+        },
+        imagefileid : {
+            type : mongoose.Schema.Types.ObjectId
+        },
+        type : Object
     },
     roadtax : {
-        type : Date
+        date : {
+            type : Date
+        },
+        imagefilename : {
+             type : String
+        },
+        imagefileid : {
+            type : mongoose.Schema.Types.ObjectId
+        },
+        type : Object
     },
-    // images : [{
-    //     filename : {
-    //         type : String
-    //     }
-    // }],
     vechileid : {
         type : mongoose.Schema.Types.ObjectId,
         required : true,
+        unique : true,
         ref : 'Vechile'
     }
 })

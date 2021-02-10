@@ -145,6 +145,84 @@ router.post('/uploadpaper/authorityletter/:vechileid/:token',auth,upload.single(
   }
 });
 
+router.post('/uploadpaper/insurance/:vechileid/:token',auth,upload.single('file'), async (req, res) => {
+  try {
+    const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
+    if (!vechile) {
+      return req.status(400).send({error : 'No such vechile associated with the vechile'})
+    }
+  // res.json({ file: req.file });
+  if (req.error) {
+      return res.status(400).json({err : req.error})
+  }
+  let paper = await Paper.find({ vechileid : req.params.vechileid})
+  paper = paper[0]
+  if (!paper) {
+    if (req.file) {
+      paper = new Paper({
+        insurance : {
+          date : req.body.insurance,
+          imagefilename : req.file.filename,
+          imagefileid : req.file.id
+        },
+        vechileid : req.params.vechileid
+      })
+    }
+    else {
+      paper = new Paper({
+        insurance : {
+          date : req.body.insurance
+        },
+        vechileid : req.params.vechileid
+      })
+    }
+  }
+    if (paper) {
+      if (req.file) {
+        if (paper.insurance) {
+          if (paper.insurance.imagefileid) {
+            gfs.remove({ _id: paper.insurance.imagefileid, root: 'paper' }, (err, gridStore) => {
+              if (err) {
+                return res.status(404).json({ err: 'Error Removing the Existing Pictures' });
+              }
+            });
+          }
+        }
+        paper.insurance = {
+          date : req.body.insurance,
+          imagefilename : req.file.filename,
+          imagefileid : req.file.id
+        }
+      }
+      else {
+        if (paper.insurance) {
+          if (paper.insurance.imagefileid) {
+            paper.insurance = {
+              date : req.body.insurance,
+              imagefilename : paper.insurance.imagefilename,
+              imagefileid : paper.insurance.imagefileid
+            }
+          }
+          else {
+            paper.insurance = {
+              date : req.body.insurance
+            }
+          }
+        }
+        else {
+          paper.insurance = {
+            date : req.body.insurance
+          }
+        }        
+      }
+    }
+    await paper.save()
+    res.redirect('/vechile/papers/'+req.params.vechileid+'/'+req.token);
+  } catch (error) {
+    res.status(400).send({error : error})
+  }
+});
+
 router.post('/uploadpaper/pollution/:vechileid/:token',auth,upload.single('file'), async (req, res) => {
   try {
     const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
@@ -212,6 +290,318 @@ router.post('/uploadpaper/pollution/:vechileid/:token',auth,upload.single('file'
         else {
           paper.pollution = {
             date : req.body.pollution
+          }
+        }        
+      }
+    }
+    await paper.save()
+    res.redirect('/vechile/papers/'+req.params.vechileid+'/'+req.token);
+  } catch (error) {
+    res.status(400).send({error : error})
+  }
+});
+
+router.post('/uploadpaper/fitness/:vechileid/:token',auth,upload.single('file'), async (req, res) => {
+  try {
+    const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
+    if (!vechile) {
+      return req.status(400).send({error : 'No such vechile associated with the vechile'})
+    }
+  // res.json({ file: req.file });
+  if (req.error) {
+      return res.status(400).json({err : req.error})
+  }
+  let paper = await Paper.find({ vechileid : req.params.vechileid})
+  paper = paper[0]
+    if (!paper) {
+      if (req.file) {
+        paper = new Paper({
+          fitness : {
+            date : req.body.fitness,
+            imagefilename : req.file.filename,
+            imagefileid : req.file.id
+          },
+          vechileid : req.params.vechileid
+        })
+      }
+      else {
+        paper = new Paper({
+          fitness : {
+            date : req.body.fitness
+          },
+          vechileid : req.params.vechileid
+        })
+      }
+    }
+    if (paper) {
+      if (req.file) {
+        if (paper.fitness) {
+          if (paper.fitness.imagefileid) {
+            gfs.remove({ _id: paper.fitness.imagefileid, root: 'paper' }, (err, gridStore) => {
+              if (err) {
+                return res.status(404).json({ err: 'Error Removing the Existing Pictures' });
+              }
+            });
+          }
+        }
+        paper.fitness = {
+          date : req.body.fitness,
+          imagefilename : req.file.filename,
+          imagefileid : req.file.id
+        }
+      }
+      else {
+        if (paper.fitness) {
+          if (paper.fitness.imagefileid) {
+            paper.fitness = {
+              date : req.body.fitness,
+              imagefilename : paper.fitness.imagefilename,
+              imagefileid : paper.fitness.imagefileid
+            }
+          }
+          else {
+            paper.fitness = {
+              date : req.body.fitness
+            }
+          }
+        }
+        else {
+          paper.fitness = {
+            date : req.body.fitness
+          }
+        }        
+      }
+    }
+    await paper.save()
+    res.redirect('/vechile/papers/'+req.params.vechileid+'/'+req.token);
+  } catch (error) {
+    res.status(400).send({error : error})
+  }
+});
+
+router.post('/uploadpaper/statepermit/:vechileid/:token',auth,upload.single('file'), async (req, res) => {
+  try {
+    const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
+    if (!vechile) {
+      return req.status(400).send({error : 'No such vechile associated with the vechile'})
+    }
+  // res.json({ file: req.file });
+  if (req.error) {
+      return res.status(400).json({err : req.error})
+  }
+  let paper = await Paper.find({ vechileid : req.params.vechileid})
+  paper = paper[0]
+    if (!paper) {
+      if (req.file) {
+        paper = new Paper({
+          statepermit : {
+            date : req.body.statepermit,
+            imagefilename : req.file.filename,
+            imagefileid : req.file.id
+          },
+          vechileid : req.params.vechileid
+        })
+      }
+      else {
+        paper = new Paper({
+          statepermit : {
+            date : req.body.statepermit
+          },
+          vechileid : req.params.vechileid
+        })
+      }
+    }
+    if (paper) {
+      if (req.file) {
+        if (paper.statepermit) {
+          if (paper.statepermit.imagefileid) {
+            gfs.remove({ _id: paper.statepermit.imagefileid, root: 'paper' }, (err, gridStore) => {
+              if (err) {
+                return res.status(404).json({ err: 'Error Removing the Existing Pictures' });
+              }
+            });
+          }
+        }
+        paper.statepermit = {
+          date : req.body.statepermit,
+          imagefilename : req.file.filename,
+          imagefileid : req.file.id
+        }
+      }
+      else {
+        if (paper.statepermit) {
+          if (paper.statepermit.imagefileid) {
+            paper.statepermit = {
+              date : req.body.statepermit,
+              imagefilename : paper.statepermit.imagefilename,
+              imagefileid : paper.statepermit.imagefileid
+            }
+          }
+          else {
+            paper.statepermit = {
+              date : req.body.statepermit
+            }
+          }
+        }
+        else {
+          paper.statepermit = {
+            date : req.body.statepermit
+          }
+        }        
+      }
+    }
+    await paper.save()
+    res.redirect('/vechile/papers/'+req.params.vechileid+'/'+req.token);
+  } catch (error) {
+    res.status(400).send({error : error})
+  }
+});
+
+router.post('/uploadpaper/nationalpermit/:vechileid/:token',auth,upload.single('file'), async (req, res) => {
+  try {
+    const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
+    if (!vechile) {
+      return req.status(400).send({error : 'No such vechile associated with the vechile'})
+    }
+  // res.json({ file: req.file });
+  if (req.error) {
+      return res.status(400).json({err : req.error})
+  }
+  let paper = await Paper.find({ vechileid : req.params.vechileid})
+  paper = paper[0]
+    if (!paper) {
+      if (req.file) {
+        paper = new Paper({
+          nationalpermit : {
+            date : req.body.nationalpermit,
+            imagefilename : req.file.filename,
+            imagefileid : req.file.id
+          },
+          vechileid : req.params.vechileid
+        })
+      }
+      else {
+        paper = new Paper({
+          nationalpermit : {
+            date : req.body.nationalpermit
+          },
+          vechileid : req.params.vechileid
+        })
+      }
+    }
+    if (paper) {
+      if (req.file) {
+        if (paper.nationalpermit) {
+          if (paper.nationalpermit.imagefileid) {
+            gfs.remove({ _id: paper.nationalpermit.imagefileid, root: 'paper' }, (err, gridStore) => {
+              if (err) {
+                return res.status(404).json({ err: 'Error Removing the Existing Pictures' });
+              }
+            });
+          }
+        }
+        paper.nationalpermit = {
+          date : req.body.nationalpermit,
+          imagefilename : req.file.filename,
+          imagefileid : req.file.id
+        }
+      }
+      else {
+        if (paper.nationalpermit) {
+          if (paper.nationalpermit.imagefileid) {
+            paper.nationalpermit = {
+              date : req.body.nationalpermit,
+              imagefilename : paper.nationalpermit.imagefilename,
+              imagefileid : paper.nationalpermit.imagefileid
+            }
+          }
+          else {
+            paper.nationalpermit = {
+              date : req.body.nationalpermit
+            }
+          }
+        }
+        else {
+          paper.nationalpermit = {
+            date : req.body.nationalpermit
+          }
+        }        
+      }
+    }
+    await paper.save()
+    res.redirect('/vechile/papers/'+req.params.vechileid+'/'+req.token);
+  } catch (error) {
+    res.status(400).send({error : error})
+  }
+});
+
+router.post('/uploadpaper/roadtax/:vechileid/:token',auth,upload.single('file'), async (req, res) => {
+  try {
+    const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
+    if (!vechile) {
+      return req.status(400).send({error : 'No such vechile associated with the vechile'})
+    }
+  // res.json({ file: req.file });
+  if (req.error) {
+      return res.status(400).json({err : req.error})
+  }
+  let paper = await Paper.find({ vechileid : req.params.vechileid})
+  paper = paper[0]
+    if (!paper) {
+      if (req.file) {
+        paper = new Paper({
+          roadtax : {
+            date : req.body.roadtax,
+            imagefilename : req.file.filename,
+            imagefileid : req.file.id
+          },
+          vechileid : req.params.vechileid
+        })
+      }
+      else {
+        paper = new Paper({
+          roadtax : {
+            date : req.body.roadtax
+          },
+          vechileid : req.params.vechileid
+        })
+      }
+    }
+    if (paper) {
+      if (req.file) {
+        if (paper.roadtax) {
+          if (paper.roadtax.imagefileid) {
+            gfs.remove({ _id: paper.roadtax.imagefileid, root: 'paper' }, (err, gridStore) => {
+              if (err) {
+                return res.status(404).json({ err: 'Error Removing the Existing Pictures' });
+              }
+            });
+          }
+        }
+        paper.roadtax = {
+          date : req.body.roadtax,
+          imagefilename : req.file.filename,
+          imagefileid : req.file.id
+        }
+      }
+      else {
+        if (paper.roadtax) {
+          if (paper.roadtax.imagefileid) {
+            paper.roadtax = {
+              date : req.body.roadtax,
+              imagefilename : paper.roadtax.imagefilename,
+              imagefileid : paper.roadtax.imagefileid
+            }
+          }
+          else {
+            paper.roadtax = {
+              date : req.body.roadtax
+            }
+          }
+        }
+        else {
+          paper.roadtax = {
+            date : req.body.roadtax
           }
         }        
       }
@@ -296,6 +686,31 @@ router.post('/files/deleteauthorityletterimage/:vechileid/:id/:token',auth, asyn
   }
 });
 
+router.post('/files/deleteinsuranceimage/:vechileid/:id/:token',auth, async(req, res) => {
+  try {
+    const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
+    if (!vechile) {
+      return req.status(400).send({error : 'No such vechile associated with the vechile'})
+    }
+  gfs.remove({ _id: req.params.id, root: 'paper' }, (err, gridStore) => {
+    if (err) {
+      return res.status(404).json({ err: err });
+    }
+  });
+  let paper = await Paper.find({vechileid : req.params.vechileid})
+  paper = paper[0]
+  paper.insurance = {
+    date : paper.insurance.date,
+    imagefilename : null,
+    imagefileid : null
+  }
+  await paper.save()
+  res.redirect('/vechile/papers/'+req.params.vechileid+'/'+req.token);
+  } catch (error) {
+    res.status(400).send(error)
+  }
+});
+
 router.post('/files/deletepollutionimage/:vechileid/:id/:token',auth, async(req, res) => {
   try {
     const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
@@ -321,5 +736,104 @@ router.post('/files/deletepollutionimage/:vechileid/:id/:token',auth, async(req,
   }
 });
 
+router.post('/files/deletefitnessimage/:vechileid/:id/:token',auth, async(req, res) => {
+  try {
+    const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
+    if (!vechile) {
+      return req.status(400).send({error : 'No such vechile associated with the vechile'})
+    }
+  gfs.remove({ _id: req.params.id, root: 'paper' }, (err, gridStore) => {
+    if (err) {
+      return res.status(404).json({ err: err });
+    }
+  });
+  let paper = await Paper.find({vechileid : req.params.vechileid})
+  paper = paper[0]
+  paper.fitness = {
+    date : paper.fitness.date,
+    imagefilename : null,
+    imagefileid : null
+  }
+  await paper.save()
+  res.redirect('/vechile/papers/'+req.params.vechileid+'/'+req.token);
+  } catch (error) {
+    res.status(400).send(error)
+  }
+});
+
+router.post('/files/deletestatepermitimage/:vechileid/:id/:token',auth, async(req, res) => {
+  try {
+    const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
+    if (!vechile) {
+      return req.status(400).send({error : 'No such vechile associated with the vechile'})
+    }
+  gfs.remove({ _id: req.params.id, root: 'paper' }, (err, gridStore) => {
+    if (err) {
+      return res.status(404).json({ err: err });
+    }
+  });
+  let paper = await Paper.find({vechileid : req.params.vechileid})
+  paper = paper[0]
+  paper.statepermit = {
+    date : paper.statepermit.date,
+    imagefilename : null,
+    imagefileid : null
+  }
+  await paper.save()
+  res.redirect('/vechile/papers/'+req.params.vechileid+'/'+req.token);
+  } catch (error) {
+    res.status(400).send(error)
+  }
+});
+
+router.post('/files/deletenationalpermitimage/:vechileid/:id/:token',auth, async(req, res) => {
+  try {
+    const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
+    if (!vechile) {
+      return req.status(400).send({error : 'No such vechile associated with the vechile'})
+    }
+  gfs.remove({ _id: req.params.id, root: 'paper' }, (err, gridStore) => {
+    if (err) {
+      return res.status(404).json({ err: err });
+    }
+  });
+  let paper = await Paper.find({vechileid : req.params.vechileid})
+  paper = paper[0]
+  paper.nationalpermit = {
+    date : paper.nationalpermit.date,
+    imagefilename : null,
+    imagefileid : null
+  }
+  await paper.save()
+  res.redirect('/vechile/papers/'+req.params.vechileid+'/'+req.token);
+  } catch (error) {
+    res.status(400).send(error)
+  }
+});
+
+router.post('/files/deleteroadtaximage/:vechileid/:id/:token',auth, async(req, res) => {
+  try {
+    const vechile = await Vechile.find({_id : req.params.vechileid , owner : req.user})
+    if (!vechile) {
+      return req.status(400).send({error : 'No such vechile associated with the vechile'})
+    }
+  gfs.remove({ _id: req.params.id, root: 'paper' }, (err, gridStore) => {
+    if (err) {
+      return res.status(404).json({ err: err });
+    }
+  });
+  let paper = await Paper.find({vechileid : req.params.vechileid})
+  paper = paper[0]
+  paper.roadtax = {
+    date : paper.roadtax.date,
+    imagefilename : null,
+    imagefileid : null
+  }
+  await paper.save()
+  res.redirect('/vechile/papers/'+req.params.vechileid+'/'+req.token);
+  } catch (error) {
+    res.status(400).send(error)
+  }
+});
 
 module.exports = router
