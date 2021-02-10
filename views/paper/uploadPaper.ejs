@@ -121,7 +121,7 @@
           <% if(paper.authorityletter.imagefileid){ %>
               <div class="col-md-6 mb-3">
                   <a href="/paperimage/<%= paper.authorityletter.imagefilename %>/<%= token %>" alt=""> Check</a>                
-                        <form method="POST" action="/files/<%= paper.authorityletter.imagefileid %>">
+                        <form method="POST" action="/files/deleteauthorityletterimage/<%= vechileid %>/<%= paper.authorityletter.imagefileid %>/<%= token %>">
                           <button class="btn btn-danger btn-block mt-4">Delete</button>
                         </form>
               </div>
