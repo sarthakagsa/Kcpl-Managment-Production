@@ -852,7 +852,13 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
     date2 = yyyy + '-' + mm + '-' + dd;
 
     date2 = new Date(date2)
-    let paper = await Paper.find()
+    const paper = []
+    const vechile = await Vechile.find({owner : req.user._id})
+    vechile.forEach(async(vechile) => {
+      let paperl = await Paper.find({vechileid : vechile._id})
+      paper.push(paperl[0])
+    });
+    await Paper.find()
     paper.forEach(async(papers) => {
       if (papers.pollution) {
         if (papers.pollution.date) {
@@ -863,7 +869,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           const vechile = await Vechile.findById(papers.vechileid)
           if (Difference_In_Days <= 30 && !papers.pollution.notified ) {
             let info = await transporter.sendMail({
-                to: 'kurseongcarrierspvtltd@yahoo.co.in',
+                to: ''+req.user.email,
                 subject: 'TransSwift - PaperUpdate',
                 text: 'The Pollution Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.pollution.date
               });
@@ -888,7 +894,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           const vechile = await Vechile.findById(papers.vechileid)
           if (Difference_In_Days <= 30 && !papers.authorityletter.notified ) {
             let info = await transporter.sendMail({
-                to: 'kurseongcarrierspvtltd@yahoo.co.in',
+                to: ''+req.user.email,
                 subject: 'TransSwift - PaperUpdate',
                 text: 'The Authority Letter Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.authorityletter.date
               });
@@ -913,7 +919,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           const vechile = await Vechile.findById(papers.vechileid)
           if (Difference_In_Days <= 30 && !papers.insurance.notified ) {
             let info = await transporter.sendMail({
-                to: 'kurseongcarrierspvtltd@yahoo.co.in',
+                to: ''+req.user.email,
                 subject: 'TransSwift - PaperUpdate',
                 text: 'The Insurance Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.insurance.date
               });
@@ -938,7 +944,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           const vechile = await Vechile.findById(papers.vechileid)
           if (Difference_In_Days <= 30 && !papers.fitness.notified ) {
             let info = await transporter.sendMail({
-                to: 'kurseongcarrierspvtltd@yahoo.co.in',
+                to: ''+req.user.email,
                 subject: 'TransSwift - PaperUpdate',
                 text: 'The Fitness Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.fitness.date
               });
@@ -963,7 +969,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           const vechile = await Vechile.findById(papers.vechileid)
           if (Difference_In_Days <= 30 && !papers.statepermit.notified ) {
             let info = await transporter.sendMail({
-                to: 'kurseongcarrierspvtltd@yahoo.co.in',
+                to: ''+req.user.email,
                 subject: 'TransSwift - PaperUpdate',
                 text: 'The Statepermit Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.statepermit.date
               });
@@ -988,7 +994,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           const vechile = await Vechile.findById(papers.vechileid)
           if (Difference_In_Days <= 30 && !papers.nationalpermit.notified ) {
             let info = await transporter.sendMail({
-                to: 'kurseongcarrierspvtltd@yahoo.co.in',
+                to: ''+req.user.email,
                 subject: 'TransSwift - PaperUpdate',
                 text: 'The Nationalpermit Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.nationalpermit.date
               });
@@ -1013,7 +1019,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           const vechile = await Vechile.findById(papers.vechileid)
           if (Difference_In_Days <= 30 && !papers.roadtax.notified ) {
             let info = await transporter.sendMail({
-                to: 'kurseongcarrierspvtltd@yahoo.co.in',
+                to: ''+req.user.email,
                 subject: 'TransSwift - PaperUpdate',
                 text: 'The Roadtax Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.roadtax.date
               });
