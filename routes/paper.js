@@ -1036,6 +1036,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
         }
       }
     });
+    res.status(200).send('OKay')
   } catch (error) {
     res.status(400).send(error)
   }
