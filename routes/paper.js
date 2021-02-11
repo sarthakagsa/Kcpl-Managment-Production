@@ -902,7 +902,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
                   text: 'The Authority Letter Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.authorityletter.date
                 });
                 if (info.messageId) {
-                  papers.insurance.authorityletter = true
+                  papers.authorityletter.notified = true
                 }
             }
             let papertobesaved = await Paper.findById(papers._id)
