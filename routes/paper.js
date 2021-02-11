@@ -871,7 +871,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             if (Difference_In_Days <= 30 && !papers.pollution.notified ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
-                  subject: 'TransSwift - PaperUpdate',
+                  subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
                   text: 'The Pollution Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.pollution.date
                 });
                 if (info.messageId) {
@@ -896,7 +896,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             if (Difference_In_Days <= 30 && !papers.authorityletter.notified ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
-                  subject: 'TransSwift - PaperUpdate',
+                  subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
                   text: 'The Authority Letter Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.authorityletter.date
                 });
                 if (info.messageId) {
@@ -921,7 +921,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             if (Difference_In_Days <= 30 && !papers.insurance.notified ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
-                  subject: 'TransSwift - PaperUpdate',
+                  subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
                   text: 'The Insurance Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.insurance.date
                 });
                 if (info.messageId) {
@@ -946,7 +946,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             if (Difference_In_Days <= 30 && !papers.fitness.notified ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
-                  subject: 'TransSwift - PaperUpdate',
+                  subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
                   text: 'The Fitness Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.fitness.date
                 });
                 if (info.messageId) {
@@ -971,7 +971,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             if (Difference_In_Days <= 30 && !papers.statepermit.notified ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
-                  subject: 'TransSwift - PaperUpdate',
+                  subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
                   text: 'The Statepermit Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.statepermit.date
                 });
                 if (info.messageId) {
@@ -996,7 +996,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             if (Difference_In_Days <= 30 && !papers.nationalpermit.notified ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
-                  subject: 'TransSwift - PaperUpdate',
+                  subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
                   text: 'The Nationalpermit Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.nationalpermit.date
                 });
                 if (info.messageId) {
@@ -1021,7 +1021,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             if (Difference_In_Days <= 30 && !papers.roadtax.notified ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
-                  subject: 'TransSwift - PaperUpdate',
+                  subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
                   text: 'The Roadtax Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.roadtax.date
                 });
                 if (info.messageId) {
