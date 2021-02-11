@@ -865,10 +865,10 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           if (papers.pollution.date) {
             let date1 = papers.pollution.date
             date1 = new Date(date1)
-            let Difference_In_Time = date2.getTime() - date1.getTime();
+            let Difference_In_Time = date1.getTime() - date2.getTime();
             let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             const vechile = await Vechile.findById(papers.vechileid)
-            if (Difference_In_Days <= 30 && !papers.pollution.notified ) {
+            if ((Difference_In_Days <= 30) && (!papers.pollution.notified) ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
                   subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
@@ -882,6 +882,8 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             papertobesaved.pollution = {
               date : papers.pollution.date,
               notified : papers.pollution.notified,
+              imagefilename : papers.pollution.imagefilename,
+              imagefileid : papers.pollution.imagefileid
             }
             papertobesaved = await papertobesaved.save()
           }
@@ -890,23 +892,25 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           if (papers.authorityletter.date) {
             let date1 = papers.authorityletter.date
             date1 = new Date(date1)
-            let Difference_In_Time = date2.getTime() - date1.getTime();
+            let Difference_In_Time = date1.getTime() - date2.getTime();
             let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             const vechile = await Vechile.findById(papers.vechileid)
-            if (Difference_In_Days <= 30 && !papers.authorityletter.notified ) {
+            if ((Difference_In_Days <= 30) && !(papers.authorityletter.notified) ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
                   subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
                   text: 'The Authority Letter Paper will expire soon for Vechile No : '+ vechile.vechileno + ' on date : ' +papers.authorityletter.date
                 });
                 if (info.messageId) {
-                  papers.authorityletter.notified = true
+                  papers.insurance.authorityletter = true
                 }
             }
             let papertobesaved = await Paper.findById(papers._id)
             papertobesaved.authorityletter = {
               date : papers.authorityletter.date,
               notified : papers.authorityletter.notified,
+              imagefilename : papers.authorityletter.imagefilename,
+              imagefileid : papers.authorityletter.imagefileid
             }
             papertobesaved = await papertobesaved.save()
           }
@@ -915,10 +919,10 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           if (papers.insurance.date) {
             let date1 = papers.insurance.date
             date1 = new Date(date1)
-            let Difference_In_Time = date2.getTime() - date1.getTime();
+            let Difference_In_Time = date1.getTime() - date2.getTime();
             let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             const vechile = await Vechile.findById(papers.vechileid)
-            if (Difference_In_Days <= 30 && !papers.insurance.notified ) {
+            if ((Difference_In_Days <= 30) && (!papers.insurance.notified) ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
                   subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
@@ -932,6 +936,8 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             papertobesaved.insurance = {
               date : papers.insurance.date,
               notified : papers.insurance.notified,
+              imagefilename : papers.insurance.imagefilename,
+              imagefileid : papers.insurance.imagefileid
             }
             papertobesaved = await papertobesaved.save()
           }
@@ -940,10 +946,10 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           if (papers.fitness.date) {
             let date1 = papers.fitness.date
             date1 = new Date(date1)
-            let Difference_In_Time = date2.getTime() - date1.getTime();
+            let Difference_In_Time = date1.getTime() - date2.getTime();
             let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             const vechile = await Vechile.findById(papers.vechileid)
-            if (Difference_In_Days <= 30 && !papers.fitness.notified ) {
+            if ((Difference_In_Days <= 30) && (!papers.fitness.notified) ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
                   subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
@@ -957,6 +963,8 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             papertobesaved.fitness = {
               date : papers.fitness.date,
               notified : papers.fitness.notified,
+              imagefilename : papers.fitness.imagefilename,
+              imagefileid : papers.fitness.imagefileid
             }
             papertobesaved = await papertobesaved.save()
           }
@@ -965,10 +973,10 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           if (papers.statepermit.date) {
             let date1 = papers.statepermit.date
             date1 = new Date(date1)
-            let Difference_In_Time = date2.getTime() - date1.getTime();
+            let Difference_In_Time = date1.getTime() - date2.getTime();
             let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             const vechile = await Vechile.findById(papers.vechileid)
-            if (Difference_In_Days <= 30 && !papers.statepermit.notified ) {
+            if ((Difference_In_Days <= 30) && (!papers.statepermit.notified) ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
                   subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
@@ -982,6 +990,8 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             papertobesaved.statepermit = {
               date : papers.statepermit.date,
               notified : papers.statepermit.notified,
+              imagefilename : papers.statepermit.imagefilename,
+              imagefileid : papers.statepermit.imagefileid
             }
             papertobesaved = await papertobesaved.save()
           }
@@ -990,10 +1000,10 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           if (papers.nationalpermit.date) {
             let date1 = papers.nationalpermit.date
             date1 = new Date(date1)
-            let Difference_In_Time = date2.getTime() - date1.getTime();
+            let Difference_In_Time = date1.getTime() - date2.getTime();
             let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             const vechile = await Vechile.findById(papers.vechileid)
-            if (Difference_In_Days <= 30 && !papers.nationalpermit.notified ) {
+            if ((Difference_In_Days <= 30) && (!papers.nationalpermit.notified) ) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
                   subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
@@ -1007,6 +1017,8 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             papertobesaved.nationalpermit = {
               date : papers.nationalpermit.date,
               notified : papers.nationalpermit.notified,
+              imagefilename : papers.nationalpermit.imagefilename,
+              imagefileid : papers.nationalpermit.imagefileid
             }
             papertobesaved = await papertobesaved.save()
           }
@@ -1015,10 +1027,10 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
           if (papers.roadtax.date) {
             let date1 = papers.roadtax.date
             date1 = new Date(date1)
-            let Difference_In_Time = date2.getTime() - date1.getTime();
+            let Difference_In_Time = date1.getTime() - date2.getTime();
             let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             const vechile = await Vechile.findById(papers.vechileid)
-            if (Difference_In_Days <= 30 && !papers.roadtax.notified ) {
+            if ((Difference_In_Days <= 30) && (!papers.roadtax.notified )) {
               let info = await transporter.sendMail({
                   to: ''+req.user.email,
                   subject: 'TransSwift - PaperUpdate - '+vechile.vechileno,
@@ -1032,6 +1044,8 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
             papertobesaved.roadtax = {
               date : papers.roadtax.date,
               notified : papers.roadtax.notified,
+              imagefilename : papers.roadtax.imagefilename,
+              imagefileid : papers.roadtax.imagefileid
             }
             papertobesaved = await papertobesaved.save()
           }
