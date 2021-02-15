@@ -10,6 +10,7 @@ const auth = require('../middleware/auth')
 const Vechile = require('../models/vechile');
 const Paper = require('../models/paper');
 const nodemailer = require("nodemailer");
+const { google } = require('googleapis');
 
 // Mongo URI
 const mongoURI = process.env.MONGODB_URL;
@@ -837,12 +838,23 @@ router.post('/files/deleteroadtaximage/:vechileid/:id/:token',auth, async(req, r
 
 router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
   try {
-    let transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'sarthakag.sa@gmail.com',
-            pass: 'Tintin@123'
-        }
+    const oAuth2Client = new google.auth.OAuth2(
+      process.env.CLIENT_ID,
+      process.env.CLEINT_SECRET,
+      process.env.REDIRECT_URI
+    );
+    oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
+    const accessToken = await oAuth2Client.getAccessToken();
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: 'sarthakag.sa@gmail.com',
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLEINT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
     });
     let date2 = new Date();
     let dd = String(date2.getDate()).padStart(2, '0');
@@ -1054,6 +1066,7 @@ router.post('/checkpapervalidity/:token',auth,async (req,res)=>{
     });  
     res.status(200).send('OKay')
   } catch (error) {
+    console.log(error);
     res.status(400).send(error)
   }
 })

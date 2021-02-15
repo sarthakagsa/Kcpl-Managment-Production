@@ -18,6 +18,7 @@
     "ejs": "^3.1.5",
     "exceljs": "^4.2.0",
     "express": "^4.17.1",
+    "googleapis": "^67.0.0",
     "gridfs-stream": "^1.1.1",
     "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
