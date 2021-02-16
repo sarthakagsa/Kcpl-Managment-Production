@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Kurseong Carrier Maintainence</title>
+    <link rel="icon" href="img/LOGO.png">
+  </head>
+  <body>
+    <div class="alert alert-danger" id="errorbox" role="alert" style="display: none;"></div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+
+    <!-- Navigation Bar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">Kurseong Carrier</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/home/<%= token %>">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link text-warning" href="/warehouse/<%= token %>">Warehouse Mangment</a>
+      </li>  
+      <li class="nav-item active">
+        <a class="nav-link" href="/warehouse/warehouselr/add/<%= token %>">Add LR</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/warehouse/warehouselr/view/<%= token %>">View LR</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <button class="btn btn-secondary ml-1" id="deletevechile">Welcome <%= user.name %></button>
+      <button class="btn btn-primary ml-1" data-token='<%= token %>' id="logoutbtn">Logout</button>
+   </ul>
+   
+  </div>
+</nav>
+
+  <!-- body Part-->
+  <div class="container text-secondary text-center mt-2"><h3>View LR</h3></div>
+
+  <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Search</label>
+            </div>
+            <input type="search" id="searchBox">
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">LR NO</label>
+            </div>
+            <select class="custom-select" id="lroption">
+              <option selected>Choose...</option>
+              <% lr.forEach(function(lr){ %>
+                <option data-lrid="<%= lr._id %>"><%= lr.lrnumber %></option>
+                <% }); %>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-success container mb-2" id="submitbtn">Submit</button>
+  </div>
+
+  <div class="container" style="display: none;" id="lrdetails" >
+    <div class="row">
+      <div class="col-md-6">
+          <div class="form-group">
+              Date of Booking
+              <input class="form-control" id="dateofbooking" type="date">
+           </div>
+        </div>      
+           <div class="col-md-6">
+            <div class="form-group">
+                Destination
+                <input class="form-control" id="destination" type="text" placeholder="Destination">
+             </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                Consignor Name 
+                <input class="form-control" id="consignorname" type="text" placeholder="Party Name">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                C/B 
+                <input class="form-control" id="boxes" type="number" placeholder="Boxes">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                Delivered
+                <input class="form-control" id="delivered" type="checkbox">
+            </div>
+        </div>
+    </div>
+    <div class="container" id="waybilldetails"> 
+        <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="form-group">
+                  Waybill Number
+              </div>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="form-group">
+                  Waybill Expiry Date
+              </div>
+          </div> 
+        </div>
+      </div>
+    <div class="row mt-1">
+        <h4 class="text-primary text-center">Second Transporter Details</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                Transporter Name 
+                <input class="form-control" id="transportername" type="text" placeholder="Party Name">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                Price Charged 
+                <input class="form-control" id="pricecharged" type="number" placeholder="Price Charged">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                Date
+                <input class="form-control" id="transporterdate" type="date" value="">
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        Remarks 
+          <div class="input-group">
+            <textarea class="form-control" id="remarks" aria-label="With textarea"></textarea>
+          </div>
+    </div>
+    <!-- <button class="btn btn-secondary container mb-2" id="updatebtn">Update</button>
+    <button class="btn btn-danger container mb-2" onclick="confirmation();" id="deletetbh">Delete Repair</button> -->
+  </div>
+
+  <script>
+    $("#logoutbtn").click(function() {
+      const token = $('#logoutbtn').data("token")
+      $.ajax({
+          type: "POST",
+          url: '/users/logout/'+token,
+          contentType: "application/json",
+          processData: false,
+      }).done(function (data) {
+          window.open('/login','_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    })
+    $("#submitbtn").click(function() {
+        const lrid = $('#lroption').find(":selected").data("lrid");
+        const token = $('#logoutbtn').data("token")
+        $.ajax({
+          type: "GET",
+          url: '/warehouse/warehouselr/'+lrid+'/'+token,
+          contentType: "application/json",
+          processData: false
+      }).done(function (data) {
+          const lr = data
+          var dateofbooking = new Date(lr.dateofbooking);
+
+        var day = ("0" + dateofbooking.getDate()).slice(-2);
+        var month = ("0" + (dateofbooking.getMonth() + 1)).slice(-2);
+
+        dateofbooking = dateofbooking.getFullYear()+"-"+(month)+"-"+(day) ;
+          $('#dateofbooking').val(dateofbooking)
+          $('#destination').val(lr.destination)
+          $('#consignorname').val(lr.consignorname)
+          $('#boxes').val(lr.boxes)
+          $('#transportername').val(lr.secondtransporter.name)
+          $('#pricecharged').val(lr.secondtransporter.pricecharged)
+          $('#transporterdate').val(lr.secondtransporter.date)
+          $("remarks").val(lr.remarks);
+          $('#delivered').prop('checked',lr.delivered)
+          var count = 0
+          lr.waybill.forEach(waybill => {
+            var waybillexpirydate = new Date(waybill.waybillexpirydate);
+
+            var day = ("0" + waybillexpirydate.getDate()).slice(-2);
+            var month = ("0" + (waybillexpirydate.getMonth() + 1)).slice(-2);
+
+            waybillexpirydate = waybillexpirydate.getFullYear()+"-"+(month)+"-"+(day) ;
+            $('#waybilldetails').append('<div class = "row" ><div class="col-xs-6 col-sm-6 col-md-6"><input  id="list['+count+'][0]" type="text" value="'+waybill.waybillno+'" class="form-control" oninput="this.value = this.value.toUpperCase()" /></div><div class="col-xs-6 col-sm-6 col-md-6"><input id="list['+count+'][1]" type="date" value="'+waybillexpirydate+'" class="form-control"/></div></div>')
+            count++
+          });
+            const x = document.getElementById("lrdetails");
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+            $("#updatebtn").click( function() {
+                var m = lr.waybill.length
+                console.log(m);
+                var l =0
+                const waybill = []
+            while (l<m) {
+                console.log(document.getElementById('list['+l+'][0]').value);
+                waybill.push({
+                    waybillno : document.getElementById('list['+l+'][0]').value,
+                    waybillexpirydate : document.getElementById('list['+l+'][1]').value
+                })
+                l++;
+            }
+            const dateofbooking = document.getElementById('dateofbooking').value
+            const destination = document.getElementById('destination').value
+            const consignorname = document.getElementById('consignorname').value
+            const boxes = document.getElementById('boxes').value
+            const remarks = document.getElementById("remarks").value
+            const token = $('#logoutbtn').data("token")
+            const delivered = $('#delivered').prop('checked')
+            const secondtransporter = {
+                name : document.getElementById('transportername').value,
+                pricecharged : document.getElementById('pricecharged').value,
+                date : document.getElementById('transporterdate').value
+            }
+            const lrid = $('#lroption').find(":selected").data("lrid");
+            $.ajax({
+                type: "PATCH",
+                url: '/warehouse/warehouselr/update/'+lrid+'/'+token,
+                contentType: "application/json",
+                processData: false,
+                data:  JSON.stringify({dateofbooking,destination,consignorname,boxes,remarks,waybill,secondtransporter,delivered:delivered})
+            }).done(function (data) {
+                console.log(data);
+                // window.open('/warehouse/warehouselr/view/single/'+data.token,'_self',false)
+                }).fail(function ( jqXHR, textStatus, errorThrown) {
+                    const x = document.getElementById("errorbox");
+                    document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+                    if (x.style.display === "none") {
+                    x.style.display = "block";
+                    }
+                });
+            })
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = "Desired option is not appropriate";
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    })
+
+    searchBox = document.querySelector("#searchBox");
+    lroption = document.querySelector("#lroption");
+    var when = "keyup";
+    searchBox.addEventListener("keyup", function (e) {
+    var text = e.target.value; //searchBox value
+    var options = lroption.options; //select options
+    for (var i = 0; i < options.length; i++) {
+        var option = options[i]; //current option
+        var optionText = option.text; //option text ("Somalia")
+        var lowerOptionText = optionText.toLowerCase(); //option text lowercased for case insensitive testing
+        var lowerText = text.toLowerCase(); //searchBox value lowercased for case insensitive testing
+        var regex = new RegExp("^" + text, "i"); //regExp, explained in post
+        var match = optionText.match(regex); //test if regExp is true
+        var contains = lowerOptionText.indexOf(lowerText) != -1; //test if searchBox value is contained by the option text
+        if (match || contains) { //if one or the other goes through
+            option.selected = true; //select that option
+            return; //prevent other code inside this event from executing
+        }
+        searchBox.selectedIndex = 0; //if nothing matches it selects the default option
+    }
+});
+
+    function confirmation(){
+    var result = confirm("Are you sure you want to delete?");
+    if(result){
+      const lrid = $('#lroption').find(":selected").data("lrid");
+      const token = $('#logoutbtn').data("token")
+      $.ajax({
+          type: "DELETE",
+          url: '/lr/singlepartylr/'+lrid+'/'+token,
+          contentType: "application/json",
+          processData: false
+      }).done(function (data) {
+        window.open('/lr/singlepartylr/view/single/'+data.token,'_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    }
+}
+  </script>
+
+  </body>
+</html>

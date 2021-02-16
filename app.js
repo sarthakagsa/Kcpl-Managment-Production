@@ -11,6 +11,8 @@ const lrRouter = require('./routes/lr/lr')
 const singlelrRouter = require('./routes/lr/singlelr')
 const multiplelrRouter = require('./routes/lr/multiplelr')
 const paperRouter = require('./routes/paper')
+const warehouseRouter = require('./routes/warehouse/warehouse')
+const warehouselrRouter = require('./routes/warehouse/warehouselr')
 const port = process.env.PORT
 const path = require('path')
 
@@ -34,6 +36,8 @@ app.use(lrRouter)
 app.use(singlelrRouter)
 app.use(multiplelrRouter)
 app.use(paperRouter)
+app.use(warehouseRouter)
+app.use(warehouselrRouter)
 
 app.listen(port,()=>{
     console.log('server is connected to the port : '+port)

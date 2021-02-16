@@ -71,11 +71,6 @@ const newlrSchema = new mongoose.Schema({
         type : Boolean,
         default : false
     }
-    // consigneeid : {
-    //     type : mongoose.Schema.Types.ObjectId,
-    //     required : true,
-    //     ref : 'Consignee'
-    // }
 })
 
 const newlr = mongoose.model('newlr',newlrSchema)

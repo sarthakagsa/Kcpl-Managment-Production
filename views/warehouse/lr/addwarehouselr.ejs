@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Kurseong Carrier Maintainence</title>
+    <link rel="icon" href="img/LOGO.png">
+  </head>
+  <body>
+
+    <div class="alert alert-danger" id="errorbox" role="alert" style="display: none;"></div>
+    <div class="alert alert-info" id="infobox" role="alert" style="display: none;"></div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Navigation Bar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">Kurseong Carrier</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/home/<%= token %>">Home</a>
+      </li> 
+      <li class="nav-item active">
+        <a class="nav-link text-warning" href="/warehouse/<%= token %>">Warehouse Mangment</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/warehouse/warehouselr/view/single/<%= token %>">View Single LR</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/warehouse/warehouselr/view/<%= token %>">View LR</a>
+      </li> 
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <button class="btn btn-secondary ml-1" id="deletevechile">Welcome <%= user.name %></button>
+      <button class="btn btn-primary ml-1" data-token='<%= token %>' id="logoutbtn">Logout</button>
+   </ul>
+   
+  </div>
+</nav>
+
+  <!-- body Part-->
+  <div class="container text-secondary text-center mt-2"><h3>ADD LR</h3></div>
+
+  <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                Date of Booking
+                <input class="form-control" id="date" type="date" value="2011-08-19">
+             </div>
+        </div>
+        <div class="col-md-6">  
+            <div class="form-group">
+                LR
+                <input class="form-control" id="lrnumber" type="text" placeholder="LR NO:" oninput="this.value = this.value.toUpperCase()">
+             </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                C/B 
+                <input class="form-control" id="boxes" type="number" placeholder="Boxes">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                Destination
+                <input class="form-control" id="destination" type="text" placeholder="Destination" oninput="this.value = this.value.toUpperCase()">
+             </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                Consignor Name 
+                <input class="form-control" id="consignorname" type="text" placeholder="Party Name" oninput="this.value = this.value.toUpperCase()">
+             </div>
+        </div>
+      </div>
+      <div class="row list_wrapper">
+          <div class="col-md-6">
+            <div class="form-group">
+                Waybill Number
+                <input name="list[0][]" id="list[0][0]" type="text" placeholder="Waybill Number" class="form-control" oninput="this.value = this.value.toUpperCase()" />                            
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+                Waybill Expiry Date
+                <input name="list[0][]" id="list[0][1]" type="date" class="form-control"/>                            
+            </div>
+          </div>
+          <div class="col-md-1">
+            <br>
+          <button class="btn btn-primary list_add_button" type="button">+</button>
+        </div>
+      </div>
+      <div class="row">
+        <h4 class="text-secondary text-center">Seconder Transporter Details(if any)</h4>
+      </div>
+      <div class="row">  
+        <div class="col-md-4">
+          <div class="form-group">
+              Name 
+              <input class="form-control" id="transportername" type="text" placeholder="Transpoter Name" oninput="this.value = this.value.toUpperCase()">
+           </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+              Price Charged 
+              <input class="form-control" id="pricecharged" type="number" placeholder="Price Charged" >
+           </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+              Date 
+              <input class="form-control" id="transporterdate" type="date" >
+           </div>
+        </div>
+      </div>
+      <div class="row container mt-2 mb-2" >
+        Remarks 
+          <div class="input-group">
+            <textarea class="form-control" id="remarks" aria-label="With textarea"></textarea>
+          </div>
+      </div>
+      <button class="btn btn-success container mb-2" id="submitbtn">Submit</button>
+  </div>
+
+
+  <script>
+    $("#logoutbtn").click(function() {
+      const token = $('#logoutbtn').data("token")
+      $.ajax({
+          type: "POST",
+          url: '/users/logout/'+token,
+          contentType: "application/json",
+          processData: false,
+      }).done(function (data) {
+          window.open('/login','_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+    })
+
+    $(document).ready(function()
+ 
+ {
+var x = 0; //Initial field counter
+var list_maxField = 10000; //Input fields increment limitation
+
+     //Once add button is clicked
+
+    $('.list_add_button').click(function()
+      {
+      //Check maximum number of input fields
+      if(x < list_maxField){ 
+          x++; //Increment field counter
+          var list_fieldHTML = '<div class="row container"><div class="col-md-6"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][0]" type="text" placeholder="Waybill Number" class="form-control" oninput="this.value = this.value.toUpperCase()"/></div></div><div class="col-md-5"><div class="form-group"><input name="list['+x+'][]" id="list['+x+'][1]" type="date"class="form-control" oninput="this.value = this.value.toUpperCase()"/></div></div><div class="col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div></div>'; //New input field html 
+          $('.list_wrapper').append(list_fieldHTML); //Add field html
+      }
+        });
+    
+        //Once remove button is clicked
+        $('.list_wrapper').on('click', '.list_remove_button', function()
+        {
+           $(this).closest('div.row').remove(); //Remove field html
+           x--; //Decrement field counter
+        });
+       $("#submitbtn").click( function() {
+         var m = x;
+         const waybill = []
+       while (m>= 0) {
+         waybill.push({
+           waybillno : document.getElementById('list['+m+'][0]').value,
+           waybillexpirydate : document.getElementById('list['+m+'][1]').value
+         })
+         m--;
+       }
+        const dateofbooking = document.getElementById('date').value
+        const lrnumber = document.getElementById('lrnumber').value
+        const destination = document.getElementById('destination').value
+        const consignorname = document.getElementById('consignorname').value
+        const boxes = document.getElementById('boxes').value
+        const remarks = document.getElementById("remarks").value
+        const token = $('#logoutbtn').data("token")
+        const secondtransporter = {
+          name : document.getElementById('transportername').value,
+          pricecharged : document.getElementById('pricecharged').value,
+          date : document.getElementById('transporterdate').value
+        }
+        $.ajax({
+          type: "POST",
+          url: '/warehouse/warehouselr/add/'+token,
+          contentType: "application/json",
+          processData: false,
+          data:  JSON.stringify({dateofbooking,lrnumber,destination,consignorname,boxes,remarks,waybill,secondtransporter})
+      }).done(function (data) {
+        window.open('/warehouse/warehouselr/add/'+data.token,'_self',false)
+        }).fail(function ( jqXHR, textStatus, errorThrown) {
+            const x = document.getElementById("errorbox");
+            document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            }
+          });
+       })
+});
+
+
+
+
+
+
+
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+  if(dd<10){
+          dd='0'+dd
+      } 
+      if(mm<10){
+          mm='0'+mm
+      } 
+
+  today = yyyy+'-'+mm+'-'+dd;
+  document.getElementById("date").setAttribute("max", today);
+  document.getElementById("date").setAttribute("value", today);
+
+  </script>
+
+  </body>
+</html>
