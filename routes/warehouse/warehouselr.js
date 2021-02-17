@@ -98,8 +98,9 @@ router.patch('/warehouse/warehouselr/update/:lrid/:token',auth,async(req,res)=>{
          if (!lr) {
             return res.status(404).send({error : "LR is not found"})
         }
-        updates.every((update)=> lr[update] = req.body[update] )
-        lr.delivered = req.body.delivered
+        updates.forEach(update => {
+            lr[update] = req.body[update]
+        });
         const savedlr =  await lr.save()
         res.send({savedlr,token : req.token})
     } catch (e) {
@@ -138,7 +139,6 @@ router.post('/warehouse/warehouselr/billlr/:token',auth,async (req,res)=>{
     try {
         const billedlr = []
         const lrnumbers = req.body
-        console.log(lrnumbers);
         lrnumbers.forEach(async(lr) => {
             const billlr = await Lr.find({lrnumber : lr})
             billedlr.push(billlr[0])

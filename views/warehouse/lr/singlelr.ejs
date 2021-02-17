@@ -85,13 +85,13 @@
       <div class="col-md-6">
           <div class="form-group">
               Date of Booking
-              <input class="form-control" id="dateofbooking" type="date">
+              <input class="form-control" id="dateofbooking" type="date" oninput="this.value = this.value.toUpperCase()">
            </div>
         </div>      
            <div class="col-md-6">
             <div class="form-group">
                 Destination
-                <input class="form-control" id="destination" type="text" placeholder="Destination">
+                <input class="form-control" id="destination" type="text" placeholder="Destination" oninput="this.value = this.value.toUpperCase()">
              </div>
             </div>
     </div>
@@ -99,7 +99,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 Consignor Name 
-                <input class="form-control" id="consignorname" type="text" placeholder="Party Name">
+                <input class="form-control" id="consignorname" type="text" placeholder="Party Name" oninput="this.value = this.value.toUpperCase()">
             </div>
         </div>
         <div class="col-md-4">
@@ -136,7 +136,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 Transporter Name 
-                <input class="form-control" id="transportername" type="text" placeholder="Party Name">
+                <input class="form-control" id="transportername" type="text" placeholder="Party Name" oninput="this.value = this.value.toUpperCase()">
             </div>
         </div>
         <div class="col-md-4">
@@ -158,8 +158,8 @@
             <textarea class="form-control" id="remarks" aria-label="With textarea"></textarea>
           </div>
     </div>
-    <!-- <button class="btn btn-secondary container mb-2" id="updatebtn">Update</button>
-    <button class="btn btn-danger container mb-2" onclick="confirmation();" id="deletetbh">Delete Repair</button> -->
+    <button class="btn btn-secondary container mb-2" id="updatebtn">Update</button>
+    <button class="btn btn-danger container mb-2" onclick="confirmation();" id="deletetbh">Delete Repair</button>
   </div>
 
   <script>
@@ -203,7 +203,7 @@
           $('#transportername').val(lr.secondtransporter.name)
           $('#pricecharged').val(lr.secondtransporter.pricecharged)
           $('#transporterdate').val(lr.secondtransporter.date)
-          $("remarks").val(lr.remarks);
+          $("#remarks").val(lr.remarks);
           $('#delivered').prop('checked',lr.delivered)
           var count = 0
           lr.waybill.forEach(waybill => {
@@ -222,11 +222,9 @@
             }
             $("#updatebtn").click( function() {
                 var m = lr.waybill.length
-                console.log(m);
                 var l =0
                 const waybill = []
             while (l<m) {
-                console.log(document.getElementById('list['+l+'][0]').value);
                 waybill.push({
                     waybillno : document.getElementById('list['+l+'][0]').value,
                     waybillexpirydate : document.getElementById('list['+l+'][1]').value
@@ -254,7 +252,7 @@
                 data:  JSON.stringify({dateofbooking,destination,consignorname,boxes,remarks,waybill,secondtransporter,delivered:delivered})
             }).done(function (data) {
                 console.log(data);
-                // window.open('/warehouse/warehouselr/view/single/'+data.token,'_self',false)
+                window.open('/warehouse/warehouselr/view/single/'+data.token,'_self',false)
                 }).fail(function ( jqXHR, textStatus, errorThrown) {
                     const x = document.getElementById("errorbox");
                     document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
