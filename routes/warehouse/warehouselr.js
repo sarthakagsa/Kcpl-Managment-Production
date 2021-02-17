@@ -38,7 +38,7 @@ router.get('/warehouse/warehouselr/add/:token',auth,async (req,res)=>{
 
 router.get('/warehouse/warehouselr/view/:token',auth,async (req,res)=>{
     try {
-        let warehouselr = await Lr.find({delivered : false,owner:req.user._id})
+        let warehouselr = await Lr.find({delivered : false,owner:req.user._id}).sort({dateofbooking : -1}).collation({locale: "en_US", numericOrdering: true})
         if (!warehouselr[0]) {
             return res.send({error : 'No Lrs are there in the warehouse'})
         }
@@ -120,18 +120,18 @@ router.get('/warehouse/warehouselr/:lrid/:token',auth,async (req,res)=>{
     }
 })
 
-// router.delete('/warehouse/warehouselr/:lrid/:token',auth,async (req,res)=>{
-//     try {
-//         const lr = await Lr.findOne({_id: req.params.lrid})
-//         if (!lr) {
-//             return res.send({error: ' No such file found'})
-//         }
-//         await lr.remove()
-//         res.send({lr,token : req.token}) 
-//     } catch (error) {
-//         res.status(400).send(error)
-//     }
-// })
+router.delete('/warehouse/warehouselr/:lrid/:token',auth,async (req,res)=>{
+    try {
+        const lr = await Lr.findOne({_id: req.params.lrid,owner : req.user})
+        if (!lr) {
+            return res.send({error: ' No such file found'})
+        }
+        await lr.remove()
+        res.send({lr,token : req.token}) 
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
 
 //Get Selected LR for Delivering
 

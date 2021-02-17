@@ -251,7 +251,6 @@
                 processData: false,
                 data:  JSON.stringify({dateofbooking,destination,consignorname,boxes,remarks,waybill,secondtransporter,delivered:delivered})
             }).done(function (data) {
-                console.log(data);
                 window.open('/warehouse/warehouselr/view/single/'+data.token,'_self',false)
                 }).fail(function ( jqXHR, textStatus, errorThrown) {
                     const x = document.getElementById("errorbox");
@@ -299,11 +298,11 @@
       const token = $('#logoutbtn').data("token")
       $.ajax({
           type: "DELETE",
-          url: '/lr/singlepartylr/'+lrid+'/'+token,
+          url: '/warehouse/warehouselr/'+lrid+'/'+token,
           contentType: "application/json",
           processData: false
       }).done(function (data) {
-        window.open('/lr/singlepartylr/view/single/'+data.token,'_self',false)
+        window.open('/warehouse/warehouselr/view/single/'+data.token,'_self',false)
         }).fail(function ( jqXHR, textStatus, errorThrown) {
             const x = document.getElementById("errorbox");
             document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;
