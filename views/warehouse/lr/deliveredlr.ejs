@@ -35,14 +35,14 @@
         <a class="nav-link text-warning" href="/warehouse/<%= token %>">Warehouse Mangment</a>
       </li>
       <li class="nav-item active">
+        <a class="nav-link" href="/warehouse/warehouselr/add/<%= token %>">Add LR</a>
+      </li>
+      <li class="nav-item active">
         <a class="nav-link" href="/warehouse/warehouselr/view/single/<%= token %>">View Single LR</a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="/warehouse/warehouselr/add/<%= token %>">Add LR</a>
       </li> 
-      <li class="nav-item active">
-        <a class="nav-link" href="/warehouse/warehouselr/deliveredlrs/<%= token %>">Delivered LRs</a>
-      </li>
     </ul>
     <ul class="navbar-nav ml-auto">
       <button class="btn btn-secondary ml-1" id="deletevechile">Welcome <%= user.name %></button>
@@ -53,7 +53,7 @@
 </nav>
 
   <!-- body Part-->
-  <div class="container text-secondary text-center mt-2"><h3>LR's at the Warehouse</h3></div>
+  <div class="container text-secondary text-center mt-2"><h3>Delivered Lrs</h3></div>
 
   <div class="container text-center text-danger" style="display: none;" id="notificationbox">
     Please Select the Lrs to be billed
@@ -98,7 +98,7 @@
     </tbody>
   </table>
   <div class="container">
-    <button class="btn btn-success mt-2 container" id="deliverbtn">Mark Delivered</button>
+    <button class="btn btn-success mt-2 container" id="deliverbtn">Mark Undelivered</button>
   </div>
 
 
@@ -134,12 +134,12 @@
       }
       $.ajax({
           type: "POST",
-          url: '/warehouse/warehouselr/billlr/'+token,
+          url: '/warehouse/warehouselr/unmarkdelivery/'+token,
           contentType: "application/json",
           processData: false,
           data:  JSON.stringify(lrnumbers)
       }).done(function (data) {
-            window.open('/warehouse/warehouselr/view/'+data.token,'_self',false)
+            window.open('/warehouse/warehouselr/deliveredlrs/'+data.token,'_self',false)
         }).fail(function ( jqXHR, textStatus, errorThrown) {
             const x = document.getElementById("errorbox");
             document.getElementById("errorbox").innerHTML = ""+jqXHR.responseText;

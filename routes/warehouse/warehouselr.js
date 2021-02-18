@@ -59,6 +59,19 @@ router.get('/warehouse/warehouselr/view/single/:token',auth,async (req,res)=>{
     }
 })
 
+//Get Delivered Lrs
+router.get('/warehouse/warehouselr/deliveredlrs/:token',auth,async (req,res)=>{
+    try {
+        let warehouselr = await Lr.find({delivered : true,owner:req.user._id}).sort({dateofbooking : -1}).collation({locale: "en_US", numericOrdering: true})
+        if (!warehouselr[0]) {
+            return res.send({error : 'No Lrs have been delivered yet'})
+        }
+        res.render('warehouse/lr/deliveredlr',{user:req.user,token: req.token,warehouselr})
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
 router.post('/warehouse/warehouselr/add/:token',auth,async(req,res)=>{
     try {
         let warehouselr = new Lr({
@@ -152,6 +165,25 @@ router.post('/warehouse/warehouselr/billlr/:token',auth,async (req,res)=>{
         } catch (error) {
             res.status(400).send(error)
         }        
-    })
+    })  
+    
+    router.post('/warehouse/warehouselr/unmarkdelivery/:token',auth,async (req,res)=>{
+        try {
+            const billedlr = []
+            const lrnumbers = req.body
+            lrnumbers.forEach(async(lr) => {
+                const billlr = await Lr.find({lrnumber : lr})
+                billedlr.push(billlr[0])
+            });
+            await Lr.find()
+            billedlr.forEach(lr => {
+                lr.delivered = false
+                lr.save()
+            });
+            res.send({token : req.token})
+            } catch (error) {
+                res.status(400).send(error)
+            }        
+        })    
 
 module.exports = router
