@@ -98,8 +98,8 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                Consignor Name 
-                <input class="form-control" id="consignorname" type="text" placeholder="Party Name" oninput="this.value = this.value.toUpperCase()">
+                Consignee Name 
+                <input class="form-control" id="consigneename" type="text" placeholder="Party Name" oninput="this.value = this.value.toUpperCase()">
             </div>
         </div>
         <div class="col-md-4">
@@ -198,7 +198,7 @@
         dateofbooking = dateofbooking.getFullYear()+"-"+(month)+"-"+(day) ;
           $('#dateofbooking').val(dateofbooking)
           $('#destination').val(lr.destination)
-          $('#consignorname').val(lr.consignorname)
+          $('#consigneename').val(lr.consigneename)
           $('#boxes').val(lr.boxes)
           $('#transportername').val(lr.secondtransporter.name)
           $('#pricecharged').val(lr.secondtransporter.pricecharged)
@@ -233,7 +233,7 @@
             }
             const dateofbooking = document.getElementById('dateofbooking').value
             const destination = document.getElementById('destination').value
-            const consignorname = document.getElementById('consignorname').value
+            const consigneename = document.getElementById('consigneename').value
             const boxes = document.getElementById('boxes').value
             const remarks = document.getElementById("remarks").value
             const token = $('#logoutbtn').data("token")
@@ -249,7 +249,7 @@
                 url: '/warehouse/warehouselr/update/'+lrid+'/'+token,
                 contentType: "application/json",
                 processData: false,
-                data:  JSON.stringify({dateofbooking,destination,consignorname,boxes,remarks,waybill,secondtransporter,delivered:delivered})
+                data:  JSON.stringify({dateofbooking,destination,consigneename,boxes,remarks,waybill,secondtransporter,delivered:delivered})
             }).done(function (data) {
                 window.open('/warehouse/warehouselr/view/single/'+data.token,'_self',false)
                 }).fail(function ( jqXHR, textStatus, errorThrown) {

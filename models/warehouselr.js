@@ -5,9 +5,10 @@ const warehouselrSchema = new mongoose.Schema({
         type : Date
     },
     lrnumber : {
-        type : Number,
+        type : String,
         unique : true,
-        required : true
+        required : true,
+        dropDups: true
     },
     boxes : {
         type : Number
@@ -15,7 +16,7 @@ const warehouselrSchema = new mongoose.Schema({
     destination : {
         type : String
     },
-    consignorname : {
+    consigneename : {
         type : String
     },
     secondtransporter : {

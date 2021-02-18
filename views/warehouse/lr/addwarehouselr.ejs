@@ -85,8 +85,8 @@
       <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                Consignor Name 
-                <input class="form-control" id="consignorname" type="text" placeholder="Party Name" oninput="this.value = this.value.toUpperCase()">
+                Consignee Name 
+                <input class="form-control" id="consigneename" type="text" placeholder="Party Name" oninput="this.value = this.value.toUpperCase()">
              </div>
         </div>
       </div>
@@ -197,7 +197,7 @@ var list_maxField = 10000; //Input fields increment limitation
         const dateofbooking = document.getElementById('date').value
         const lrnumber = document.getElementById('lrnumber').value
         const destination = document.getElementById('destination').value
-        const consignorname = document.getElementById('consignorname').value
+        const consigneename = document.getElementById('consigneename').value
         const boxes = document.getElementById('boxes').value
         const remarks = document.getElementById("remarks").value
         const token = $('#logoutbtn').data("token")
@@ -211,7 +211,7 @@ var list_maxField = 10000; //Input fields increment limitation
           url: '/warehouse/warehouselr/add/'+token,
           contentType: "application/json",
           processData: false,
-          data:  JSON.stringify({dateofbooking,lrnumber,destination,consignorname,boxes,remarks,waybill,secondtransporter})
+          data:  JSON.stringify({dateofbooking,lrnumber,destination,consigneename,boxes,remarks,waybill,secondtransporter})
       }).done(function (data) {
         window.open('/warehouse/warehouselr/add/'+data.token,'_self',false)
         }).fail(function ( jqXHR, textStatus, errorThrown) {

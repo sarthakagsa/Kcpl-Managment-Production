@@ -64,23 +64,33 @@
         <th scope="col">Checkbox</th>
         <th scope="col">Date of Booking</th>
         <th scope="col">LR</th>
-        <th scope="col">Consignor Name</th>
+        <th scope="col">Consignee Name</th>
         <th scope="col">Destination</th>
         <th scope="col">C/B</th>
+        <th scope="col">Waybill Number</th>
+        <th scope="col">Waybill Expiry Date</th>
         <th scope="col">Remarks</th>
       </tr>
     </thead>
     <tbody id="lrbody">
       <% var i=0;warehouselr.forEach(function(lr){ %>
+        <% lr.waybill.forEach(function(waybill){ %>
         <tr>
         <td><input type="checkbox" name ="chk1" value = "<%= i%>" /></td>
-        <td scope="col"><%= lr.dateofbooking.getDate() + '-' + (lr.dateofbooking.getMonth()+1) + '-' + lr.dateofbooking.getFullYear()%></td>
-        <td scope="col" id="list[<%= i%>]" value = "<%= lr.lrnumber%>"><%= lr.lrnumber%></td>
-        <td scope="col"><%= lr.consignorname%></td>
-        <td scope="col"><%= lr.desttination%></td>
+        <th scope="col"><%= lr.dateofbooking.getDate() + '-' + (lr.dateofbooking.getMonth()+1) + '-' + lr.dateofbooking.getFullYear()%></th>
+        <th scope="col" id="list[<%= i%>]" value = "<%= lr.lrnumber%>"><%= lr.lrnumber%></th>
+        <td scope="col"><%= lr.consigneename%></td>
+        <td scope="col"><%= lr.destination%></td>
         <td scope="col"><%= lr.boxes%></td>
+        <td scope="col"><%= waybill.waybillno%></td>
+        <% if(waybill.waybillexpirydate > 0){ %>
+        <td scope="col"><%= waybill.waybillexpirydate.getDate() + '-' + (waybill.waybillexpirydate.getMonth()+1) + '-' + waybill.waybillexpirydate.getFullYear()%></td>
+        <% } else{ %> 
+          <td scope = "col"></td>
+          <% } %>  
         <td scope="col"><%= lr.remarks%></td>
         </tr>
+        <% }); %>
         <% i ++ }); %>
     </tbody>
   </table>

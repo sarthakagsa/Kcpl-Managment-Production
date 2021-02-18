@@ -74,7 +74,7 @@ router.post('/warehouse/warehouselr/add/:token',auth,async(req,res)=>{
 
 router.patch('/warehouse/warehouselr/update/:lrid/:token',auth,async(req,res)=>{
     const updates = Object.keys(req.body)
-    const allowedUpdates =['waybill','dateofbooking','boxes','destination','consignorname','secondtransporter','remarks','delivered']
+    const allowedUpdates =['waybill','dateofbooking','boxes','destination','consigneename','secondtransporter','remarks','delivered']
     const isValidOperation = updates.every((update)=> allowedUpdates.includes(update))
     if (!isValidOperation) {
         return res.status(400).send({ error: 'Invalid Updates!'})       
